@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title>@yield('title')</title>
+	@include('layout.head')
+	@include('layout.style')
+	@include('layout.script')
+</head>
+<body>
+	<header>
+		@include('layout.header')
+	</header>
+	<main>
+		@include('layout.main')
+	</main>
+	<footer>
+		@include('layout.footer')
+	</footer>
+</body>
+</html>
