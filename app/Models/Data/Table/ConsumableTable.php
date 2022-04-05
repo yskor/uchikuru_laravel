@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class UserTable extends BaseTable
+class ConsumableTable extends BaseTable
 {
     use HasFactory;
     
-    public static function viewUserMaster(string $as = null) { return DB::connection('sqlsrv_a')->table('VIEW_利用者マスタ', $as); }
+    public static function viewConsumableMaster() 
+    {
+        return DB::connection('sqlsrv_b')->table('VIEW_消耗品マスタ')->get();
+    }
+
 }
+

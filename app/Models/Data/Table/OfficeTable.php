@@ -10,5 +10,5 @@ class OfficeTable extends BaseTable
 {
     use HasFactory;
     
-    public static function viewOfficeMaster(string $as = null) { return DB::table('VIEW_事業所マスタ', $as); }
+    public static function viewOfficeMaster(string $as = null) { return DB::connection('sqlsrv_a')->table('VIEW_事業所マスタ', $as); }
 }

@@ -19,5 +19,3 @@ Route::get('/', function () {
 
 require_once 'web/sample.php';
 require_once 'web/master.php';
-
-Route::get('/master', 'MasterController@master');
