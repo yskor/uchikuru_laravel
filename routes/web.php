@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SampleController;
+use App\Http\Controllers\MasterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +19,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-require_once 'web/sample.php';
-require_once 'web/master.php';
+// require_once 'web/sample.php';
+// require_once 'web/master.php';
+
+// サンプルページ
+Route::get( '/sample', [SampleController::class, 'sample']);
+Route::post( '/sample/office', [SampleController::class, 'office']);
+Route::post( '/sample/office_html', [SampleController::class, 'office_html']);
+
+// マスタ一覧
+Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
+
+// マスタ登録
+Route::post('/master_list', [MasterController::class, 'add_master'])->name('add_master');

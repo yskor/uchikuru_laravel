@@ -9,7 +9,8 @@
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
 		<div class="modal-body">
-			<form>
+			<form action="{{ route('master_list') }}" method="post">
+			@csrf
 				<div class="form-group" id="consumable-code-form-group">
 					<label for="consumable-code">消耗品コード (バーコード) <span class="badge bg-danger">必須</span>	</label>
 						<input type="text" class="form-control" id="consumable-code">

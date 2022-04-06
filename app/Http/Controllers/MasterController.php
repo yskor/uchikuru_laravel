@@ -10,14 +10,14 @@ use App\Models\Consumable;
 use Illuminate\Support\Facades\Log;
 
 
-class ConsumableController extends AuthController
+class MasterController extends AuthController
 {
     //
     /**
      * 消耗品一覧を表示します。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function consumable_master(Request $request)
+    public function master_list(Request $request)
     {
         Log::debug(print_r($this->login, true));
         
@@ -27,19 +27,23 @@ class ConsumableController extends AuthController
         
         $data = ['consumable_list' => $consumable_list , 'login' => $this->login];
         
-        return self::view($request, 'consumable_master', $data );
+        return self::view($request, 'master_list', $data );
     }
 
     /**
      * 消耗品追加画面
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function add_consumable_master(Request $request)
+    public function add_master(Request $request)
     {
         Log::debug(print_r($this->login, true));
            
         $data = ['login' => $this->login];
+
+        dd($request->all());
+        Consumable::create();
         
-        return self::view($request, 'add_consumable_master', $data );
+        
+        return self::view($request, 'add_master', $data );
     }
 }
