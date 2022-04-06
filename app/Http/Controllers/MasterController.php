@@ -40,6 +40,7 @@ class MasterController extends AuthController
            
         $data = ['login' => $this->login];
 
+        // dd($request->input('consumable-code'));
         dd($request->all());
         Consumable::create();
         

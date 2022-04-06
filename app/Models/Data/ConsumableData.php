@@ -22,6 +22,7 @@ class ConsumableData extends BaseData
      */
     public static function getConsumable()
     {
-        return ConsumableTable::viewConsumableMaster();
+        return ConsumableTable::getConsumableMaster();
     }
+
 }

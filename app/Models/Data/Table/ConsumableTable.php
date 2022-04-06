@@ -10,7 +10,7 @@ class ConsumableTable extends BaseTable
 {
     use HasFactory;
     
-    public static function viewConsumableMaster() 
+    public static function getConsumableMaster() 
     {
         return DB::connection('sqlsrv_b')->table('VIEW_消耗品マスタ')->get();
     }

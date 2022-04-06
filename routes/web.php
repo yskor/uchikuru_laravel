@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\SampleController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\StockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,7 @@ use App\Http\Controllers\MasterController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 // require_once 'web/sample.php';
 // require_once 'web/master.php';
@@ -32,3 +32,8 @@ Route::get('/master_list', [MasterController::class, 'master_list'])->name('mast
 
 // マスタ登録
 Route::post('/master_list', [MasterController::class, 'add_master'])->name('add_master');
+
+// 在庫一覧（本部）
+Route::get('/stock_list', [StockController::class, 'stock_list'])->name('stock_list');
+// 在庫一覧（施設）
+Route::get('/stock_list‗2', [StockController::class, 'stock_list‗2'])->name('stock_list‗2');
