@@ -64,4 +64,18 @@ abstract class BaseData extends Model
         DB::rollBack();
     }
     
+
+    public static function master_add_check( $param )
+    {
+        // if ($param['use_quantity'] == null) {
+        //     $param['use_quantity'] == 1;
+        // } elseif ($param['use_quantity'] == null) {
+        //     $param['use_quantity'] == 0;
+        // }
+
+        if (!$param['can_use_multiple']) {
+            $param['can_use_multiple'] == 0;
+        } 
+        return $param;
+    }
 }

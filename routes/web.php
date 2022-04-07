@@ -5,6 +5,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\SampleController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\DeliverController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,10 +31,19 @@ Route::post( '/sample/office_html', [SampleController::class, 'office_html']);
 // マスタ一覧
 Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
 
+// マスタカテゴリ別一覧
+Route::get('/master_list/{consumable_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
+
 // マスタ登録
-Route::post('/master_list', [MasterController::class, 'add_master'])->name('add_master');
+// Route::post('/master_list', [MasterController::class, 'add_master'])->name('add_master');
+// マスタ更新
+Route::post('/master_list', [MasterController::class, 'edit_master'])->name('edit_master');
 
 // 在庫一覧（本部）
-Route::get('/stock_list', [StockController::class, 'stock_list'])->name('stock_list');
+Route::get('/office_stock_list', [StockController::class, 'office_stock_list'])->name('office_stock_list');
 // 在庫一覧（施設）
-Route::get('/stock_list‗2', [StockController::class, 'stock_list‗2'])->name('stock_list‗2');
+Route::get('/facility_stock_list', [StockController::class, 'facility_stock_list'])->name('facility_stock_list');
+
+
+// 納品一覧
+Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');

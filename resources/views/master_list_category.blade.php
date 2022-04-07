@@ -7,7 +7,7 @@
 <script>
 $(function() {
 	
-	@foreach($consumable_list as $data)
+	@foreach($consumable_list_category as $data)
 	jQuery( '#qrcode-{{ $data->consumable_code }}' ).qrcode( {
 		width: 100,
 		height: 100,
@@ -57,7 +57,7 @@ $(function() {
 		</tr>
 	</thead>
 	<tbody>
-		@foreach($consumable_list as $data)
+		@foreach($consumable_list_category as $data)
 		<tr data-consumable-code="{{ $data->consumable_code }}">
 			<!-- <%* ボタン *%> -->
 			<!-- Button trigger modal -->

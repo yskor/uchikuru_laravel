@@ -1,6 +1,7 @@
 <meta name="viewport" content="width=device-width">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="{{url('css/bootstrap.min.css')}}" rel="stylesheet">
+<link href="{{url('css/add.css')}}" rel="stylesheet">
 <script type="text/javascript" src="{{url('js/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{url('js/jquery-3.6.0.min.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

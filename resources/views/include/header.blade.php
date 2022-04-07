@@ -11,3 +11,9 @@
 <div class="container">
 	<div id="flash-message" class="alert alert-danger" hidden></div>
 </div>
+<div class="container">
+	<div class="alert alert-info">
+		【ヘッダー】
+		{{$login->staff_name}} でログインしています。
+	</div>
+</div>

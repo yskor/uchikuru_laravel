@@ -28,12 +28,6 @@ $(function() {
 
 {{-- ヘッダー --}}
 @section('header')
-<div class="container">
-	<div class="alert alert-info">
-		【ヘッダー】
-		{{$login->staff_name}} でログインしています。
-	</div>
-</div>
 @endsection
 
 {{-- メインコンテンツ --}}

@@ -10,5 +10,5 @@ class UserTable extends BaseTable
 {
     use HasFactory;
     
-    public static function viewUserMaster(string $as = null) { return DB::connection('sqlsrv_a')->table('VIEW_利用者マスタ', $as); }
+    public static function viewUserMaster(string $as = null) { return DB::table('VIEW_利用者マスタ', $as); }
 }

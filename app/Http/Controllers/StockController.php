@@ -7,6 +7,8 @@ use App\Http\Controllers\Base\AuthController;
 use App\Http\Controllers\Base\ActionController;
 use App\Models\Data\ConsumableData;
 use App\Models\Consumable;
+use App\Models\Data\OfficeData;
+use App\Models\Data\Table\OfficeTable;
 use Illuminate\Support\Facades\Log;
 
 
@@ -14,20 +16,37 @@ class StockController extends AuthController
 {
     //
     /**
-     * 消耗品一覧を表示します。
+     * 事業所の消耗品一覧を表示します。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function stock_list(Request $request)
+    public function office_stock_list(Request $request)
+    {
+        Log::debug(print_r($this->login, true));
+        
+        // 在庫データを取得
+        $office_stock_list = Consumable::getOfficeConsumableStock();
+        // dd($consumable_list);
+        
+        $data = ['office_stock_list' => $office_stock_list , 'login' => $this->login];
+        
+        return self::view($request, 'office_stock_list', $data );
+    }
+
+    /**
+     * 施設の消耗品一覧を表示します。
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function facility_stock_list(Request $request)
     {
         Log::debug(print_r($this->login, true));
         
         // データを取得
-        $stock_list = Consumable::getConsumableStock();
+        $facility_stock_list = Consumable::getFacilityConsumableStock();
         // dd($consumable_list);
         
-        $data = ['stock_list' => $stock_list , 'login' => $this->login];
+        $data = ['facility_stock_list' => $facility_stock_list , 'login' => $this->login];
         
-        return self::view($request, 'stock_list', $data );
+        return self::view($request, 'facility_stock_list', $data );
     }
 
 }
