@@ -10,7 +10,7 @@ class SessionManageTable extends BaseTable
 {
     use HasFactory;
     
-    public static function viewSessionManagement(string $as = null) { return DB::table('VIEW_セッション管理テーブル', $as); }
-    // public static function viewSessionManagement(string $as = null) { return DB::table('common_VIEW_セッション管理テーブル', $as); }
+    // public static function viewSessionManagement(string $as = null) { return DB::table('VIEW_セッション管理テーブル', $as); }
+    public static function viewSessionManagement(string $as = null) { return DB::table('common_VIEW_セッション管理テーブル', $as); }
     
 }

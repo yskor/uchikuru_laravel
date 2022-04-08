@@ -19,7 +19,7 @@
 @section('main')
 
 <!-- カテゴリセレクタ -->
-@include("include/consumable_category")
+@include("include/consumables_category")
 
 <table class="table table-striped" id="table">
 	<thead>
@@ -38,7 +38,7 @@
 	</thead>
 	<tbody>
 		@foreach($office_stock_list as $data)
-		<tr data-consumable-code="{{$data->consumable_code}}">
+		<tr data-consumables-code="{{$data->consumables_code}}">
 			<th class="table-scroll-fixed-left bg-white" style="width:150px;height:100px;">
 				<div><svg class="svg-inline--fa fa-cube fa-w-16 fa-fw" aria-hidden="true" focusable="false"
 						data-prefix="fas" data-icon="cube" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -47,9 +47,11 @@
 							d="M239.1 6.3l-208 78c-18.7 7-31.1 25-31.1 45v225.1c0 18.2 10.3 34.8 26.5 42.9l208 104c13.5 6.8 29.4 6.8 42.9 0l208-104c16.3-8.1 26.5-24.8 26.5-42.9V129.3c0-20-12.4-37.9-31.1-44.9l-208-78C262 2.2 250 2.2 239.1 6.3zM256 68.4l192 72v1.1l-192 78-192-78v-1.1l192-72zm32 356V275.5l160-65v133.9l-160 80z">
 						</path>
 					</svg><!-- <i class="fas fa-cube fa-fw"></i> Font Awesome fontawesome.com -->エンボス手袋M</div>
-				<img src="https://uchipo.com/test_uchikuru_hori/images/consumable/{{$data->consumable_image_filename}}" width="100px">
+				<img src="https://uchipo.com/test_uchikuru_hori/images/consumables/{{$data->consumables_image_filename}}"
+					width="100px">
 			</th>
-			<td data-office-code="1" data-consumable-code="{{$data->consumable_code}}" style="width:150px;height:100px;">
+			<td data-office-code="1" data-consumables-code="{{$data->consumables_code}}"
+				style="width:150px;height:100px;">
 				<div id="loading" class="w-100 h-100 d-flex align-items-center justify-content-center d-none">
 					<div id="spinner">
 						<div class="spinner-border spinner-border-sm text-secondary" role="status">
@@ -66,7 +68,8 @@
 						</div>
 						<div class="col">
 
-							<a id="item-history" data-office-code="1" data-consumable-code="{{$data->consumable_code}}"><svg
+							<a id="item-history" data-office-code="1"
+								data-consumables-code="{{$data->consumables_code}}"><svg
 									class="svg-inline--fa fa-history fa-w-16 text-secondary fa-fw" aria-hidden="true"
 									focusable="false" data-prefix="fas" data-icon="history" role="img"
 									xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">

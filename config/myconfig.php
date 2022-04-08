@@ -26,4 +26,6 @@ return [
     // 入居者の継承
     'user_name_honorific_title' => '様',
     
+    
+
 ];

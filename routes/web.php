@@ -24,20 +24,21 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 // require_once 'web/master.php';
 
 // サンプルページ
-Route::get( '/sample', [SampleController::class, 'sample']);
-Route::post( '/sample/office', [SampleController::class, 'office']);
-Route::post( '/sample/office_html', [SampleController::class, 'office_html']);
+Route::get('/sample', [SampleController::class, 'sample']);
+Route::post('/sample/office', [SampleController::class, 'office']);
+Route::post('/sample/office_html', [SampleController::class, 'office_html']);
 
 // マスタ一覧
 Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
 
-// マスタカテゴリ別一覧
-Route::get('/master_list/{consumable_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
-
-// マスタ登録
-// Route::post('/master_list', [MasterController::class, 'add_master'])->name('add_master');
 // マスタ更新
 Route::post('/master_list', [MasterController::class, 'edit_master'])->name('edit_master');
+
+// マスタカテゴリ別一覧
+Route::get('/master_list/{consumables_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
+
+// マスタカテゴリ別一覧
+Route::post('/master_list/{consumables_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
 
 // 在庫一覧（本部）
 Route::get('/office_stock_list', [StockController::class, 'office_stock_list'])->name('office_stock_list');

@@ -5,13 +5,13 @@
 @section('head')
 <script type="text/javascript" src="{{url('js/jquery.qrcode.min.js')}}"></script>
 <script>
-$(function() {
+	$(function() {
 	
 	@foreach($stock_list as $data)
-	jQuery( '#qrcode-{{ $data->consumable_code }}' ).qrcode( {
+	jQuery( '#qrcode-{{ $data->consumables_code }}' ).qrcode( {
 		width: 100,
 		height: 100,
-		text: "{{ $data->consumable_code }}",
+		text: "{{ $data->consumables_code }}",
 		});
 	@endforeach
 
@@ -37,40 +37,43 @@ $(function() {
 	<i class="fas fa-plus fa-fw"></i>追加
 </button>
 <!-- 追加モーダル -->
-@include("modal/add_consumable_master_modal")
+@include("modal/add_consumables_master_modal")
 
 <!-- カテゴリセレクタ -->
-@include("include/consumable_category")
+@include("include/consumables_category")
 
 <table class="table table-striped" id="table">
 	<thead></thead>
 	<tbody>
-	@foreach($stock_list as $data)
-		<tr data-consumable-code="{{ $data->consumable_code }}">
+		@foreach($stock_list as $data)
+		<tr data-consumables-code="{{ $data->consumables_code }}">
 			<td>
 				<div class="row">
 					<div class="col">
-						<i class="fas fa-cube fa-fw"></i>{{ $data->consumable_code }} : {{ $data->consumable_name }}
+						<i class="fas fa-cube fa-fw"></i>{{ $data->consumables_code }} : {{ $data->consumables_name }}
 					</div>
 					<div class="col-3">
-						<button type="button" class="btn btn-primary" id="btn" data-consumable-code="{{ $data->consumable_code }}">出荷</button>
+						<button type="button" class="btn btn-primary" id="btn"
+							data-consumables-code="{{ $data->consumables_code }}">出荷</button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-4">
-						@if(!empty( $data->consumable_image_filename ))
-						<img src="https://uchipo.com/test_uchikuru_hori/images/consumable/{{ $data->consumable_image_filename }}" width="100px">
+						@if(!empty( $data->consumables_image_filename ))
+						<img src="https://uchipo.com/test_uchikuru_hori/images/consumables/{{ $data->consumables_image_filename }}"
+							width="100px">
 						@endif
 					</div>
 					<div class="col-8">
-						<p>在庫：@if(!empty( $data->stock_number )) {{ $data->stock_number }} {{ $data->number_unit }} と {{ $data->stock_quantity }} {{ $data->quantity_unit }} @else なし @endif</p>
+						<p>在庫：@if(!empty( $data->stock_number )) {{ $data->stock_number }} {{ $data->number_unit }} と {{
+							$data->stock_quantity }} {{ $data->quantity_unit }} @else なし @endif</p>
 						<!--  在庫プログレスバー を追加する -->
-										
+
 					</div>
 				</div>
 			</td>
 		</tr>
-	@endforeach
+		@endforeach
 	</tbody>
 </table>
 
@@ -87,4 +90,3 @@ $(function() {
 @section('script')
 @include('_sample')
 @endsection
-

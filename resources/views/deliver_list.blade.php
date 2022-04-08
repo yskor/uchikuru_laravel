@@ -23,7 +23,7 @@
 			<table class="table table-striped" id="table">
 				<thead></thead>
 				<tbody>
-					<tr data-consumable-code="4520951011239">
+					<tr data-consumables-code="4520951011239">
 						<td>
 							<div class="row">
 								<div class="col">
@@ -53,7 +53,7 @@
 							</div>
 							<div class="row">
 								<div class="col-4">
-									<img src="https://uchipo.com/test_uchikuru_hori/images/consumable/4520951011239.jpg"
+									<img src="https://uchipo.com/test_uchikuru_hori/images/consumables/4520951011239.jpg"
 										width="100px">
 								</div>
 								<div class="col-8">出庫数：10 箱</div>
