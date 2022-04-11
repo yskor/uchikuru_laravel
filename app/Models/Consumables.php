@@ -50,7 +50,8 @@ class Consumables extends Model
             }
             // 画像があるか
             try {
-                $image_filename = date("YmdHis") . '_' . $param['image_file']->getClientOriginalName(); //ファイル名取得
+                $image_file_extention = $param['image_file']->getClientOriginalExtension(); //拡張子取得
+                $image_filename = $param['consumables_code']. '.' .$image_file_extention; //ファイル名取得
                 // dd($image_filename);
                 $param['image_file']->storeAs('upload/consumables', $image_filename); //ファイル保存        
             } catch (Exception $e) {
@@ -112,9 +113,8 @@ class Consumables extends Model
             }
             // 画像判定
             try {
-                $image_filename = date("YmdHis") . '_' . $param['image_file']->getClientOriginalName(); //ファイル名取得
-                $param['image_file']->storeAs('upload/consumables', $image_filename); //ファイル保存        
-                // $param['image_file']->storeAs('tmp', $image_filename); //ファイル保存        
+                $image_file_extention = $param['image_file']->getClientOriginalExtension(); //拡張子取得
+                $image_filename = $param['consumables_code']. '.' .$image_file_extention; //ファイル名取得
                 // dd($image_filename);
             } catch (Exception $e) {
                 $image_filename = Null;
@@ -133,6 +133,7 @@ class Consumables extends Model
                 "入数単位" => $param['quantity_unit'],
                 "入数使用" => $use_quantity,
                 "複数使用可" => $can_use_multiple,
+                // 以下二つはPOSTから受け取れずエラーとなる為コメントアウト
                 // "消耗品カテゴリコード" => $param['consumables_category_code'],
                 // "最終交渉日" => $param['last_negotiation_date'],
                 "画像ファイル拡張子" => $image_filename,

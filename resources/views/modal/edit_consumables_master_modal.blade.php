@@ -58,9 +58,8 @@
 						<input class="form-check-input" type="checkbox" value="{{ $data->use_quantity }}" name="use_quantity" id="use-quantity"
 						checked="true">
 						@else
-						<input class="form-check-input" type="checkbox" value="{{ $data->use_quantity }}" name="use_quantity" id="use-quantity"
-							checked="false">
-							@endif
+						<input class="form-check-input" type="checkbox" value="{{ $data->use_quantity }}" name="use_quantity" id="use-quantity">
+						@endif
 						<label class="form-check-label" for="use-quantity">この消耗品を使用すると【入数】を減らす。</label>
 					</div>
 					<script type="text/javascript">
