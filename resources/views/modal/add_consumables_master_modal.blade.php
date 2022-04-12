@@ -90,10 +90,10 @@
 										<select name="consumables_category_code" id="consumables-category-code"
 											class="form-select">
 											<option value="" selected=""></option>
-											@foreach($consumables_category_all as $data)
+											@foreach($consumables_category_all as $category)
 											{{-- カテゴリごとに作成 --}}
-											<option value="{{ $data->consumables_category_code }}">{{
-												$data->consumables_category_name }}</option>
+											<option value="{{ $category->consumables_category_code }}">{{
+												$category->consumables_category_name }}</option>
 											@endforeach
 										</select>
 										<div name="consumables-category-code-feedback"
@@ -112,17 +112,28 @@
 
 						</script>
 					</div>
-					<div class="form-group" name="last-negotiation-date-form-group"
-						id="last-negotiation-date-form-group">
+
+					<div class="form-group" id="last-negotiation-date-form-group">
 						<label for="last-negotiation-date">最終交渉日 </label>
-						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date">
+						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date" value="">
 						<div id="last-negotiation-date-feedback" class="invalid-feedback"></div>
 					</div>
 
-					<div class="form-group" name="image-file-form-group" id="image-file-form-group">
+					<div class="form-group" id="image-file-form-group">
 						<label for="image-file">画像ファイル </label>
-						<input type="file" class="form-control" name="image_file" id="image-file">
-						<div id="image-file-feedback" class="invalid-feedback"></div>
+						<!-- <%* 画像 *%> -->
+						<div class="m-2"><img id="add_preview" src="{{ asset('storage/00000000.png')}}"
+							style="width:100px;height:100px;"></div>
+						<input type="file" class="form-control" name="image_file" id="add-image-file" accept="image/*">
+						<script>
+							$('#add-image-file').on('change', function (e) {
+								var reader = new FileReader();
+								reader.onload = function (e) {
+									$("#add_preview").attr('src', e.target.result);
+								}
+								reader.readAsDataURL(e.target.files[0]);
+							});
+						</script>
 					</div>
 
 

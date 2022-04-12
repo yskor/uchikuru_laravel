@@ -24,7 +24,7 @@ class StockController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // 在庫データを取得
-        $office_stock_list = Consumables::getOfficeConsumablesStock();
+        $office_stock_list = ConsumablesData::getOfficeConsumablesStock();
         // dd($consumables_list);
 
         $data = ['office_stock_list' => $office_stock_list, 'login' => $this->login];
@@ -41,7 +41,7 @@ class StockController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // データを取得
-        $facility_stock_list = Consumables::getFacilityConsumablesStock();
+        $facility_stock_list = ConsumablesData::getFacilityConsumablesStock();
         // dd($consumables_list);
 
         $data = ['facility_stock_list' => $facility_stock_list, 'login' => $this->login];

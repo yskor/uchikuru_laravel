@@ -50,7 +50,7 @@ class ConsumablesTable extends BaseTable
         return DB::table(self::TABLE_CONSUMABLE_CATEGORY_MASTER);
     }
 
-    // 事業所べつ消耗品テーブルを取得
+    // 事業所べつ消耗品在庫テーブルを取得
     public static function tableOfficeConsumablesStock()
     {
         return DB::table(self::TABLE_CONSUMABLE_OFFICE_STOCK);
@@ -76,7 +76,7 @@ class ConsumablesTable extends BaseTable
         return DB::table(self::VIEW_CONSUMABLE_CATEGORY_MASTER);
     }
 
-    // 事業所べつ消耗品テーブル
+    // 事業所べつ消耗品在庫テーブル
     public static function viewOfficeConsumablesStock()
     {
         return DB::table(self::VIEW_CONSUMABLE_OFFICE_STOCK);

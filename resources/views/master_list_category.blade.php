@@ -79,7 +79,7 @@
 				<div class="mb-2">{{ $data->consumables_name }}</div>
 				<!-- <%* 画像 *%> -->
 				@if(!empty( $data->image_file_extension))
-				<div><img src="{{ asset('storage/app/upload/consumables/'.$data->image_file_extension)}}"
+				<div><img src="{{ asset('storage/'.$data->image_file_extension)}}"
 						style="width:100px;height:100px;"></div>
 				@endif
 			</td>

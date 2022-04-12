@@ -100,14 +100,14 @@
 										<label class="col-form-label" for="consumables-category-code">カテゴリ</label>
 									</div>
 									<div class="col-md-4">
-										<select id="consumables_category_code" id="consumables-category-code"
+										<select name="consumables_category_code" id="consumables-category-code"
 											class="form-select">
-											@foreach($consumables_category_all as $data)
+											@foreach($consumables_category_all as $category)
 											{{-- カテゴリごとに作成 --}}
-											@if ( $data->consumables_category_code == $consumables_category_code )
-											<option value="{{ $data->consumables_category_code }}" selected="">{{ $data->consumables_category_name }}</option>
+											@if ( $category->consumables_category_code == $consumables_category_code )
+											<option value="{{ $category->consumables_category_code }}" selected="">{{ $category->consumables_category_name }}</option>
 											@else
-											<option value="{{ $data->consumables_category_code }}">{{ $data->consumables_category_name }}</option>
+											<option value="{{ $category->consumables_category_code }}">{{ $category->consumables_category_name }}</option>
 											@endif
 											@endforeach
 										</select>
@@ -126,40 +126,36 @@
 
 						</script>
 					</div>
+				
 					<div class="form-group" id="last-negotiation-date-form-group">
 						<label for="last-negotiation-date">最終交渉日 </label>
-						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date" value="">
+						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date" value="{{ $data->last_negotiation_date }}">
 						<div id="last-negotiation-date-feedback" class="invalid-feedback"></div>
 					</div>
 
 					<div class="form-group" id="image-file-form-group">
 						<label for="image-file">画像ファイル </label>
-						<input type="file" class="form-control" name="image_file" id="image-file" accept="image/*">
 						<!-- <%* 画像 *%> -->
-						@if(!empty( $data->image_file_extension))
-						<div><img id="preview" src="{{ asset('storage/'.$data->image_file_extension)}}" style="width:100px;height:100px;"></div>
-						@else
-						<div><img id="preview"></div>
-						@endif
-						<div id="image-file-feedback" class="invalid-feedback"></div>
-						
+						<div class="m-2"><img id="edit_preview_{{$data->consumables_code}}" src="{{ asset('storage/'.$data->image_file_extension)}}"
+							style="width:100px;height:100px;"></div>
+						<input type="file" class="form-control" name="image_file" id="edit-image-file-{{$data->consumables_code}}" accept="image/*">
+						<script>
+							$('#edit-image-file-{{$data->consumables_code}}').on('change', function (e) {
+								var reader = new FileReader();
+								reader.onload = function (e) {
+									$("#edit_preview_{{$data->consumables_code}}").attr('src', e.target.result);
+								}
+								reader.readAsDataURL(e.target.files[0]);
+							});
+						</script>
 					</div>
-					<script>
-						$('#image-file').on('change', function (e) {
-							var reader = new FileReader();
-							reader.onload = function (e) {
-								$("#preview").attr('src', e.target.result);
-							}
-							reader.readAsDataURL(e.target.files[0]);
-						});
-					</script>
+					
 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">閉じる</button>
 					<button type="submit" name="post" class="btn btn-danger" value="delete">削除</button>
 					<button type="submit" name="post" class="btn btn-primary" value="edit">変更</button>
-
 				</div>
 			</form>
 		</div>

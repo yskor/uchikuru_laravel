@@ -55,7 +55,7 @@ class Consumables extends Model
                 // dd($image_filename);
                 $param['image_file']->storeAs('upload/consumables', $image_filename); //ファイル保存        
             } catch (Exception $e) {
-                $image_filename = Null;
+                $image_filename = '00000000.png'; //デフォルト値
             }
             $master_values = [
                 "消耗品名" => $param['consumables_name'],
@@ -111,13 +111,24 @@ class Consumables extends Model
             } catch (Exception $e) {
                 $use_quantity = 0;
             }
+            // 最終交渉日判定
+            try {
+                $last_negotiation_date = $param['last_negotiation_date'];
+            } catch (Exception $e) {
+                $last_negotiation_date = Null;
+            }
             // 画像判定
             try {
-                $image_file_extention = $param['image_file']->getClientOriginalExtension(); //拡張子取得
-                $image_filename = $param['consumables_code']. '.' .$image_file_extention; //ファイル名取得
-                // dd($image_filename);
+                $len = 8; //指定文字列
+                //指定した文字で埋める
+                $filename = str_pad($param['consumables_code'], $len, 0, STR_PAD_LEFT); // => "00123"
+                $image_file_extension = $param['image_file']->getClientOriginalExtension(); //拡張子取得
+                $image_filename = $filename. '.' .$image_file_extension; //ファイル名取得
+                $param['image_file']->storeAs('upload/consumables', $image_filename); //ファイル保存
             } catch (Exception $e) {
-                $image_filename = Null;
+                // 画像データ取得
+                $consumables = ConsumablesData::viewOneConsumables($param['consumables_code']);
+                $image_filename = $consumables->image_file_extension;
             }
 
             // 対象マスタのバーコードを全て取得
@@ -133,9 +144,8 @@ class Consumables extends Model
                 "入数単位" => $param['quantity_unit'],
                 "入数使用" => $use_quantity,
                 "複数使用可" => $can_use_multiple,
-                // 以下二つはPOSTから受け取れずエラーとなる為コメントアウト
-                // "消耗品カテゴリコード" => $param['consumables_category_code'],
-                // "最終交渉日" => $param['last_negotiation_date'],
+                "消耗品種別コード" => $param['consumables_category_code'],
+                "最終交渉日" => $last_negotiation_date,
                 "画像ファイル拡張子" => $image_filename,
                 "更新日時" => now()
             ];
