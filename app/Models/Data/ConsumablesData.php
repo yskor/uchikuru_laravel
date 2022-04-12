@@ -6,6 +6,7 @@ use App\Models\Consumables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Data\Table\ConsumablesTable;
+use App\Models\Data\Table\OfficeTable;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use PDO;
@@ -110,6 +111,7 @@ class ConsumablesData extends BaseData
     }
         /**
      *　作成日時から消耗品を取得します。
+     * @param string $created_at
      */
     public static function getConsumablesCreateat($created_at)
     {
@@ -118,6 +120,7 @@ class ConsumablesData extends BaseData
 
         /**
      *　消耗品コードから消耗品を取得します。
+     * @param string $consumables_code
      */
     public static function getOneConsumables($consumables_code)
     {
@@ -126,6 +129,7 @@ class ConsumablesData extends BaseData
 
         /**
      *　消耗品コードから消耗品を参照します。
+     * @param string $consumables_code
      */
     public static function viewOneConsumables($consumables_code)
     {
@@ -162,5 +166,14 @@ class ConsumablesData extends BaseData
     public static function viewFacilityConsumablesStockAll()
     {
         return ConsumablesTable::viewFacilityConsumablesStock()->get();
+    }
+    
+    /**
+     *　消耗品在庫テーブルから対象施設のデータを参照します。
+     * @param string $facility_code
+     */
+    public static function viewThisFacilityConsumablesStockAll($facility_name)
+    {
+        return ConsumablesTable::viewFacilityConsumablesStock()->where('facility_name', '=', $facility_name)->get();
     }
 }

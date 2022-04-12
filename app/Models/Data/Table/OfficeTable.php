@@ -12,6 +12,6 @@ class OfficeTable extends BaseTable
     
     public static function viewOfficeMaster(string $as = null) 
     { 
-        return DB::table('VIEW_事業所マスタ', $as); 
+        return DB::table('common_VIEW_事業所マスタ', $as); 
     }
 }

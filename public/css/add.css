@@ -85,3 +85,10 @@
 .t-btn {
 	width: 60px;
 }
+
+/* 在庫表一覧 */
+.table-scroll-fixed-left {
+    position: sticky;
+    left: 0;
+    z-index: 100;
+}

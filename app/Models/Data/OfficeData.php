@@ -25,5 +25,22 @@ class OfficeData extends Model
     {
         return OfficeTable::viewOfficeMaster()->where('office_code', '=', $office_code)->first();
     }
-    
+
+    /**
+     *　事業所マスタから対象施設のデータを参照します。
+     * @param string $facility_code
+     */
+    public static function viewFacilityAll()
+    {
+        return OfficeTable::viewOfficeMaster()->where('care_flag', '=', 1)->get();
+    }
+
+    /**
+     *　事業所マスタから対象施設のデータを参照します。
+     * @param string $office_code
+     */
+    public static function viewOfficeAll()
+    {
+        return OfficeTable::viewOfficeMaster()->where('care_flag', '=', 0)->get();
+    }
 }
