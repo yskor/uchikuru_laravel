@@ -52,17 +52,12 @@ class MasterController extends AuthController
         // カテゴリデータを全て取得
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
         // 対象のカテゴリデータを取得
-        $consumables_category = ConsumablesData::getConsumablesCategory($consumables_category_code);
-        // データを取得
-        $consumables_list_category = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
-        // dd($consumables_list_category);
-
-        // dd($consumables_list_category);
+        $consumables_list = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
+        
         $data = [
             'consumables_category_all' => $consumables_category_all,
-            'consumables_list_category' => $consumables_list_category,
+            'consumables_list' => $consumables_list,
             'login' => $this->login,
-            'consumables_category' => $consumables_category,
             'consumables_category_code' => $consumables_category_code
         ];
 

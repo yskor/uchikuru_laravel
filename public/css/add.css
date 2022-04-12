@@ -75,5 +75,13 @@
 /* 消耗品マスタ一覧テーブル用 */
 
 .table-w {
-	width: 150px;
+	width: 100px;
+}
+
+.table-ws {
+	width: 100px;
+}
+
+.t-btn {
+	width: 60px;
 }

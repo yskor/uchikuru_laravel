@@ -95,6 +95,9 @@
 
 {{-- フッター --}}
 @section('footer')
+<div class="container">
+	<div class="">【フッター】</div>
+</div>
 @endsection
 
 {{-- JavaScript --}}

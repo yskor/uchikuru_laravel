@@ -9,7 +9,7 @@
 	<header>
 		@include('layout.header')
 	</header>
-	<main>
+	<main style="padding-bottom:100px;">
 		@include('layout.main')
 	</main>
 	<footer>

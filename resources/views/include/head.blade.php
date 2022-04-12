@@ -9,3 +9,10 @@
 <!-- <script type="text/javascript" src="{{url('js/jquery.qrcode.min.js')}}"></script> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.2/dist/css/bootstrap-night.min.css" rel="stylesheet"> -->
+
+{{-- detatables --}}
+{{-- <link href="{{url('datatables/css/sb-admin-2.css')}}" rel="stylesheet"> --}}
+<link href="{{url('datatables/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
+<script type="text/javascript" src="{{url('datatables/js/demo/datatables-demo.js')}}"></script>
+<script type="text/javascript" src="{{url('datatables/dataTables.bootstrap4.js')}}"></script>
+<script type="text/javascript" src="{{url('datatables/jquery.dataTables.js')}}"></script>

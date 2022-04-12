@@ -88,7 +88,7 @@
 									</div>
 									<div class="col-md-4">
 										<select name="consumables_category_code" id="consumables-category-code"
-											class="form-select">
+											class="form-select" required>
 											<option value="" selected=""></option>
 											@foreach($consumables_category_all as $category)
 											{{-- カテゴリごとに作成 --}}
