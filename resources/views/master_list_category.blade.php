@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', 'サンプルページ')
+@section('title', '消耗品マスタ一覧')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -33,15 +33,16 @@
 
 {{-- メインコンテンツ --}}
 @section('main')
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddModal">
-	<i class="fas fa-plus fa-fw"></i>追加
-</button>
 <!-- 追加モーダル -->
 @include("modal/add_consumables_master_modal")
 
 <!-- カテゴリセレクタ -->
 @include("include/consumables_category")
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#AddModal">
+	<i class="fas fa-plus fa-fw"></i>追加
+</button>
 
 <table class="table table-striped" id="table">
 	<thead>
@@ -79,7 +80,7 @@
 				<div class="mb-2">{{ $data->consumables_name }}</div>
 				<!-- <%* 画像 *%> -->
 				@if(!empty( $data->image_file_extension))
-				<div><img src="{{ asset('storage/'.$data->image_file_extension)}}"
+				<div><img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
 						style="width:100px;height:100px;"></div>
 				@endif
 			</td>
@@ -103,9 +104,6 @@
 
 {{-- フッター --}}
 @section('footer')
-<div class="container">
-	<div class="alert alert-info">【フッター】</div>
-</div>
 @endsection
 
 {{-- JavaScript --}}

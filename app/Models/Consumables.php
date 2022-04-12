@@ -36,6 +36,10 @@ class Consumables extends Model
     {
         try {
             // dd($param);
+            // 最後のマスタデータの消耗品コードを取得
+            $last_consumables = ConsumablesData::getLastConsumables();
+            $consumables_code = $last_consumables->consumables_code + 1;
+            // dd($consumables_code);
             // 複数使用可判定
             try {
                 $can_use_multiple = $param['can_use_multiple'];
@@ -50,10 +54,12 @@ class Consumables extends Model
             }
             // 画像があるか
             try {
-                $image_file_extention = $param['image_file']->getClientOriginalExtension(); //拡張子取得
-                $image_filename = $param['consumables_code']. '.' .$image_file_extention; //ファイル名取得
-                // dd($image_filename);
-                $param['image_file']->storeAs('upload/consumables', $image_filename); //ファイル保存        
+                $len = 8; //指定文字列
+                //指定した文字で埋める
+                $filename = str_pad($consumables_code, $len, 0, STR_PAD_LEFT); // => "00123"
+                $image_file_extension = $param['image_file']->getClientOriginalExtension(); //拡張子取得
+                $image_filename = $filename. '.' .$image_file_extension; //ファイル名取得
+                $param['image_file']->storeAs('upload/consumables', $image_filename, 'public_uploads'); //ファイル保存
             } catch (Exception $e) {
                 $image_filename = '00000000.png'; //デフォルト値
             }
@@ -74,11 +80,11 @@ class Consumables extends Model
             
             // 消耗品マスタデータに登録
             ConsumablesTable::tableConsumablesMaster()->insert($master_values);
-            // 最後のマスタデータの消耗品コードを取得
-            $last_consumables = ConsumablesData::getLastConsumables($master_values['登録日時']);
+            // 作成日からマスタデータの消耗品コードを取得
+            $this_consumables = ConsumablesData::getConsumablesCreateat($master_values['登録日時']);
             
             $id_values = [
-                "消耗品コード" => $last_consumables->consumables_code,
+                "消耗品コード" => $this_consumables->consumables_code,
                 "識別コード" => $param['consumables_code'],
                 // "登録職員コード" => $param[''],
                 "登録日時" => now(),
@@ -124,7 +130,7 @@ class Consumables extends Model
                 $filename = str_pad($param['consumables_code'], $len, 0, STR_PAD_LEFT); // => "00123"
                 $image_file_extension = $param['image_file']->getClientOriginalExtension(); //拡張子取得
                 $image_filename = $filename. '.' .$image_file_extension; //ファイル名取得
-                $param['image_file']->storeAs('upload/consumables', $image_filename); //ファイル保存
+                $param['image_file']->storeAs('upload/consumables', $image_filename, 'public_uploads'); //ファイル保存
             } catch (Exception $e) {
                 // 画像データ取得
                 $consumables = ConsumablesData::viewOneConsumables($param['consumables_code']);

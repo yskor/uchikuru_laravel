@@ -102,9 +102,16 @@ class ConsumablesData extends BaseData
     }
 
         /**
+     *　最後のから消耗品を取得します。
+     */
+    public static function getLastConsumables()
+    {
+        return ConsumablesTable::viewConsumablesMaster()->latest()->first();
+    }
+        /**
      *　作成日時から消耗品を取得します。
      */
-    public static function getLastConsumables($created_at)
+    public static function getConsumablesCreateat($created_at)
     {
         return ConsumablesTable::viewConsumablesMaster()->where('created_at', '=', $created_at)->first();
     }
@@ -123,5 +130,37 @@ class ConsumablesData extends BaseData
     public static function viewOneConsumables($consumables_code)
     {
         return ConsumablesTable::viewConsumablesMaster()->where('consumables_code', '=', $consumables_code)->first();
+    }
+
+        /**
+     *　消耗品事業所別在庫テーブルから全てのデータを取得します。
+     */
+    public static function getOfficeConsumablesStockAll()
+    {
+        return ConsumablesTable::tableOfficeConsumablesStock()->get();
+    }
+
+        /**
+     *　消耗品事業所別在庫テーブルから全てのデータを参照します。
+     */
+    public static function viewOfficeConsumablesStockAll()
+    {
+        return ConsumablesTable::viewOfficeConsumablesStock()->get();
+    }
+
+        /**
+     *　消耗品在庫テーブルから全てのデータを取得します。
+     */
+    public static function getFacilityConsumablesStockAll()
+    {
+        return ConsumablesTable::tableFacilityConsumablesStock()->get();
+    }
+
+        /**
+     *　消耗品在庫テーブルから全てのデータを参照します。
+     */
+    public static function viewFacilityConsumablesStockAll()
+    {
+        return ConsumablesTable::viewFacilityConsumablesStock()->get();
     }
 }

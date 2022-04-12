@@ -105,9 +105,6 @@
 
 {{-- フッター --}}
 @section('footer')
-<div class="container">
-	<div class="alert alert-info">【フッター】</div>
-</div>
 @endsection
 
 {{-- JavaScript --}}

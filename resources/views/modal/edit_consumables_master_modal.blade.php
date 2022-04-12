@@ -136,7 +136,7 @@
 					<div class="form-group" id="image-file-form-group">
 						<label for="image-file">画像ファイル </label>
 						<!-- <%* 画像 *%> -->
-						<div class="m-2"><img id="edit_preview_{{$data->consumables_code}}" src="{{ asset('storage/'.$data->image_file_extension)}}"
+						<div class="m-2"><img id="edit_preview_{{$data->consumables_code}}" src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
 							style="width:100px;height:100px;"></div>
 						<input type="file" class="form-control" name="image_file" id="edit-image-file-{{$data->consumables_code}}" accept="image/*">
 						<script>

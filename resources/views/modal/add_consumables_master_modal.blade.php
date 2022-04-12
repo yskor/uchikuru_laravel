@@ -122,7 +122,7 @@
 					<div class="form-group" id="image-file-form-group">
 						<label for="image-file">画像ファイル </label>
 						<!-- <%* 画像 *%> -->
-						<div class="m-2"><img id="add_preview" src="{{ asset('storage/00000000.png')}}"
+						<div class="m-2"><img id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
 							style="width:100px;height:100px;"></div>
 						<input type="file" class="form-control" name="image_file" id="add-image-file" accept="image/*">
 						<script>

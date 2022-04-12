@@ -13,7 +13,6 @@
 </div>
 <div class="container">
 	<div class="alert alert-info">
-		【ヘッダー】
-		{{$login->staff_name}} でログインしています。
+		【ログインユーザー：{{$login->staff_name}}】
 	</div>
 </div>

@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', 'サンプルページ')
+@section('title', '消耗品在庫管理システム')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -121,9 +121,6 @@
 
 {{-- フッター --}}
 @section('footer')
-<div class="container">
-	<div class="alert alert-info">【フッター】</div>
-</div>
 @endsection
 
 {{-- JavaScript --}}
