@@ -24,7 +24,7 @@
 <div class="card">
 	<h6 class="card-header w-100">在庫一覧（事業所）</h6>
 	<!-- 在庫テーブル -->
-	@include("include/stock_table")
+	@include("include/stock_category_table")
 </div>
 @endsection
 

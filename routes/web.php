@@ -42,8 +42,13 @@ Route::post('/master_list/{consumables_category_code}', [MasterController::class
 
 // 在庫一覧（本部）
 Route::get('/office_stock_list', [StockController::class, 'office_stock_list'])->name('office_stock_list');
+// 在庫カテゴリ別一覧（本部）
+Route::get('/office_stock_list/{consumables_category_code}', [StockController::class, 'office_stock_list_category'])->name('office_stock_list_category');
+
 // 在庫一覧（施設）
 Route::get('/facility_stock_list', [StockController::class, 'facility_stock_list'])->name('facility_stock_list');
+// 在庫カテゴリ別一覧（施設）
+Route::get('/facility_stock_list/{consumables_category_code}', [StockController::class, 'facility_stock_list_category'])->name('facility_stock_list_category');
 
 
 // 納品一覧

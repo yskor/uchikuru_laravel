@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', 'サンプルページ')
+@section('title', '在庫一覧（施設）')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -19,9 +19,10 @@
 @section('main')
 
 <!-- カテゴリセレクタ -->
-@include("include/consumables_category")
+@include("include/stock_facility_consumables_category")
+
 <div class="card">
-	<h6 class="card-header w-100">マスタ一覧（各施設）</h6>
+	<h6 class="card-header w-100">在庫一覧（施設）</h6>
 	<!-- 在庫テーブル -->
 	@include("include/stock_table")
 </div>

@@ -170,10 +170,20 @@ class ConsumablesData extends BaseData
     
     /**
      *　消耗品在庫テーブルから対象施設のデータを参照します。
-     * @param string $facility_code
+     * @param int $facility_code
      */
     public static function viewThisFacilityConsumablesStockAll($facility_name)
     {
         return ConsumablesTable::viewFacilityConsumablesStock()->where('facility_name', '=', $facility_name)->get();
+    }
+
+    /**
+     * 指定された消耗品カテゴリコードから消耗品の一覧を取得します。
+     * @param int $consumables_category_code
+     * @return unknown
+     */
+    public static function getCategoryConsumablesstockList($consumables_category_code)
+    {
+        return ConsumablesTable::viewFacilityConsumablesStock()->where('consumables_category_code', '=', $consumables_category_code)->get();
     }
 }

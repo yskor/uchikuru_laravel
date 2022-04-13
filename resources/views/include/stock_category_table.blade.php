@@ -14,7 +14,7 @@
 		</thead>
 		<tbody>
 			{{-- 消耗品を一番左の列に並べる --}}
-			@foreach ($consumables_all as $consumables)
+			@foreach ($category_consumables_all as $consumables)
 			<tr data-consumables-code="{{$consumables->consumables_code}}">
 				<th class="table-scroll-fixed-left bg-white" style="width:150px;height:100px;">
 					<div><svg class="svg-inline--fa fa-cube fa-w-16 fa-fw" aria-hidden="true" focusable="false"
