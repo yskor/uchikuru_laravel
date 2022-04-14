@@ -16,7 +16,7 @@ class ConsumablesTable extends BaseTable
     const TABLE_CONSUMABLE_ID_MASTER = "消耗品識別マスタ";
     const TABLE_CONSUMABLE_CATEGORY_MASTER = "消耗品種別マスタ";
     const TABLE_CONSUMABLE_STOCK = "消耗品在庫テーブル";
-    const TABLE_CONSUMABLE_OFFICE_STOCK = '消耗品在庫事業所別';
+    const TABLE_CONSUMABLE_BUY = '消耗品仕入テーブル';
     const TABLE_CONSUMABLE_MOVEMENT = "消耗品変動テーブル";
     const TABLE_CONSUMABLE_MOVEMENT_STATUS_HISTORY = "消耗品変動状態履歴テーブル";
     const TABLE_CONSUMABLE_DELIVER = "消耗品配送中件数";
@@ -25,8 +25,8 @@ class ConsumablesTable extends BaseTable
     const VIEW_CONSUMABLE_MASTER = "VIEW_" . self::TABLE_CONSUMABLE_MASTER;
     const VIEW_CONSUMABLE_ID_MASTER = "VIEW_" . self::TABLE_CONSUMABLE_ID_MASTER;
     const VIEW_CONSUMABLE_CATEGORY_MASTER = "VIEW_" . self::TABLE_CONSUMABLE_CATEGORY_MASTER;
-    const VIEW_CONSUMABLE_STOCK = "VIEW_消耗品在庫テーブル";
-    const VIEW_CONSUMABLE_OFFICE_STOCK = '消耗品在庫事業所別';
+    const VIEW_CONSUMABLE_STOCK = "VIEW_". self::TABLE_CONSUMABLE_STOCK;
+    const VIEW_CONSUMABLE_BUY = "VIEW_". self::TABLE_CONSUMABLE_BUY;
     const VIEW_CONSUMABLE_MOVEMENT = "VIEW_消耗品変動テーブル";
     const VIEW_CONSUMABLE_MOVEMENT_STATUS_HISTORY = "VIEW_消耗品変動状態履歴テーブル";
     const VIEW_CONSUMABLE_DELIVER = "VIEW_消耗品配送中件数";
@@ -49,18 +49,17 @@ class ConsumablesTable extends BaseTable
     {
         return DB::table(self::TABLE_CONSUMABLE_CATEGORY_MASTER);
     }
-
-    // 事業所べつ消耗品在庫テーブルを取得
-    public static function tableOfficeConsumablesStock()
-    {
-        return DB::table(self::TABLE_CONSUMABLE_OFFICE_STOCK);
-    }
-
     
     // 施設別消耗品在庫テーブル
-    public static function tableFacilityConsumablesStock()
+    public static function tableOfficeConsumablesStock()
     {
-        return DB::table(self::VIEW_CONSUMABLE_STOCK);
+        return DB::table(self::TABLE_CONSUMABLE_STOCK);
+    }
+    
+    // 消耗品仕入テーブル
+    public static function tableConsumablesBuy()
+    {
+        return DB::table(self::TABLE_CONSUMABLE_BUY);
     }
 
     // DB参照用
@@ -83,16 +82,17 @@ class ConsumablesTable extends BaseTable
         return DB::table(self::VIEW_CONSUMABLE_CATEGORY_MASTER);
     }
 
-    // 事業所べつ消耗品在庫テーブル
+    // 消耗品在庫テーブル
     public static function viewOfficeConsumablesStock()
     {
-        return DB::table(self::VIEW_CONSUMABLE_OFFICE_STOCK);
+        return DB::table(self::VIEW_CONSUMABLE_STOCK);
     }
 
-    // 施設別消耗品在庫テーブル
-    public static function viewFacilityConsumablesStock()
+        
+    // 消耗品仕入テーブル
+    public static function viewConsumablesBuy()
     {
-        return DB::table(self::VIEW_CONSUMABLE_STOCK);
+        return DB::table(self::VIEW_CONSUMABLE_BUY);
     }
 
     // 納品テーブル

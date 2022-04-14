@@ -6,6 +6,7 @@ use App\Http\Controllers\SampleController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DeliverController;
+use App\Http\Controllers\BuyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,16 +41,17 @@ Route::get('/master_list/{consumables_category_code}', [MasterController::class,
 // マスタカテゴリ別一覧
 Route::post('/master_list/{consumables_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
 
-// 在庫一覧（本部）
-Route::get('/office_stock_list', [StockController::class, 'office_stock_list'])->name('office_stock_list');
-// 在庫カテゴリ別一覧（本部）
-Route::get('/office_stock_list/{consumables_category_code}', [StockController::class, 'office_stock_list_category'])->name('office_stock_list_category');
+// 在庫一覧
+Route::get('/stock_list', [StockController::class, 'stock_list'])->name('stock_list');
+// 在庫事業所別一覧
+Route::get('/stock_list/{office_code}', [StockController::class, 'facility_stock_list'])->name('facility_stock_list');
 
-// 在庫一覧（施設）
-Route::get('/facility_stock_list', [StockController::class, 'facility_stock_list'])->name('facility_stock_list');
-// 在庫カテゴリ別一覧（施設）
-Route::get('/facility_stock_list/{consumables_category_code}', [StockController::class, 'facility_stock_list_category'])->name('facility_stock_list_category');
-
+// 仕入一覧
+Route::get('/buy_list', [BuyController::class, 'buy_list'])->name('buy_list');
+// Route::get('/buy_list/{handy_reader_data}', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
+Route::post('/buy_list/{handy_reader_data}', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
+// カテゴリ別仕入一覧
+Route::get('/buy_list/{office_code}', [BuyController::class, 'cbuy_list_category'])->name('buy_list_category');
 
 // 納品一覧
 Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');

@@ -9,7 +9,7 @@
 		<table class="table table-striped table-bordered card-body" id="table">
 			<thead>
 				<tr>
-					<th class="text-center table-w text-nowrap">消耗品コード</th>
+					<th class="text-center table-w text-nowrap">消耗品バーコード</th>
 					<th class="text-center table-w text-nowrap">消耗品名</th>
 					<th class="text-center table-w text-nowrap">仕入れ単価</th>
 					<th class="text-center table-w text-nowrap">入数 / 単位</th>
@@ -55,27 +55,6 @@
                         -
                         @endif
                     </td>
-					{{-- <td class="">
-						<ul>
-							<li>
-								仕入単価：@if(!empty($data->number_unit_price)) {{ $data->number_unit_price }} 円 @else -@endif
-							</li>
-							<li>
-								入数/単位：{{ $data->quantity }} {{ $data->quantity_unit }} / {{ $data->number_unit }}
-							</li>
-							<li>
-								使用単位：@if($data->use_quantity == true) 入数 @else 個数 @endif
-							</li>
-							<li>
-								複数使用：@if($data->can_use_multiple == true) 可 @else 不可 @endif
-							</li>
-							<li>
-								最終交渉日：{{ $data->last_negotiation_date }}
-							</li>
-						</ul>
-					</td> --}}
-					<!-- <%* ボタン *%> -->
-					<!-- Button trigger modal -->
 					<td  style="40px">
 						<button type="button" class="btn btn-primary t-btn" data-bs-toggle="modal"
 							data-bs-target="#Edit{{ $data->consumables_code }}" style="40px">

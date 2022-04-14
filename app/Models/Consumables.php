@@ -174,4 +174,24 @@ class Consumables extends Model
             throw $e;
         }
     }
+
+    // // 仕入追加
+    // public static function insert_consumables_buy($handy_reader_data)
+    // {
+    //     try {
+    //         // 識別コードが複数ある場合はバーコードを配列に格納
+    //         $master_values = [
+    //             "消耗品コード" => $param['consumables_code'],
+    //             "仕入個数" => $param['consumables_name'],
+    //             "作成日時" => $param['number_unit'],
+    //             "更新日時" => now()
+    //         ];
+    //         return ConsumablesData::getConsumablesBuyData($handy_reader_data)->insert($values);
+    //     } catch (\Exception $e) {
+    //         ConsumablesData::rollback();
+    //         throw $e;
+    //     }
+    // }
+
+
 }
