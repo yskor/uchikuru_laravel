@@ -21,6 +21,7 @@
 		<div id="list" class="mt-3"><div class="row">
 	<div class="col">1 件</div>
 </div>
+<div class="modal_view" id="modal_view"></div>
 <table class="table table-striped" id="table">
 	<thead>
 		<tr class="table-scroll-fixed-top bg-white" style="">

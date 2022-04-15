@@ -48,8 +48,7 @@ Route::get('/stock_list/{office_code}', [StockController::class, 'facility_stock
 
 // 仕入一覧
 Route::get('/buy_list', [BuyController::class, 'buy_list'])->name('buy_list');
-// Route::get('/buy_list/{handy_reader_data}', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
-Route::post('/buy_list/{handy_reader_data}', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
+Route::post('/buy_consumables', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
 // カテゴリ別仕入一覧
 Route::get('/buy_list/{office_code}', [BuyController::class, 'cbuy_list_category'])->name('buy_list_category');
 

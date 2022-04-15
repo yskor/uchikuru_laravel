@@ -1,7 +1,6 @@
 <!-- Button trigger modal -->
-{{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-</button> --}}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#consumablesBuyModal" hidden>
+</button>
 
 <!-- Modal -->
 <div class="modal fade" id="consumablesBuyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -14,13 +13,36 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
-                    {{-- ここに読み取ったバーコードに紐づく消耗品を表示 --}}
+
+                    <div id="data" style="">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>消耗品コード</th>
+                                    <td>{{$consumables_buy_data->consumables_barcode}}</td>
+                                </tr>
+                                <tr>
+                                    <th>消耗品</th>
+                                    <td>{{$consumables_buy_data->consumables_name}}</td>
+                                </tr>
+                                <tr>
+                                    <th>入数/個数</th>
+                                    <td>{{$consumables_buy_data->quantity}}{{$consumables_buy_data->quantity_unit}}/{{$consumables_buy_data->number}}{{$consumables_buy_data->number_unit}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+                    <div class="form-group" id="buy-number-form-group">
+                        <label for="buy-number">仕入れ数 <span class="badge bg-danger">必須</span> </label>
+                        <input type="number" class="form-control" id="buy-number"><span>${number_unit}<span>
+                    </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="btn-close"
-                        data-bs-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">閉じる</button>
                     <button type="button" class="btn btn-primary" id="btn-do"><svg
                             class="svg-inline--fa fa-plus fa-w-14 fa-fw" aria-hidden="true" focusable="false"
                             data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg"

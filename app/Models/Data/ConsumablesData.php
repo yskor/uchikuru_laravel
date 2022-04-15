@@ -137,6 +137,15 @@ class ConsumablesData extends BaseData
     }
 
     /**
+     *　消耗品バーコードから消耗品を参照します。
+     * @param string $consumables_code
+     */
+    public static function viewConsumablesBarcode($consumables_barcode)
+    {
+        return ConsumablesTable::viewConsumablesIdMaster()->where('consumables_barcode', '=', $consumables_barcode)->first();
+    }
+
+    /**
      *　消耗品在庫テーブルから全てのデータを取得します。
      */
     public static function getOfficeConsumablesStockAll()

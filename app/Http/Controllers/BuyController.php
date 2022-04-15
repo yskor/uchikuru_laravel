@@ -65,30 +65,32 @@ class BuyController extends AuthController
 
     //
     /**
-     * 仕入一覧をを表示します。
+     * 読み込んだバーコードに紐づく消耗品を表示します。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function buy_consumables($handy_reader_data, Request $request)
+    public function buy_consumables(Request $request)
     {
         Log::debug(print_r($this->login, true));
+        $handy_reader_data = $request->handy_reader_data;
         // $handy_reader_dataとバーコードが一致するデータを参照
         // 仕入テーブルに追加
-        // $consumables_buy_data = ConsumablesData::viewConsumablesBuyData($handy_reader_data);
-        // dd($consumables_buy_data);
-        // $data = [
-        //     'consumables_buy_data' => $consumables_buy_data,
-        //     'login' => $this->login,
-        // ];
-            $data = 'コントローラ';
+        try {
+            $consumables_buy_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
+            
+        } catch (\Exception $e) {
+            $consumables_buy_data = "該当する消耗品がありません";
+        }
+        $data = [
+            'request' => $request,
+            'handy_reader_data' => $handy_reader_data,
+            'consumables_buy_data' => $consumables_buy_data,
+            'login' => $this->login,
+        ];
+        // echo($consumables_buy_data);
         
-        // return response()->json($consumables_buy_data);
+        // return self::jsonHtml($request, view('modal.buy_consumables', $data)->render());
         return response()->json($data);
     }
-    // public function getUsersBySearchName($userName)
-    // {
-    //     $data = 'コントローラ';
-    //     return response()->json($data);
-    // }
 
     // //
     // /**
