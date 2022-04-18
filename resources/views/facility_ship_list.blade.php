@@ -7,11 +7,11 @@
 <script>
 	$(function() {
 	
-	@foreach($consumables_stock_list as $data)
-	jQuery( '#qrcode-{{ $data->consumables_barcode }}' ).qrcode( {
-		width: 100,
-		height: 100,
-		text: "{{ $data->consumables_barcode }}",
+	@foreach($consumables_ship_list as $data)
+		jQuery( '#qrcode-{{ $data->consumables_barcode }}' ).qrcode( {
+			width: 100,
+			height: 100,
+			text: "{{ $data->consumables_barcode }}",
 		});
 	@endforeach
 
@@ -33,11 +33,11 @@
 {{-- メインコンテンツ --}}
 @section('main')
 <!-- カテゴリセレクタ -->
-@include("include/stock_list_category")
+@include("include/ship_list_category")
 
 
 {{-- 一覧表テーブル --}}
-@include("include/stock_list_table")
+@include("include/ship_list_table")
 
 @endsection
 

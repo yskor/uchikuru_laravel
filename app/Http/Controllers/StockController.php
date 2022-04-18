@@ -38,7 +38,7 @@ class StockController extends AuthController
             // 'consumables_all' => $consumables_all,
             'consumables_category_all' => $consumables_category_all,
             'login' => $this->login,
-            'consumables_category_code' => 'all'
+            'office_code' => 'all'
         ];
         
         return self::view($request, 'stock_list', $data);
@@ -58,19 +58,19 @@ class StockController extends AuthController
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
-        // 対象の消耗品データを取得＊バーコードが増えた時に対応できていない
-        $consumables_all = ConsumablesData::viewFacilityConsumablesStockList($office_code);
+        // 対象事業所とアシストの消耗品在庫データを取得＊バーコードが増えた時に対応できていない
+        $consumables_stock_list = ConsumablesData::viewFacilityConsumablesStockList($office_code);
         
         // カテゴリデータを全て取得
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
         // dd($facility_stock_list, $consumables_stock_all);
         
         $data = [
-            'facility_all' => $facility_all,
-            'consumables_all' => $consumables_all,
-            'consumables_category_all' => $consumables_category_all,
+            'facility_all' => $facility_all, //全ての事業所データ
+            'consumables_stock_list' => $consumables_stock_list, //対象の事業所在庫
+            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
             'login' => $this->login,
-            'office_code' => $office_code
+            'office_code' => $office_code //事業所コード
         ];
         // dd($data);
         return self::view($request, 'facility_stock_list', $data);
@@ -94,34 +94,19 @@ class StockController extends AuthController
 
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewOfficeAll();
-        // dd($facility_all);
-        // 消耗品在庫テーブルを参照
-        $consumables_stock_all = ConsumablesData::viewFacilityConsumablesStockAll();
 
-        $facility_stock_list = array();
+        // $facility_stock_list = ConsumablesData::viewFacilityConsumablesStockList($office_code);
 
-        // 事業所ごとにデータを配列に格納
-        // foreach ($facility_all as $facility) {
-        //     $facility_stock = ConsumablesData::viewThisFacilityConsumablesStockAll($facility->facility_name);
-        //     if ($facility_stock == []) {
-        //         $facility_stock == "";
-        //     }
-        //     $facility_stock_list[$facility->facility_name] = $facility_stock;
-        // }
-        // $test = $facility_stock_list['高岡'];
 
         // カテゴリデータを全て取得
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-        // dd($facility_stock_list, $consumables_stock_all);
         
         $data = [
-            'facility_stock_list' => $facility_stock_list,
-            'facility_all' => $facility_all,
-            'consumables_stock_all' => $consumables_stock_all,
+            'facility_all' => $facility_all, //全ての事業所データ
             'consumables_category_all' => $consumables_category_all,
             'category_consumables_all' => $category_consumables_all,
             'login' => $this->login,
-            'consumables_category_code' => $consumables_category_code
+            'consumables_category_code' => $consumables_category_code //消耗品コード
         ];
             
             return self::view($request, 'facility_stock_list_category', $data);

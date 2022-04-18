@@ -3,7 +3,7 @@
     <div class="card-body">
 
         <div class="mb-3" id="search-carehome">
-            <div class="mb-3" id="facility-area">
+            {{-- <div class="mb-3" id="facility-area">
                 <div class="input-group w-100">
                     <label class="input-group-text">施設地域</label>
                     <input type="radio" class="btn-check" name="search-carehome-facility-area"
@@ -29,7 +29,7 @@
                     });
 
                 </script>
-            </div>
+            </div> --}}
             <div id="facilitys">
                 <div class="input-group w-100">
                     @if ($consumables_category_code == 'all')

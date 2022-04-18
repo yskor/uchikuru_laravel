@@ -42,12 +42,12 @@
 					<!-- <i class="fas text-white menu-icon-size fa-fw fa-building"></i> Font Awesome fontawesome.com -->
 				</div>
 				<div class="p-2">
-					在庫表
+					本部在庫
 				</div>
 			</a>
 		</div>
 		<div class="col-6 col-md-3 user_menu text-center mb-5">
-			<a href="https://uchipo.com/test_uchikuru_hori/consumables_ship">
+			<a href="{{route('buy_list')}}">
 				<div class="user_menu_icon d-flex align-items-center justify-content-center">
 					<svg class="svg-inline--fa fa-truck fa-w-20 text-white menu-icon-size fa-fw" aria-hidden="true"
 						focusable="false" data-prefix="fas" data-icon="truck" role="img"
@@ -59,25 +59,41 @@
 					<!-- <i class="fas text-white menu-icon-size fa-fw fa-truck"></i> Font Awesome fontawesome.com -->
 				</div>
 				<div class="p-2">
-					在庫<br>
-					在庫が少ない施設
+					本部仕入れ<br>
 				</div>
 			</a>
 		</div>
 		<div class="col-6 col-md-3 user_menu text-center mb-5">
-			<a href="https://uchipo.com/test_uchikuru_hori/consumables_adjust">
+			<a href="{{route('ship_list')}}">
 				<div class="user_menu_icon d-flex align-items-center justify-content-center">
-					<svg class="svg-inline--fa fa-arrows-alt-v fa-w-20 text-white menu-icon-size fa-fw"
-						aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrows-alt-v" role="img"
-						xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg="">
+					<svg class="svg-inline--fa fa-truck fa-w-20 text-white menu-icon-size fa-fw" aria-hidden="true"
+						focusable="false" data-prefix="fas" data-icon="truck" role="img"
+						xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">
 						<path fill="currentColor"
-							d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z">
+							d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z">
 						</path>
 					</svg>
-					<!-- <i class="fas text-white menu-icon-size fa-fw fa-arrows-alt-v"></i> Font Awesome fontawesome.com -->
+					<!-- <i class="fas text-white menu-icon-size fa-fw fa-truck"></i> Font Awesome fontawesome.com -->
 				</div>
 				<div class="p-2">
-					在庫調整
+					本部出荷
+				</div>
+			</a>
+		</div>
+		<div class="col-6 col-md-3 user_menu text-center mb-5">
+			<a href="{{route('deliver_list')}}">
+				<div class="user_menu_icon d-flex align-items-center justify-content-center">
+					<svg class="svg-inline--fa fa-truck fa-w-20 text-white menu-icon-size fa-fw" aria-hidden="true"
+						focusable="false" data-prefix="fas" data-icon="truck" role="img"
+						xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">
+						<path fill="currentColor"
+							d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z">
+						</path>
+					</svg>
+					<!-- <i class="fas text-white menu-icon-size fa-fw fa-truck"></i> Font Awesome fontawesome.com -->
+				</div>
+				<div class="p-2">
+					施設納品
 				</div>
 			</a>
 		</div>

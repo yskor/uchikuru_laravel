@@ -19,6 +19,7 @@ class ConsumablesTable extends BaseTable
     const TABLE_CONSUMABLE_BUY = '消耗品仕入テーブル';
     const TABLE_CONSUMABLE_MOVEMENT = "消耗品変動テーブル";
     const TABLE_CONSUMABLE_MOVEMENT_STATUS_HISTORY = "消耗品変動状態履歴テーブル";
+    const TABLE_CONSUMABLE_SHIP = "消耗品出荷テーブル";
     const TABLE_CONSUMABLE_DELIVER = "消耗品配送中件数";
 
     const VIEW_STAFF_MASTER = "VIEW_" . self::TABLE_STAFF_MASTER;
@@ -27,6 +28,7 @@ class ConsumablesTable extends BaseTable
     const VIEW_CONSUMABLE_CATEGORY_MASTER = "VIEW_" . self::TABLE_CONSUMABLE_CATEGORY_MASTER;
     const VIEW_CONSUMABLE_STOCK = "VIEW_". self::TABLE_CONSUMABLE_STOCK;
     const VIEW_CONSUMABLE_BUY = "VIEW_". self::TABLE_CONSUMABLE_BUY;
+    const VIEW_CONSUMABLE_SHIP = "VIEW_". self::TABLE_CONSUMABLE_SHIP;
     const VIEW_CONSUMABLE_MOVEMENT = "VIEW_消耗品変動テーブル";
     const VIEW_CONSUMABLE_MOVEMENT_STATUS_HISTORY = "VIEW_消耗品変動状態履歴テーブル";
     const VIEW_CONSUMABLE_DELIVER = "VIEW_消耗品配送中件数";
@@ -61,6 +63,12 @@ class ConsumablesTable extends BaseTable
     {
         return DB::table(self::TABLE_CONSUMABLE_BUY);
     }
+    
+    // 消耗品出荷テーブル
+    public static function tableConsumablesShip()
+    {
+        return DB::table(self::TABLE_CONSUMABLE_SHIP);
+    }
 
     // DB参照用
     // 消耗品マスタ
@@ -93,6 +101,12 @@ class ConsumablesTable extends BaseTable
     public static function viewConsumablesBuy()
     {
         return DB::table(self::VIEW_CONSUMABLE_BUY);
+    }
+
+    // 出荷テーブル
+    public static function viewConsumablesShip()
+    {
+        return DB::table(self::VIEW_CONSUMABLE_SHIP);
     }
 
     // 納品テーブル

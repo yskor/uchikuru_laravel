@@ -187,13 +187,40 @@ class ConsumablesData extends BaseData
      */
     public static function viewFacilityConsumablesStockList($office_code)
     {
-        // $office_stock = ConsumablesTable::viewOfficeConsumablesStock()->where('office_code', '=', $office_code);
-        // return ConsumablesTable::viewConsumablesIdMaster()->leftJoin($office_stock, 'VIEW_消耗品識別マスタ.consumables_code', '=', 'VIEW_消耗品在庫テーブル.consumables_code');
         return DB::select("SELECT *
                         FROM dbo.VIEW_消耗品識別マスタ AS m
-                        LEFT JOIN (SELECT * FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.consumables_code = $office_code) AS s
-                        ON s.consumables_code = m.consumables_code");
+                        LEFT JOIN 
+						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
+								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as f_stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS s
+                        ON s.consumables_code = m.consumables_code
+						LEFT JOIN
+						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
+								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
+                        ON a.consumables_code = m.consumables_code");
     
+    }
+    
+
+    /**
+     * 消耗品コードから消耗品を参照します。
+     * @param int $consumables_category_code
+     * @return unknown
+     */
+    public static function viewConsumablesStockData($consumables_code)
+    {
+        return ConsumablesTable::viewOfficeConsumablesStock()->where('consumables_code', '=',$consumables_code)->first();
+    }
+
+    /**
+     * 消耗品コードから消耗品を取得します。
+     * @param int $consumables_category_code
+     * @return unknown
+     */
+    public static function getConsumablesStockData($consumables_code)
+    {
+        return ConsumablesTable::tableOfficeConsumablesStock()->where('消耗品コード', '=',$consumables_code);
     }
 
         
@@ -206,13 +233,36 @@ class ConsumablesData extends BaseData
     // 消耗品仕入テーブル
     public static function viewConsumablesBuyAll()
     {
-        return ConsumablesTable::viewConsumablesBuy()->get();
+        return ConsumablesTable::viewConsumablesBuy()->orderBy('created_at', 'desc')->get();
+    }
+        
+    // 消耗品カテゴリコードから消耗品データを取得
+    /**
+    * @param int $consumables_buy_code
+    */
+    public static function viewConsumablesCategoryBuyAll($consumables_category_code)
+    {
+        return ConsumablesTable::viewConsumablesBuy()->where('consumables_category_code', '=', $consumables_category_code)->get();
     }
         
     // 消耗品仕入コードから消耗品データを取得
+    /**
+    * @param int $consumables_buy_code
+    */
     public static function viewConsumablesBuyData($consumables_buy_data)
     {
         return ConsumablesTable::viewConsumablesBuy()->where('consumable_barcode', '=', $consumables_buy_data)->get();
     }
+
+    /**
+     * 指定された事業所コードから消耗品出荷一覧を取得します。
+     * @param int $office_code
+     * @return unknown
+     */
+    public static function viewFacilityConsumablesShipList($office_code)
+    {
+        return ConsumablesTable::viewConsumablesShip()->where('ship_office', '=', $office_code)->get();
+    }
+    
 
 }

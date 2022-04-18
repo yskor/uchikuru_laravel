@@ -19,21 +19,22 @@
 			</div>
 		</div>
 		<div id="list" class="mt-3"><div class="row">
-	<div class="col">1 件</div>
+	{{-- <div class="col">1 件</div> --}}
 </div>
 <div class="modal_view" id="modal_view"></div>
-<table class="table table-striped" id="table">
+<table class="table table-striped table-bordered" id="table">
 	<thead>
 		<tr class="table-scroll-fixed-top bg-white" style="">
 			<th class="text-center table-w text-nowrap"></th>
-			<th class="text-center table-w text-nowrap">消耗品バーコード</th>
-			<th class="text-center table-w text-nowrap">写真</th>
+			{{-- <th class="text-center table-w text-nowrap">消耗品バーコード</th> --}}
+			<th class="text-center text-nowrap" style="width: 300px">消耗品</th>
 			<th class="text-center table-w text-nowrap">入数/個数</th>
+			<th class="text-center table-w text-nowrap">仕入数</th>
 			<th class="text-center table-w text-nowrap">仕入日</th>
 			<th class="text-center table-w text-nowrap">状態</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody id="buy-table">
 		@foreach ($consumables_buy_all as $data)
 			<tr data-code="{{$data->consumables_code}}">
 				<td class="text-center table-w">
@@ -42,14 +43,14 @@
 					</button>
 				</td>
 				<!-- <%* 消耗品コード *%> -->
-				<td class="text-center table-w">
+				{{-- <td class="text-center table-w">
 					<div class="mb-2">{{ $data->consumables_barcode }}</div>
-					<div id="qrcode-{{$data->consumables_barcode }}" data-bs-toggle="tooltip" data-bs-placement="top"
+					<div id="qrcode-{{ $data->buy_code }}-{{$data->consumables_barcode }}" data-bs-toggle="tooltip" data-bs-placement="top"
 						title="右クリックで保存できます。"></div>
-				</td>
+				</td> --}}
 				<!-- <%* 消耗品名 *%> -->
-				<td class="text-center table-w">
-					<div class="mb-2 text-truncate table-w">{{ $data->consumables_name }}</div>
+				<td class="text-center">
+					<div class="mb-2">{{ $data->consumables_name }}</div>
 					<!-- <%* 画像 *%> -->
 					@if(!empty( $data->image_file_extension))
 					<div><img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
@@ -58,6 +59,8 @@
 				</td>
 				<!-- <%* 入数 / 単位 *%> -->
 				<td class="text-center table-w">{{ $data->quantity }} {{ $data->quantity_unit }} / {{ $data->number_unit }}</td>
+				<!-- <%* 仕入数量 *%> -->
+				<td class="text-center table-w">{{ $data->buy_quantity }} {{ $data->number_unit }}</td>
 				<!-- 仕入日 -->
 				<td class="text-center table-w">{{ $data->created_at }}</td>
 				<!-- 状態 -->

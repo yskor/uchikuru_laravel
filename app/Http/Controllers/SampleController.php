@@ -62,4 +62,17 @@ class SampleController extends AuthController
         
         return self::jsonHtml($request, self::view($request, 'sample_html', $data)->render());
     }
+
+    // テスト用
+    public function test_html(Request $request)
+    {
+        $request->all();
+        
+        // アシストを取得
+        $office = Office::getOffice($request->office_code);
+        
+        $data = ['office' => $office];
+        
+        return self::jsonHtml($request, self::view($request, 'sample_html', $data)->render());
+    }
 }

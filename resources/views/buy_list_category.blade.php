@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '消耗品仕入画面')
+@section('title', 'サンプルページ')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -40,6 +40,12 @@
 {{-- 一覧表テーブル --}}
 @include("include/buy_list_table")
 
+{{-- モーダル --}}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary mb-2" id="" data-bs-toggle="modal" data-bs-target="#AddModal">
+	<i class="fas fa-plus fa-fw"></i>追加
+</button>
+@include("modal/add_consumables_master_modal")
 
 @endsection
 
@@ -65,9 +71,7 @@
 			setTimeout( function() {
 				console.log("リセット");
 				handy_reader_data = "";
-				$('#consumablesBuyModal').modal('hide');
-				$('#consumablesBuyModal').remove()
-			}, 2000 );
+			}, 3000 );
 		}
 	
 		if( event.keyCode == 13 && handy_reader_data != "" ) {
@@ -82,57 +86,25 @@
 				dataType: 'json', //json形式で受け取る
 
 			}).done((res)=>{
-				var add_consumables = '';
-				var consumables_buy_data = res.consumables_buy_data;
-				$('#modal_view').html(res.html); //できあがったテンプレートをビューに追加
-				$('#consumablesBuyModal').modal("show");
-				var add_consumables = 
-				`
-				<tr data-code="${consumables_buy_data.consumables_code}">
-					<td class="text-center table-w">
-						<button type="button" class="btn btn-primary btn-sm" id="btn-info" data-code="511045" data-management-office-code="" data-carehome-office-code="">
-							詳細
-						</button>
-					</td>
-					<!-- <%* 消耗品コード *%> -->
-					<td class="text-center table-w">
-						<div class="mb-2">${consumables_buy_data.consumables_barcode }</div>
-						<div id="qrcode-${consumables_buy_data.buy_code }-${consumables_buy_data.consumables_barcode}" data-bs-toggle="tooltip" data-bs-placement="top"
-							title="右クリックで保存できます。"></div>
-					</td>
-					<!-- <%* 消耗品名 *%> -->
-					<td class="text-center table-w">
-						<div class="mb-2 text-truncate table-w">${consumables_buy_data.consumables_name}</div>
-						<!-- <%* 画像 *%> -->
-						<div><img src="{{asset('upload/consumables/${consumables_buy_data.image_file_extension}')}}"
-								style="width:100px;height:100px;"></div>
-					</td>
-					<!-- <%* 入数 / 単位 *%> -->
-					<td class="text-center table-w">${consumables_buy_data.quantity } ${consumables_buy_data.quantity_unit } / ${consumables_buy_data.number_unit }</td>
-					<!-- 仕入日 -->
-					<td class="text-center table-w">${consumables_buy_data.created_at}</td>
-					<!-- 状態 -->
-					<td class="text-center table-w"></td>
-					<td class="text-center table-w">テスト</td>
-				</tr>
-				`
-				$('#buy-table').prepend(add_consumables); //できあがったテンプレートをtbodyの子要素の先頭に追加
-				$(function() {
-					jQuery( `#qrcode-${consumables_buy_data.buy_code}-${consumables_buy_data.consumables_barcode}` ).qrcode( {
-						width: 100,
-						height: 100,
-						text: `${consumables_buy_data.consumables_barcode}`,
-						});
-				})
-				// setTimeout( function() {
-				// 	$('#consumablesBuyModal').remove();
-				// }, 3000 );
+				// let html = '';
 				console.log('成功しました')
-				
+				// console.log(res)
+				$('#modal_view').html(res.html); //できあがったテンプレートをビューに追加
+				// 検索結果がなかったときの処理
+				// if (res.$consumables_buy_data == 0) {
+				// 	html = `<p class="text-center">該当する消耗品がありません</p>`
+				// 	$('#modal_view').html(html);
+				// }
+				$('#consumablesBuyModal').modal("show");
+
+			// }).fail(function () {
 			}).fail((error)=>{
 				//ajax通信がエラーのときの処理
 				console.log('どんまい！');
 			})
+			//以下は後述
+			// $('#consumablesBuyModal').removeClass('modal fade');
+
 			handy_reader_data = "";
 		} else if( event.keyCode != 13 && $.inArray( event.keyCode, ignore_keyCodes ) == -1 ) {
 			// Enterキーまたは無視するキー以外が押された

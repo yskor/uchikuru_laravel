@@ -33,15 +33,15 @@
             <div id="facilitys">
                 <div class="input-group w-100">
                     @if ($office_code == 'all')
-                    <a class="btn btn-success" href="{{route('stock_list')}}" id="search-carehome-facility-code-all">すべて</a>
+                    <a class="btn btn-success" href="{{route('ship_list')}}" id="search-carehome-facility-code-all">すべて</a>
                     @else
-                    <a class="btn btn-outline-success" href="{{route('stock_list')}}" id="search-carehome-facility-code-all">すべて</a>
+                    <a class="btn btn-outline-success" href="{{route('ship_list')}}" id="search-carehome-facility-code-all">すべて</a>
                     @endif
                     @foreach ($facility_all as $facility)
                         @if ($office_code == $facility->office_code)
-                        <a class="btn btn-success" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-success" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @else
-                        <a class="btn btn-outline-success" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-outline-success" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @endif
                     @endforeach
                 </div>

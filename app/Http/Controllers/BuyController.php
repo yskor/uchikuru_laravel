@@ -44,14 +44,14 @@ class BuyController extends AuthController
      * カテゴリ別の仕入一覧をを表示します。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function buy_list_category(Request $request)
+    public function buy_list_category($consumables_category_code, Request $request)
     {
         Log::debug(print_r($this->login, true));
         
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-        // 消耗品仕入データを参照
-        $consumables_buy_all = ConsumablesData::viewConsumablesBuyAll();
+        // 消耗品カテゴリデータと紐づく仕入データを参照
+        $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuyAll($consumables_category_code);
         
         $data = [
             'consumables_category_all' => $consumables_category_all,
@@ -63,7 +63,7 @@ class BuyController extends AuthController
         return self::view($request, 'buy_list_category', $data);
     }
 
-    //
+    
     /**
      * 読み込んだバーコードに紐づく消耗品を表示します。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
@@ -71,57 +71,98 @@ class BuyController extends AuthController
     public function buy_consumables(Request $request)
     {
         Log::debug(print_r($this->login, true));
+        // バーコードリーダーで読み取った数字を取得
         $handy_reader_data = $request->handy_reader_data;
+        $buy_quantity = 1; //仕入数量
+
         // $handy_reader_dataとバーコードが一致するデータを参照
-        // 仕入テーブルに追加
-        try {
-            $consumables_buy_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
-            
-        } catch (\Exception $e) {
-            $consumables_buy_data = "該当する消耗品がありません";
+        $consumables_buy_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
+        if ($consumables_buy_data) {
+            // 在庫を増やす
+            Consumables::insert_consumables_buy($buy_quantity, $consumables_buy_data->consumables_code);
+        } else {
+            $consumables_buy_data = 0;
         }
+        // データに渡したいデータを格納
         $data = [
             'request' => $request,
             'handy_reader_data' => $handy_reader_data,
             'consumables_buy_data' => $consumables_buy_data,
             'login' => $this->login,
         ];
-        // echo($consumables_buy_data);
+        // htmlを作成
+        $html = view('modal.buy_consumables', $data)->render();
         
-        // return self::jsonHtml($request, view('modal.buy_consumables', $data)->render());
-        return response()->json($data);
+        // htmlとデータをJson形式で返す
+        return self::jsonHtml($request, $html, $data);
     }
-
-    // //
-    // /**
-    //  * 仕入一覧をを表示します。
-    //  * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-    //  */
-    // public function buy_consumables($handy_reader_data, Request $request)
-    // {
-    //     Log::debug(print_r($this->login, true));
-        
-    //     // POSTの値を全て受け取る
-    //     $param = $request->all();
-
-    //     // 消耗品カテゴリデータを取得
-    //     $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-    //     // 消耗品仕入データを参照
-    //     $consumables_buy_all = ConsumablesData::viewConsumablesBuyAll();
-        
-    //     // $handy_reader_dataとバーコードが一致するデータを参照
-    //     $consumables_buy_data = ConsumablesData::viewConsumablesBuyData($handy_reader_data);
-    //     // 仕入テーブルに追加
-    //     Consumables::insert_consumables_buy($handy_reader_data);
     
-    //     $data = [
-    //         'consumables_category_all' => $consumables_category_all,
-    //         'consumables_buy_all' => $consumables_buy_all,
-    //         'login' => $this->login,
-    //         'consumables_category_code' => 'all'
-    //     ];
+// テスト用
+    //
+    /**
+     * 仕入一覧をを表示します。
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function buy_list_test(Request $request)
+    {
+        Log::debug(print_r($this->login, true));
+
+        // 消耗品カテゴリデータを取得
+        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        // 消耗品仕入データを参照
+        $consumables_buy_all = ConsumablesData::viewConsumablesBuyAll();
+
+        $data = [
+            'consumables_category_all' => $consumables_category_all,
+            'consumables_buy_all' => $consumables_buy_all,
+            'login' => $this->login,
+            'consumables_category_code' => 'all'
+        ];
         
-    //     return self::view($request, 'buy_list', $data);
-    // }
+        return self::view($request, 'buy_list_test', $data);
+    }
+    /**
+     * 読み込んだバーコードに紐づく消耗品を表示します。
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function buy_consumables_test(Request $request)
+    {
+        // 消耗品カテゴリデータを取得
+        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        // 消耗品仕入データを参照
+        $consumables_buy_all = ConsumablesData::viewConsumablesBuyAll();
+
+        Log::debug(print_r($this->login, true));
+        $param = $request->all();
+        // バーコードリーダーで読み取った数字を取得
+
+        $handy_reader_data = $param['consumables_barcode'];
+        // dd($param, $handy_reader_data);
+        $buy_quantity = 1; //仕入数量
+
+        // $handy_reader_dataとバーコードが一致するデータを参照
+        $consumables_buy_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
+        if ($consumables_buy_data) {
+            // 在庫を増やす
+            Consumables::insert_consumables_buy($buy_quantity, $consumables_buy_data->consumables_code);
+        } else {
+            $consumables_buy_data = 0;
+        }
+        // dd($consumables_buy_data);
+
+        // データに渡したいデータを格納
+        $data = [
+            'handy_reader_data' => $handy_reader_data,
+            'consumables_buy_data' => $consumables_buy_data,
+            'consumables_category_all' => $consumables_category_all,
+            'consumables_buy_all' => $consumables_buy_all,
+            'login' => $this->login,
+            'consumables_category_code' => 'all'
+        ];
+
+        // dd($data);
+        
+        return self::view($request, 'buy_list_test', $data);
+    }
 
 }

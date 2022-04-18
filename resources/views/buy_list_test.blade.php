@@ -41,6 +41,12 @@
 @include("include/buy_list_table")
 
 
+<form action="{{route('buy_consumables_test')}}" method="post">
+	@csrf
+	<input type="text" name="consumables_barcode" id="">
+	<button type="submit">送信</button>
+</form>
+
 @endsection
 
 {{-- フッター --}}
@@ -63,11 +69,11 @@
 		if( handy_reader_data == "" ) {
 			// 1文字目が入力されてから 3 秒間、入力が無かったらリセット
 			setTimeout( function() {
+				// $('#modal_view').remove()
+				// $('#consumablesBuyModal').modal('hide');
 				console.log("リセット");
 				handy_reader_data = "";
-				$('#consumablesBuyModal').modal('hide');
-				$('#consumablesBuyModal').remove()
-			}, 2000 );
+			}, 3000 );
 		}
 	
 		if( event.keyCode == 13 && handy_reader_data != "" ) {
@@ -82,57 +88,19 @@
 				dataType: 'json', //json形式で受け取る
 
 			}).done((res)=>{
-				var add_consumables = '';
-				var consumables_buy_data = res.consumables_buy_data;
+				// let html = '';
+				console.log('成功しました')
+				// console.log(res)
 				$('#modal_view').html(res.html); //できあがったテンプレートをビューに追加
 				$('#consumablesBuyModal').modal("show");
-				var add_consumables = 
-				`
-				<tr data-code="${consumables_buy_data.consumables_code}">
-					<td class="text-center table-w">
-						<button type="button" class="btn btn-primary btn-sm" id="btn-info" data-code="511045" data-management-office-code="" data-carehome-office-code="">
-							詳細
-						</button>
-					</td>
-					<!-- <%* 消耗品コード *%> -->
-					<td class="text-center table-w">
-						<div class="mb-2">${consumables_buy_data.consumables_barcode }</div>
-						<div id="qrcode-${consumables_buy_data.buy_code }-${consumables_buy_data.consumables_barcode}" data-bs-toggle="tooltip" data-bs-placement="top"
-							title="右クリックで保存できます。"></div>
-					</td>
-					<!-- <%* 消耗品名 *%> -->
-					<td class="text-center table-w">
-						<div class="mb-2 text-truncate table-w">${consumables_buy_data.consumables_name}</div>
-						<!-- <%* 画像 *%> -->
-						<div><img src="{{asset('upload/consumables/${consumables_buy_data.image_file_extension}')}}"
-								style="width:100px;height:100px;"></div>
-					</td>
-					<!-- <%* 入数 / 単位 *%> -->
-					<td class="text-center table-w">${consumables_buy_data.quantity } ${consumables_buy_data.quantity_unit } / ${consumables_buy_data.number_unit }</td>
-					<!-- 仕入日 -->
-					<td class="text-center table-w">${consumables_buy_data.created_at}</td>
-					<!-- 状態 -->
-					<td class="text-center table-w"></td>
-					<td class="text-center table-w">テスト</td>
-				</tr>
-				`
-				$('#buy-table').prepend(add_consumables); //できあがったテンプレートをtbodyの子要素の先頭に追加
-				$(function() {
-					jQuery( `#qrcode-${consumables_buy_data.buy_code}-${consumables_buy_data.consumables_barcode}` ).qrcode( {
-						width: 100,
-						height: 100,
-						text: `${consumables_buy_data.consumables_barcode}`,
-						});
-				})
-				// setTimeout( function() {
-				// 	$('#consumablesBuyModal').remove();
-				// }, 3000 );
-				console.log('成功しました')
 				
 			}).fail((error)=>{
 				//ajax通信がエラーのときの処理
 				console.log('どんまい！');
 			})
+			// setTimeout( function() {
+			// 	$('#consumablesBuyModal').remove();
+			// }, 3000 );
 			handy_reader_data = "";
 		} else if( event.keyCode != 13 && $.inArray( event.keyCode, ignore_keyCodes ) == -1 ) {
 			// Enterキーまたは無視するキー以外が押された

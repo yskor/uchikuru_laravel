@@ -11,7 +11,7 @@
 				<div class="modal-body">
 					@csrf
 					<div class="form-group" id="consumables-code-form-group">
-						<label for="consumables-code">消耗品コード (バーコード) <span class="badge bg-danger">必須</span> </label>
+						<label for="consumables-code">消耗品バーコード<span class="badge bg-danger">必須</span> </label>
 						<input type="text" class="form-control" name="consumables_code" id="consumables-code" required>
 						<div id="consumables-code-feedback" class="invalid-feedback"></div>
 					</div>
