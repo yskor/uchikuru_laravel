@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '出荷画面')
+@section('title', '施設納品')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -18,15 +18,14 @@
 
 {{-- メインコンテンツ --}}
 @section('main')
-<!-- カテゴリセレクタ -->
-@include("include/deliver_list_category")
 
-{{-- 一覧表テーブル --}}
-@include("include/deliver_list_table")
+{{-- 納品一覧表テーブル --}}
+@include('include/deliver_list_table')
+{{-- @include('modal/qrreader') --}}
 
-<form action="{{route('deliver_consumables_test')}}" method="post">
+<form action="{{route('deliver_consumables')}}" method="post">
 	@csrf
-	<input type="text" name="consumables_barcode" id="">
+	<input type="text" name="qrcode" id="">
 	<button type="submit">送信</button>
 </form>
 
@@ -40,81 +39,47 @@
 @section('script')
 @include('_sample')
 
-{{-- バーコード読み取り --}}
-<script>
-
-	var handy_reader_data = "";
-	var ship = 0;
-	// 無視するキーコード
-	const ignore_keyCodes = [ 16, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123 ];
-
-	$(document).on( "keyup", function( event ) {
-		console.log(event.keyCode + " : " + event.key);
+<script type="text/javascript">
+	$(function() {
+	
+		var list = $( "#list" );
+		var modal = $( "#modal" );
 		
-		if( handy_reader_data == "" ) {
-			// 1文字目が入力されてから 3 秒間、入力が無かったらリセット
-			setTimeout( function() {
-				console.log("リセット");
-				handy_reader_data = "";
-				// $('#consumablesShipModal').modal('hide');
-				// $('#consumablesShipModal').remove()
-			}, 3000 );
-		}
-	
-		if( event.keyCode == 13 && handy_reader_data != "" ) {
-			// Enterキーが押された
-			console.log(handy_reader_data);
-			
-			if(ship == 1) {
-				// モーダルが既にあればモーダルに追加
-				$.ajax({
-					type: 'POST',
-					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
-					data: {
-						'handy_reader_data': handy_reader_data, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
-					},
-					dataType: 'json', //json形式で受け取る
-	
-				}).done((res)=>{
-					$('#consumablesShipModal').modal("show");
-					var consumables_ship_data = res.consumables_ship_data;
-					$('#ships').append(res.html); //できあがったテンプレートをビューに追加
-					console.log(res)
-					console.log('成功しました')
-				}).fail((error)=>{
-					//ajax通信がエラーのときの処理
-					console.log('どんまい！');
-				})
-				handy_reader_data = "";
-			} else if (ship == 0) {
-				$.ajax({
-					type: 'POST',
-					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
-					data: {
-						'handy_reader_data': handy_reader_data, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
-					},
-					dataType: 'json', //json形式で受け取る
-	
-				}).done((res)=>{
-					var consumables_ship_data = res.consumables_ship_data;
-					$('#ships').html(res.html); //できあがったテンプレートをビューに追加
-					$('#consumablesShipModal').modal("show");
-					console.log(res)
-					console.log('成功しました')
-					
-				}).fail((error)=>{
-					//ajax通信がエラーのときの処理
-					console.log('どんまい！');
-				})
-				handy_reader_data = "";
-				ship = 1;
-			}
-			
+		// 一覧の「納品」ボタンがクリックされた
+		// list.on( "click-btn-deliver", function( event, id ) {
+		// 	modal.data( "id" , id );
+		// 	modal.modal( "show" );
+		// 	console.log('ここからajax')
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: "{{route('qrreader')}}", //後述するweb.phpのURLと同じ形にする
+		// 		data: {
+		// 				//ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
+		// 		},
+		// 		dataType: 'json', //json形式で受け取る
 
-		} else if( event.keyCode != 13 && $.inArray( event.keyCode, ignore_keyCodes ) == -1 ) {
-			// Enterキーまたは無視するキー以外が押された
-			handy_reader_data += event.key;
-		}
+		// 	}).done((res)=>{
+		// 		$('#qr').html(res.html); //できあがったテンプレートをビューに追加
+		// 		// $('#consumablesShipModal').modal("show");
+		// 		console.log(res)
+		// 		console.log('成功しました')
+				
+		// 	}).fail((error)=>{
+		// 		//ajax通信がエラーのときの処理
+		// 		console.log('どんまい！');
+		// 	})
+		// 	console.log('ajax通ってる')
+		// });
+		
+		// 納品処理が完了
+		modal.on( "done", function( event, message ) {
+			$(this).modal( "hide" );
+		});
+		
+		// modal.on( "hidden.bs.modal", function() {
+		// 	reload();
+		// });
+	
 	});
 	
 </script>

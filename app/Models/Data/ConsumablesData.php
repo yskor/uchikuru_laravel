@@ -286,4 +286,16 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesShip()->where('office_code_to', '=', $office_code_to)->get();
     }
+
+    /**
+     * 出荷先事業所コード,消耗品コードから消耗品を取得します。
+     * @param int $office_code, 
+     * @return unknown
+     */
+    public static function viewFacilityConsumablesShip($office_code, $consumables_code)
+    {
+        return ConsumablesTable::viewConsumablesShip()
+            ->where('office_code_to', '=', $office_code)
+            ->where('consumables_code', '=', $consumables_code)->first();
+    }
 }

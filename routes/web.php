@@ -70,3 +70,6 @@ Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_s
 
 // 納品一覧
 Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
+// 納品一覧
+Route::POST('/qrreader', [DeliverController::class, 'qrreader'])->name('qrreader');
+Route::POST('/deliver_consumables', [DeliverController::class, 'deliver_consumables'])->name('deliver_consumables');

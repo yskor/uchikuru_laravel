@@ -26,11 +26,11 @@
 {{-- @include("include/ship_add") --}}
 <div id="ship-add"></div>
 
-<form action="{{route('ship_consumables_test')}}" method="post">
+{{-- <form action="{{route('ship_consumables_test')}}" method="post">
 	@csrf
 	<input type="text" name="consumables_barcode" id="">
 	<button type="submit">送信</button>
-</form>
+</form> --}}
 
 @endsection
 

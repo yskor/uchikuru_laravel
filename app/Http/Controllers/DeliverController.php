@@ -21,12 +21,59 @@ class DeliverController extends AuthController
     {
         Log::debug(print_r($this->login, true));
 
-        // データを取得
-        $deliver_list = Consumables::getConsumablesDeliver();
-        // dd($consumables_list);
-
-        $data = ['deliver_list' => $deliver_list, 'login' => $this->login];
+        $office_code = $this->login->office_code;
+        
+        // 対象事業所の消耗品出荷データを取得＊バーコードが増えた時に対応できていない
+        $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
+        
+        $data = [
+            'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
+            'login' => $this->login,
+        ];
 
         return self::view($request, 'deliver_list', $data);
+    }
+
+    /**
+     * QRコードを返す
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function qrreader(Request $request)
+    {
+        Log::debug(print_r($this->login, true));
+        // カードの中だけのhtmlを作成
+        $html = view('include.qr')->render();
+        
+        // htmlとデータをJson形式で返す
+        return self::jsonHtml($request, $html);
+    }
+
+    /**
+     * QRコードで読み取った消耗品コードに紐づく出荷消耗品を返す
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function deliver_consumables(Request $request)
+    {
+        // $consumables_barcode = $request->qrcode;
+        $consumables_barcode = 4520951011185;
+        
+        // バーコードから消耗品を取得
+        $consumables = ConsumablesData::viewConsumablesBarcode($consumables_barcode);
+        $consumables_code = $consumables->consumables_code;
+        // $consumables_code = 4520951011185;
+        $office_code = $this->login->office_code;
+        Log::debug(print_r($this->login, true));
+
+        $ship_consumables = ConsumablesData::viewFacilityConsumablesShip($office_code, $consumables_code);
+
+        $data = [
+            'ship_consumables' => $ship_consumables,
+        ];
+        // dd($data, $office_code, $consumables_code);
+        // カードの中だけのhtmlを作成
+        $html = view('modal.deliver_consumables', $data)->render();
+        
+        // htmlとデータをJson形式で返す
+        return self::jsonHtml($request, $html, $data);
     }
 }
