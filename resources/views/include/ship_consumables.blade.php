@@ -1,4 +1,4 @@
-<div class="card" id="add_ship_{{$consumables_ship_data->consumables_code}}">
+<div class="card mb-1" id="add_ship_{{$consumables_ship_data->consumables_code}}">
     <div class="card-header d-flex" style="background-color: rgba(0,0,0,.03)">
         <h5 class="w-100" id="ship_consumables_name">{{$consumables_ship_data->consumables_name}}</h5>
         <button type="button" class="btn-close" id="btn_remove_{{$consumables_ship_data->consumables_code}}"></button>
@@ -33,9 +33,9 @@
                 <span class="input-group-text"
                     id="number_unit">{{$consumables_ship_data->number_unit}}</span>
             </div>
-            <label for="ship_date">出荷日 <span class="badge bg-danger">必須</span> </label>
             {{-- 出荷日を入力する --}}
-            <input class="form-control" type="date" name="ships[{{$consumables_ship_data->consumables_code}}][ship_date]" id="ship_date">
+            {{-- <label for="ship_date">出荷日 <span class="badge bg-danger">必須</span> </label>
+            <input class="form-control" type="date" name="ships[{{$consumables_ship_data->consumables_code}}][ship_date]" id="ship_date"> --}}
         </div>
     </div>
     

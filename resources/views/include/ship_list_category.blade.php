@@ -3,17 +3,17 @@
     <div class="card-body">
 
         <div class="mb-3" id="search-carehome">
-            <div class="mb-3" id="facility-area">
+            <div class="mb-1" id="facility-area">
                 <div class="input-group w-100">
                     <label class="input-group-text">施設地域</label>
-                    <input type="radio" class="btn-check" name="search-carehome-facility-area"
+                    {{-- <input type="radio" class="btn-check" name="search-carehome-facility-area"
                         id="search-carehome-facility-area-富山" value="富山">
                     <label class="btn btn-outline-primary" for="search-carehome-facility-area-富山"
                         style="width:80px">富山</label>
                     <input type="radio" class="btn-check" name="search-carehome-facility-area"
                         id="search-carehome-facility-area-石川" value="石川">
                     <label class="btn btn-outline-danger" for="search-carehome-facility-area-石川"
-                        style="width:80px">石川</label>
+                        style="width:80px">石川</label> --}}
                 </div>
 
                 <script>
@@ -31,17 +31,30 @@
                 </script>
             </div>
             <div id="facilitys">
-                <div class="input-group w-100">
+                <div class="input-group w-100 mb-1">
+                    <label class="btn btn-primary" for="search-carehome-facility-area-富山"
+                        style="width:80px">富山</label>
                     @if ($office_code == 'all')
-                    <a class="btn btn-success" href="{{route('ship_list')}}" id="search-carehome-facility-code-all">すべて</a>
+                    {{-- <a class="btn btn-praimary" href="{{route('ship_list')}}" id="search-carehome-facility-code-all">すべて</a> --}}
                     @else
-                    <a class="btn btn-outline-success" href="{{route('ship_list')}}" id="search-carehome-facility-code-all">すべて</a>
+                    {{-- <a class="btn btn-outline-praimary" href="{{route('ship_list')}}" id="search-carehome-facility-code-all">すべて</a> --}}
                     @endif
                     @foreach ($facility_all as $facility)
-                        @if ($office_code == $facility->office_code)
-                        <a class="btn btn-success" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
-                        @else
-                        <a class="btn btn-outline-success" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
+                        <a class="btn btn-primary" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @elseif ($facility->prefecture_code == 16)
+                        <a class="btn btn-outline-primary" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @endif
+                    @endforeach
+                </div>
+                <div class="input-group w-100">
+                    <label class="btn btn-danger" for="search-carehome-facility-area-石川"
+                        style="width:80px">石川</label>
+                    @foreach ($facility_all as $facility)
+                        @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
+                        <a class="btn btn-danger" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @elseif ($facility->prefecture_code == 17)
+                        <a class="btn btn-outline-danger" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @endif
                     @endforeach
                 </div>
@@ -92,7 +105,7 @@
             });
 
         </script>
-        <div id="search-tabs">
+        {{-- <div id="search-tabs">
             <div class="nav nav-pills mb-1" id="nav-tab" role="tablist">
                 <a class="nav-link text-center active" id="nav-user-tab" data-bs-toggle="tab" href="#nav-user"
                     role="tab" aria-controls="nav-user" aria-selected="true" style="width:150px">消耗品名で検索</a>
@@ -116,6 +129,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>

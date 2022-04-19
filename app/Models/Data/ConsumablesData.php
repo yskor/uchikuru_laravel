@@ -46,7 +46,7 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesIdMaster()->get();
     }
-    
+
     // マスタ一覧表示画面用
     public static function getConsumablesAll()
     {
@@ -63,7 +63,7 @@ class ConsumablesData extends BaseData
 
         return $consumables_id_all;
     }
-    
+
 
     /**
      * 指定された消耗品カテゴリコードからカテゴリの情報を取得します。
@@ -102,14 +102,14 @@ class ConsumablesData extends BaseData
         return ConsumablesTable::viewConsumablesIdMaster()->where('consumables_category_code', '=', $consumables_category_code)->get();
     }
 
-        /**
+    /**
      *　最後のから消耗品を取得します。
      */
     public static function getLastConsumables()
     {
         return ConsumablesTable::viewConsumablesMaster()->latest()->first();
     }
-        /**
+    /**
      *　作成日時から消耗品を取得します。
      * @param string $created_at
      */
@@ -118,7 +118,7 @@ class ConsumablesData extends BaseData
         return ConsumablesTable::viewConsumablesMaster()->where('created_at', '=', $created_at)->first();
     }
 
-        /**
+    /**
      *　消耗品コードから消耗品を取得します。
      * @param string $consumables_code
      */
@@ -127,7 +127,7 @@ class ConsumablesData extends BaseData
         return ConsumablesTable::tableConsumablesMaster()->where('消耗品コード', '=', $consumables_code);
     }
 
-        /**
+    /**
      *　消耗品コードから消耗品を参照します。
      * @param string $consumables_code
      */
@@ -148,19 +148,19 @@ class ConsumablesData extends BaseData
     /**
      *　消耗品在庫テーブルから全てのデータを取得します。
      */
-    public static function getOfficeConsumablesStockAll()
+    public static function getConsumablesStockAll()
     {
-        return ConsumablesTable::tableOfficeConsumablesStock()->get();
+        return ConsumablesTable::tableConsumablesStock()->get();
     }
 
-        /**
+    /**
      *　消耗品在庫テーブルから全てのデータを参照します。
      */
     public static function viewOfficeConsumablesStockAll()
     {
         return ConsumablesTable::viewOfficeConsumablesStock()->get();
     }
-    
+
     /**
      *　消耗品在庫テーブルから対象施設のデータを参照します。
      * @param int $office_code
@@ -199,9 +199,30 @@ class ConsumablesData extends BaseData
 						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
 								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
                         ON a.consumables_code = m.consumables_code");
-    
     }
-    
+
+    /**
+     * 指定された消耗品カテゴリコードから消耗品の一覧を取得します。
+     * @param int $office_code
+     * @param int $consumables_category_code
+     * @return unknown
+     */
+    public static function viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code)
+    {
+        return DB::select("SELECT *
+                        FROM dbo.VIEW_消耗品識別マスタ AS m
+                        LEFT JOIN 
+						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
+								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as f_stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS s
+                        ON s.consumables_code = m.consumables_code
+						LEFT JOIN
+						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
+								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
+                        ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code");
+    }
+
 
     /**
      * 消耗品コードから消耗品を参照します。
@@ -210,7 +231,7 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesStockData($consumables_code)
     {
-        return ConsumablesTable::viewOfficeConsumablesStock()->where('consumables_code', '=',$consumables_code)->first();
+        return ConsumablesTable::viewOfficeConsumablesStock()->where('consumables_code', '=', $consumables_code)->first();
     }
 
     /**
@@ -218,51 +239,51 @@ class ConsumablesData extends BaseData
      * @param int $consumables_category_code
      * @return unknown
      */
-    public static function getConsumablesStockData($consumables_code)
+    public static function getConsumablesStockData($consumables_code, $office_code)
     {
-        return ConsumablesTable::tableOfficeConsumablesStock()->where('消耗品コード', '=',$consumables_code);
+        return ConsumablesTable::tableConsumablesStock()
+            ->where('消耗品コード', '=', $consumables_code)
+            ->where('事業所コード', '=', $office_code);
     }
 
-        
+
     // 消耗品仕入テーブル
     public static function getConsumablesBuyAll()
     {
         return ConsumablesTable::tableConsumablesBuy()->get();
     }
-        
+
     // 消耗品仕入テーブル
     public static function viewConsumablesBuyAll()
     {
         return ConsumablesTable::viewConsumablesBuy()->orderBy('created_at', 'desc')->get();
     }
-        
+
     // 消耗品カテゴリコードから消耗品データを取得
     /**
-    * @param int $consumables_buy_code
-    */
+     * @param int $consumables_buy_code
+     */
     public static function viewConsumablesCategoryBuyAll($consumables_category_code)
     {
         return ConsumablesTable::viewConsumablesBuy()->where('consumables_category_code', '=', $consumables_category_code)->get();
     }
-        
+
     // 消耗品仕入コードから消耗品データを取得
     /**
-    * @param int $consumables_buy_code
-    */
+     * @param int $consumables_buy_code
+     */
     public static function viewConsumablesBuyData($consumables_buy_data)
     {
         return ConsumablesTable::viewConsumablesBuy()->where('consumable_barcode', '=', $consumables_buy_data)->get();
     }
 
     /**
-     * 指定された事業所コードから消耗品出荷一覧を取得します。
-     * @param int $office_code
+     * 出荷先事業所コードから消耗品出荷一覧を取得します。
+     * @param int $office_code_to
      * @return unknown
      */
-    public static function viewFacilityConsumablesShipList($office_code)
+    public static function viewFacilityConsumablesShipList($office_code_to)
     {
-        return ConsumablesTable::viewConsumablesShip()->where('ship_office', '=', $office_code)->get();
+        return ConsumablesTable::viewConsumablesShip()->where('office_code_to', '=', $office_code_to)->get();
     }
-    
-
 }

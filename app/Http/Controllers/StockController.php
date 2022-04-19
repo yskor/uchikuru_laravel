@@ -38,7 +38,9 @@ class StockController extends AuthController
             // 'consumables_all' => $consumables_all,
             'consumables_category_all' => $consumables_category_all,
             'login' => $this->login,
-            'office_code' => 'all'
+            'office_code' => 'all',
+            'consumables_category_code' => 'all' //消耗品コード
+
         ];
         
         return self::view($request, 'stock_list', $data);
@@ -70,7 +72,9 @@ class StockController extends AuthController
             'consumables_stock_list' => $consumables_stock_list, //対象の事業所在庫
             'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
             'login' => $this->login,
-            'office_code' => $office_code //事業所コード
+            'office_code' => $office_code, //事業所コード
+            'consumables_category_code' => 'all' //消耗品コード
+
         ];
         // dd($data);
         return self::view($request, 'facility_stock_list', $data);
@@ -83,19 +87,17 @@ class StockController extends AuthController
      * @param int $consumables_category_code
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function facility_stock_list_category($consumables_category_code, Request $request)
+    public function facility_category_stock_list($office_code, $consumables_category_code, Request $request)
     {
         Log::debug(print_r($this->login, true));
 
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
         // 対象の消耗品データを取得＊バーコードが増えた時に対応できていない
-        $category_consumables_all = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
+        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code);
 
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewOfficeAll();
-
-        // $facility_stock_list = ConsumablesData::viewFacilityConsumablesStockList($office_code);
+        $facility_all = OfficeData::viewfacilityAll();
 
 
         // カテゴリデータを全て取得
@@ -104,8 +106,9 @@ class StockController extends AuthController
         $data = [
             'facility_all' => $facility_all, //全ての事業所データ
             'consumables_category_all' => $consumables_category_all,
-            'category_consumables_all' => $category_consumables_all,
+            'consumables_stock_list' => $consumables_stock_list,
             'login' => $this->login,
+            'office_code' => $office_code, //施設コード
             'consumables_category_code' => $consumables_category_code //消耗品コード
         ];
             

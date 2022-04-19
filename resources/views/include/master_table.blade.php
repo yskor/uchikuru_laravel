@@ -6,7 +6,7 @@
 <div class="card">
 	<h6 class="card-header w-100">マスタ一覧</h6>
 	<div class="table-responsive">
-		<table class="table table-striped table-bordered card-body" id="table">
+		<table class="table table-striped card-body" id="table">
 			<thead>
 				<tr>
 					<th class="text-center table-w text-nowrap">消耗品バーコード</th>

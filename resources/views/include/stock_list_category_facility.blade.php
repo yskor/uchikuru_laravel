@@ -41,9 +41,9 @@
                     @endif
                     @foreach ($facility_all as $facility)
                         @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
-                        <a class="btn btn-primary" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-primary" href="{{route('stock_list')}}/{{ $facility->office_code }}/{{ $consumables_category_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @elseif ($facility->prefecture_code == 16)
-                        <a class="btn btn-outline-primary" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-outline-primary" href="{{route('stock_list')}}/{{ $facility->office_code }}/{{ $consumables_category_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @endif
                     @endforeach
                 </div>
@@ -52,9 +52,9 @@
                         style="width:80px">石川</label>
                     @foreach ($facility_all as $facility)
                         @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
-                        <a class="btn btn-danger" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-danger" href="{{route('stock_list')}}/{{ $facility->office_code }}/{{ $consumables_category_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @elseif ($facility->prefecture_code == 17)
-                        <a class="btn btn-outline-danger" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-outline-danger" href="{{route('stock_list')}}/{{ $facility->office_code }}/{{ $consumables_category_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @endif
                     @endforeach
                 </div>

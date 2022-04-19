@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '出荷画面')
+@section('title', '出荷一覧')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -22,7 +22,9 @@
 @include("include/ship_list_category")
 
 {{-- 一覧表テーブル --}}
-@include("include/ship_list_table")
+{{-- @include("include/ship_list_table") --}}
+{{-- @include("include/ship_add") --}}
+<div id="ship-add"></div>
 
 <form action="{{route('ship_consumables_test')}}" method="post">
 	@csrf
@@ -44,7 +46,7 @@
 <script>
 
 	var handy_reader_data = "";
-	var ship = 0;
+	var ship_add = 0;
 	// 無視するキーコード
 	const ignore_keyCodes = [ 16, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123 ];
 
@@ -56,8 +58,6 @@
 			setTimeout( function() {
 				console.log("リセット");
 				handy_reader_data = "";
-				// $('#consumablesShipModal').modal('hide');
-				// $('#consumablesShipModal').remove()
 			}, 3000 );
 		}
 	
@@ -65,79 +65,42 @@
 			// Enterキーが押された
 			console.log(handy_reader_data);
 			
-			if(ship == 1) {
+			if(ship_add == 1) {
 				// モーダルが既にあればモーダルに追加
 				$.ajax({
 					type: 'POST',
 					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
-						'handy_reader_data': handy_reader_data, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
+						'handy_reader_data': handy_reader_data,
+						'ship_add': ship_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
 					},
 					dataType: 'json', //json形式で受け取る
 	
 				}).done((res)=>{
+					$('#consumablesShipModal').modal("show");
 					var consumables_ship_data = res.consumables_ship_data;
-					var add_ship = 
-					`
-					<tr>
-						<td>
-							${consumables_ship_data.consumables_name}
-							<div><img
-									src="{{ asset('upload/consumables/${consumables_ship_data.image_file_extension}')}}"
-									style="width:100px;height:100px;"></div>
-						</td>
-						<td>
-							<table class="table">
-								<tbody>
-									<tr>
-										<th>入数/個数</th>
-										<td>${consumables_ship_data.quantity}${consumables_ship_data.quantity_unit}/${consumables_ship_data.number_unit}
-										</td>
-									</tr>
-									<tr>
-										<th>出荷数 <span class="badge bg-danger">必須</span> </th>
-										<td>
-											<div class="input-group" id="ship-quantity-form-group">
-												<input type="number" class="form-control" name="ship_quantity"
-													id="ship_quantity" aria-describedby="number-unit" required>
-												<span class="input-group-text"
-													id="number_unit">${consumables_ship_data.number_unit}</span>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th>出荷予定日 <span class="badge bg-danger">必須</span> </th>
-										<td>
-											<div class="form-group" id="ship-office-form-group">
-												<input class="form-control" type="date" name="ship_date" id="ship_date">
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-					`
-					$('#ships').append(add_ship); //できあがったテンプレートをビューに追加
-					
+					$('#ships').append(res.html); //できあがったテンプレートをビューに追加
+					console.log(res)
+					console.log('成功しました')
 				}).fail((error)=>{
 					//ajax通信がエラーのときの処理
 					console.log('どんまい！');
 				})
 				handy_reader_data = "";
-			} else if (ship == 0) {
+			} else if (ship_add == 0) {
 				$.ajax({
 					type: 'POST',
 					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
-						'handy_reader_data': handy_reader_data, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
+						'handy_reader_data': handy_reader_data,
+						'ship_add': ship_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
 					},
 					dataType: 'json', //json形式で受け取る
 	
 				}).done((res)=>{
 					var consumables_ship_data = res.consumables_ship_data;
-					$('#modal_view').html(res.html); //できあがったテンプレートをビューに追加
-					$('#consumablesShipModal').modal("show");
+					$('#ship-add').html(res.html); //できあがったテンプレートをビューに追加
+					// $('#consumablesShipModal').modal("show");
 					console.log(res)
 					console.log('成功しました')
 					
@@ -146,7 +109,7 @@
 					console.log('どんまい！');
 				})
 				handy_reader_data = "";
-				ship = 1;
+				ship_add = 1;
 			}
 			
 

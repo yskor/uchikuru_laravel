@@ -177,28 +177,30 @@ class Consumables extends Model
     }
 
     // 仕入追加
-    public static function insert_consumables_buy($buy_quantity, $consumables_code)
+    public static function insert_consumables_buy($consumables_code, $office_code, $buy_number, $staff_code)
     {
         try {
 
             // 消耗品コードから現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code);
-            // 仕入テーブルの消耗品を１増やす
+            // 仕入テーブルの消耗品を増やす
             $buy_values = [
                 "消耗品コード" => $consumables_code,
-                "仕入個数" => $buy_quantity,
+                "仕入事業所コード" => $office_code,
+                "仕入個数" => $buy_number,
+                "仕入職員コード" => $staff_code,
                 "作成日時" => now(),
             ];
             ConsumablesTable::tableConsumablesBuy($consumables_code)->insert($buy_values);
-            // 在庫テーブルの消耗品を１増やす
+            // 在庫テーブルの消耗品を増やす
             if ($consumables_stock) {
                 // 在庫がある場合
                 $stock_values = [
-                    "個数在庫数" => $consumables_stock->stock_number + $buy_quantity,
+                    "個数在庫数" => $consumables_stock->stock_number + $buy_number,
                     "更新日時" => now()
                 ];
                 // 在庫を更新
-                ConsumablesData::getConsumablesStockData($consumables_code)->update($stock_values);
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
             } else {
                 // 在庫がない場合
                 // 消耗品コードからマスタデータを参照
@@ -206,13 +208,13 @@ class Consumables extends Model
                 $stock_values = [
                     "事業所コード" => 91,
                     "消耗品コード" => $consumables_code,
-                    "個数在庫数" => $buy_quantity,
+                    "個数在庫数" => $buy_number,
                     "入数在庫数" => $consumables_master->quantity,
                     "作成日時" => now(),
                     "更新日時" => now(),
                 ];
                 // 在庫に新たに追加
-                ConsumablesData::getConsumablesStockData($consumables_code)->insert($stock_values);
+                ConsumablesTable::getConsumablesStock()->insert($stock_values);
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
@@ -221,18 +223,32 @@ class Consumables extends Model
     }
 
     // 出荷追加
-    public static function insert_consumables_ship($ship_quantity, $consumables_code, $ship_office)
+    public static function insert_consumables_ship($consumables_code, $office_code_from, $ship_number, $staff_code, $office_code_to)
     {
         try {
 
             // 出荷テーブルの消耗品を１増やす
             $ship_values = [
                 "消耗品コード" => $consumables_code,
-                "出荷個数" => $ship_quantity,
-                "出荷先コード" => $ship_office,
-                "作成日時" => now(),
+                "出荷元事業所コード" => $office_code_from,
+                "出荷数" => $ship_number,
+                "出荷職員コード" => $staff_code,
+                // "出荷日時" => $ship_date,
+                "納品先事業所コード" => $office_code_to,
             ];
-            ConsumablesTable::tableConsumablesShip($consumables_code)->insert($ship_values);
+            ConsumablesTable::tableConsumablesShip()->insert($ship_values);
+            
+            // 消耗品コードから現在の在庫を参照
+            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code);
+            // 在庫テーブルの消耗品を減らす
+            $dec_values = [
+                "消耗品コード" => $consumables_code,
+                "個数在庫数" => $consumables_stock->stock_number - $ship_number,
+                "入数在庫数" => $consumables_stock->quantity,
+                "更新日時" => now(),
+            ];
+            ConsumablesData::getConsumablesStockData($consumables_code, $office_code_from)->update($dec_values);
+
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;

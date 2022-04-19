@@ -46,9 +46,12 @@ Route::post('/master_list/{consumables_category_code}', [MasterController::class
 Route::get('/stock_list', [StockController::class, 'stock_list'])->name('stock_list');
 // 在庫事業所別一覧
 Route::get('/stock_list/{office_code}', [StockController::class, 'facility_stock_list'])->name('facility_stock_list');
+// 在庫事業所別かつ消耗品カテゴリ一覧
+Route::get('/stock_list/{office_code}/{consumables_category_code}', [StockController::class, 'facility_category_stock_list'])->name('facility_category_stock_list');
 
 // 仕入一覧
 Route::get('/buy_list', [BuyController::class, 'buy_list'])->name('buy_list');
+Route::post('/buy_list', [BuyController::class, 'edit_buy'])->name('edit_buy');
 Route::post('/buy_consumables', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
 Route::get('/buy_list_test', [BuyController::class, 'buy_list_test'])->name('buy_list_test');
 Route::post('/buy_consumables_test', [BuyController::class, 'buy_consumables_test'])->name('buy_consumables_test');
@@ -59,9 +62,11 @@ Route::get('/buy_list/{consumables_category_code}', [BuyController::class, 'buy_
 Route::get('/ship_list', [ShipController::class, 'ship_list'])->name('ship_list');
 Route::post('/ship_list', [ShipController::class, 'edit_ship'])->name('edit_ship');
 Route::post('/ship_consumables', [ShipController::class, 'ship_consumables'])->name('ship_consumables');
+Route::get('/ship_add', [ShipController::class, 'ship_add'])->name('ship_add');
 Route::post('/ship_consumables_test', [ShipController::class, 'ship_consumables_test'])->name('ship_consumables_test');
 // 事業所別出荷一覧
 Route::get('/ship_list/{office_code}', [ShipController::class, 'facility_ship_list'])->name('facility_ship_list');
+Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_ship'])->name('facility_edit_ship');
 
 // 納品一覧
 Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');

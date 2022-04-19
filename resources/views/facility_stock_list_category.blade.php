@@ -3,21 +3,21 @@
 
 {{-- headタグ内 --}}
 @section('head')
-{{-- <script type="text/javascript" src="{{url('js/jquery.qrcode.min.js')}}"></script>
+<script type="text/javascript" src="{{url('js/jquery.qrcode.min.js')}}"></script>
 <script>
 	$(function() {
 	
-	@foreach($consumables_all as $data)
+	@foreach($consumables_stock_list as $data)
 	jQuery( '#qrcode-{{ $data->consumables_barcode }}' ).qrcode( {
 		width: 100,
 		height: 100,
-		text: "{{ $data->consumables_code }}",
+		text: "{{ $data->consumables_barcode }}",
 		});
 	@endforeach
 
 });
 
-</script> --}}
+</script>
 @endsection
 
 {{-- スタイルシート --}}
@@ -33,11 +33,11 @@
 {{-- メインコンテンツ --}}
 @section('main')
 <!-- カテゴリセレクタ -->
-@include("include/stock_list_category")
+@include("include/stock_list_category_facility")
 
 
 {{-- 一覧表テーブル --}}
-{{-- @include("include/stock_list_table") --}}
+@include("include/stock_list_table")
 
 @endsection
 

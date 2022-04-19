@@ -1,6 +1,6 @@
 
 <div class="table-responsive">
-	<table class="table table-striped table-bordered" id="table" style="table-layout: fixed;">
+	<table class="table table-striped" id="table" style="table-layout: fixed;">
 		<thead>
 			{{-- 事業所を並べる --}}
 			<tr>
