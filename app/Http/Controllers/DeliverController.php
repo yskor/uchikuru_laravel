@@ -54,8 +54,7 @@ class DeliverController extends AuthController
      */
     public function deliver_consumables(Request $request)
     {
-        // $consumables_barcode = $request->qrcode;
-        $consumables_barcode = 4520951011185;
+        $consumables_barcode = $request->qrcode;
         
         // バーコードから消耗品を取得
         $consumables = ConsumablesData::viewConsumablesBarcode($consumables_barcode);
@@ -75,5 +74,35 @@ class DeliverController extends AuthController
         
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);
+    }
+
+    /**
+     * QRコードで読み取った消耗品コードに紐づく消耗品の納品を行う
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function edit_deliver(Request $request)
+    {
+
+        // dd($request->all());
+        $ship_code = $request->ship_code;
+        $staff_code = $this->login->staff_code;
+        $office_code = $this->login->office_code;
+        $consumables_code = $request->consumables_code;
+        $deliver_number = $request->deliver_number;
+
+        // 消耗品コードから消耗品を取得
+        Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code);
+        // $consumables_code = 4520951011185;
+        Log::debug(print_r($this->login, true));
+
+        // 対象事業所の消耗品出荷データを取得＊バーコードが増えた時に対応できていない
+        $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
+
+        $data = [
+            'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
+            'office_code' => $office_code,
+        ];
+        // dd($data, $office_code, $consumables_code);
+        return self::view($request, 'deliver_list', $data);
     }
 }

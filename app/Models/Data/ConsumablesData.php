@@ -229,9 +229,11 @@ class ConsumablesData extends BaseData
      * @param int $consumables_category_code
      * @return unknown
      */
-    public static function viewConsumablesStockData($consumables_code)
+    public static function viewConsumablesStockData($consumables_code, $office_code)
     {
-        return ConsumablesTable::viewOfficeConsumablesStock()->where('consumables_code', '=', $consumables_code)->first();
+        return ConsumablesTable::viewOfficeConsumablesStock()
+            ->where('consumables_code', '=', $consumables_code)
+            ->where('office_code', '=', $office_code)->first();
     }
 
     /**
@@ -284,7 +286,9 @@ class ConsumablesData extends BaseData
      */
     public static function viewFacilityConsumablesShipList($office_code_to)
     {
-        return ConsumablesTable::viewConsumablesShip()->where('office_code_to', '=', $office_code_to)->get();
+        return ConsumablesTable::viewConsumablesShip()
+        ->where('office_code_to', '=', $office_code_to)
+        ->where('status_code', '=', 'S')->get();
     }
 
     /**
@@ -296,6 +300,29 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesShip()
             ->where('office_code_to', '=', $office_code)
-            ->where('consumables_code', '=', $consumables_code)->first();
+            ->where('consumables_code', '=', $consumables_code)
+            ->where('status_code', '=', 'S')->first();
+    }
+
+    /**
+     * 出荷納品コードからデータを取得します。
+     * @param int $ship_code, 
+     * @return unknown
+     */
+    public static function viewConsumablesShipData($ship_code)
+    {
+        return ConsumablesTable::viewConsumablesShip()
+            ->where('ship_code', '=', $ship_code)->first();
+    }
+
+    /**
+     * 出荷納品コードからデータを取得します。
+     * @param int $ship_code, 
+     * @return unknown
+     */
+    public static function getConsumablesShipData($ship_code)
+    {
+        return ConsumablesTable::tableConsumablesShip()
+            ->where('出荷納品コード', '=', $ship_code);
     }
 }

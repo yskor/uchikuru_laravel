@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '在庫一覧')
+@section('title', '消耗品在庫一覧')
 
 {{-- headタグ内 --}}
 @section('head')

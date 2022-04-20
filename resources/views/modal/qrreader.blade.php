@@ -6,21 +6,23 @@
                 <h5 class="modal-title" id="modal-title">消耗品を納品</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div id="qr">
-                    
+            <form action="{{route('edit_deliver')}}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div id="qr">
+                        
+                    </div>
+    
+                    <div id="form" style="">
+                        {{-- QRコードを読み込んだらHTML追加 --}}
+                    </div>
+    
                 </div>
-
-                <div id="form" style="">
-                    {{-- QRコードを読み込んだらHTML追加 --}}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">閉じる</button>
+                    <button type="submit" class="btn btn-primary" id="btn-do" disabled="">納品</button>
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">閉じる</button>
-                <button type="button" class="btn btn-primary" id="btn-do" disabled="">納品</button>
-
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -28,7 +30,7 @@
 
     $(function() {
         
-        var modal = $( "#modal_id" );
+        var modal = $( "#modal" );
         var qr = modal.find( "#qr" );
         var form = modal.find( "#form" );
         var btn_do = modal.find( "#btn-do" );

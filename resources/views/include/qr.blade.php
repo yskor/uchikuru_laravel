@@ -106,8 +106,8 @@
                         //ajax通信がエラーのときの処理
                         console.log('どんまい！');
                     })
-                    // $(this).html( "" );
-                    // $(this).prop( "hidden", true );
+                    $(this).html( "" );
+                    $(this).prop( "hidden", true );
                 });
                 
                 // 解析できた

@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', 'サンプルページ')
+@section('title', '消耗品仕入画面')
 
 {{-- headタグ内 --}}
 @section('head')

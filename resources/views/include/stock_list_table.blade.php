@@ -55,14 +55,14 @@
 				</td>
 				<!-- <%* 施設在庫 *%> -->
 				<td class="text-center">
-					@if ($data->f_stock_number)
-					{{ $data->f_stock_number }}
+					@if ($data->f_stock_quantity)
+					{{ $data->f_stock_quantity }}
 					@else
 					0
 					@endif
 					{{ $data->quantity_unit }}<br>
-					@if ($data->f_stock_quantity)
-					{{ $data->f_stock_quantity }}
+					@if ($data->f_stock_number)
+					{{ $data->f_stock_number }}
 					@else
 					0
 					@endif
