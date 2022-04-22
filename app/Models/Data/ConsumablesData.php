@@ -292,16 +292,15 @@ class ConsumablesData extends BaseData
     }
 
     /**
-     * 出荷先事業所コード,消耗品コードから消耗品を取得します。
+     * 施設QRコードから未納品の消耗品リストを取得します。
      * @param int $office_code, 
      * @return unknown
      */
-    public static function viewFacilityConsumablesShip($office_code, $consumables_code)
+    public static function viewFacilityConsumablesShip($office_qrcode)
     {
         return ConsumablesTable::viewConsumablesShip()
-            ->where('office_code_to', '=', $office_code)
-            ->where('consumables_code', '=', $consumables_code)
-            ->where('status_code', '=', 'S')->first();
+            ->where('qr_code', '=', $office_qrcode)
+            ->where('status_code', '=', 'S')->get();
     }
 
     /**
@@ -325,4 +324,5 @@ class ConsumablesData extends BaseData
         return ConsumablesTable::tableConsumablesShip()
             ->where('出荷納品コード', '=', $ship_code);
     }
+    
 }

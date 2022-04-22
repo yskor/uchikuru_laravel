@@ -9,95 +9,82 @@ use App\Models\Data\ConsumablesData;
 use App\Models\Consumables;
 use App\Models\Data\OfficeData;
 use Illuminate\Support\Facades\Log;
+use Exception;
+use PhpOption\None;
 
-
-class DeliverController extends AuthController
+class ConsumptionController extends AuthController
 {
-    //
+
+    
     /**
-     * 納品リストを表示します。
+     * 消費画面
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function deliver_list(Request $request)
+    public function consumption(Request $request)
     {
         Log::debug(print_r($this->login, true));
-
-        $office_code = $this->login->office_code;
-        
-        // 対象事業所の消耗品出荷データを取得＊バーコードが増えた時に対応できていない
-        $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
         
         $data = [
-            'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
             'login' => $this->login,
         ];
 
-        return self::view($request, 'deliver_list', $data);
+        return self::view($request, 'consumption', $data);
     }
 
-    /**
-     * QRコードを返す
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function qrreader(Request $request)
+    public function consumption_done(Request $request)
     {
         Log::debug(print_r($this->login, true));
-        // カードの中だけのhtmlを作成
-        $html = view('include.qr')->render();
-        
-        // htmlとデータをJson形式で返す
-        return self::jsonHtml($request, $html);
+        $param = $request->all();
+        $consumables_code = $param["consumables_code"];
+        $office_code = $this->login->office_code;
+        $total_stock_quantity = $param["total_stock_quantity"];
+        $consumption_quantity = $param["consumption_quantity"];
+        $staff_code = $this->login->office_code;
+
+        Consumables::insert_consumables_consumption(
+            $consumables_code,
+            $office_code,
+            $total_stock_quantity, //在庫総数
+            $consumption_quantity, //消費数量
+            $staff_code
+        );
+
+        $data = [
+            'login' => $this->login,
+        ];
+
+        return self::view($request, 'consumption_done', $data);
     }
 
     /**
      * QRコードで読み取った消耗品コードに紐づく出荷消耗品を返す
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function deliver_consumables(Request $request)
+    public function consumption_consumables(Request $request)
     {
         $consumables_barcode = $request->qrcode;
+        $office_code = $this->login->office_code;
+        Log::debug(print_r($this->login, true));
         
         // バーコードから消耗品を取得
         $consumables = ConsumablesData::viewConsumablesBarcode($consumables_barcode);
         $consumables_code = $consumables->consumables_code;
-        // $consumables_code = 4520951011185;
-        $office_code = $this->login->office_code;
-        Log::debug(print_r($this->login, true));
-
-        $ship_consumables = ConsumablesData::viewFacilityConsumablesShip($office_code, $consumables_code);
-
-        $data = [
-            'ship_consumables' => $ship_consumables,
-        ];
-        // dd($data, $office_code, $consumables_code);
+        $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+        
+        $total_stock_quantity = $consumables_stock->stock_number * $consumables->quantity + $consumables_stock->stock_quantity;
+        
+        // dd($data, $office_code, $consumables_stock, $consumables_code);
         // カードの中だけのhtmlを作成
-        $html = view('modal.deliver_consumables', $data)->render();
+        $data = [
+            'consumables' => $consumables,
+            'consumables_stock' => $consumables_stock,
+            'total_stock_quantity' => $total_stock_quantity,
+        ];
+        // dd($data);
+        $html = view('modal.consumption_consumables', $data)->render();
         
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);
-    }
-
-    /**
-     * QRコードで読み取った施設の出荷リストを返す
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function deliver_list_test(Request $request)
-    {
-        // $office_qrcode = $request->qrcode;
-        $office_qrcode = 81766508438;
-        $office_data = OfficeData::viewOfficeData($office_qrcode);
-        
-        Log::debug(print_r($this->login, true));
-
-        $deliver_consumables_list = ConsumablesData::viewFacilityConsumablesShip($office_qrcode);
-
-        $data = [
-            'deliver_consumables_list' => $deliver_consumables_list,
-            'office_data' => $office_data,
-        ];
-        // dd($data, $office_code, $consumables_code);
-        
-        return self::view($request, 'deliver_list_test', $data);
     }
 
     /**

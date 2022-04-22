@@ -14,7 +14,7 @@
 					<div class="form-group" id="consumables-code-form-group">
 						<label for="consumables-code">消耗品バーコード <span class="badge bg-danger">必須</span> </label>
 						<input type="text" class="form-control" name="consumables_barcode" id="consumables-barcode"
-							disabled="" value="{{ $data->consumables_barcode }}">
+							value="{{ $data->consumables_barcode }}">
 						<div id="consumables-code-feedback" class="invalid-feedback"></div>
 					</div>
 

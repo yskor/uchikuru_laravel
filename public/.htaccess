@@ -9,7 +9,7 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-	RewriteBase "/uchikuru_laravel/"
+	RewriteBase "/uchikuru_consumables/"
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d

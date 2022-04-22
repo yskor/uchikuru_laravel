@@ -303,5 +303,41 @@ class Consumables extends Model
         }
     }
 
+    // 消費
+    public static function insert_consumables_consumption($consumables_code, $office_code, $total_stock_quantity, $consumption_quantity, $staff_code)
+    {
+        try {
+
+            // 消費テーブルを追加
+            $consumption_values = [
+                "消耗品コード" => $consumables_code,
+                "消費事業所コード" => $office_code,
+                "消費数" => $consumption_quantity,
+                "消費単位コード" => "Q",
+                "消費日時" => now(),
+                "消費職員コード" => $staff_code,
+            ];
+            ConsumablesTable::tableConsumablesConsumption()->insert($consumption_values);
+            
+            // 消耗品コードから現在の在庫を参照
+            $consumables = ConsumablesData::getConsumablesIdItem($consumables_code);
+            
+            $total_stock_quantity = $total_stock_quantity - $consumption_quantity;
+            $stock_number = floor($total_stock_quantity / $consumables->quantity);
+            $stock_quantity = ($total_stock_quantity % $consumables->quantity);
+
+            // 在庫テーブルの消耗品を減らす
+            $stock_values = [
+                "個数在庫数" => $stock_number,
+                "入数在庫数" => $stock_quantity,
+                "更新日時" => now(),
+            ];
+            ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
+
+        } catch (\Exception $e) {
+            ConsumablesData::rollback();
+            throw $e;
+        }
+    }
 
 }

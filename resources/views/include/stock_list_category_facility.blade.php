@@ -81,11 +81,11 @@
                 <label class="input-group-text">カテゴリ</label>
             </div>
             <div class="" id="categories">
-                @if ($consumables_category_code == 'all')
+                {{-- @if ($consumables_category_code == 'all')
                 <a class="btn btn-success" href="{{ route('stock_list') }}/{{ $office_code }}" name="category_code_all" id="category_code_all">全て</a>
                 @else
                 <a class="btn btn-outline-success" href="{{ route('stock_list') }}/{{ $office_code }}" name="category_code_all" id="category_code_all">全て</a>
-                @endif
+                @endif --}}
                 @foreach($consumables_category_all as $data)
                     @if ($consumables_category_code == $data->consumables_category_code)
                     <a class="btn btn-success" href="{{ route('stock_list') }}/{{ $office_code }}/{{ $data->consumables_category_code }}" name="category_code_{{$data->consumables_category_code}}" id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>

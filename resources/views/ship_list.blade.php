@@ -44,7 +44,6 @@
 
 {{-- バーコード読み取り --}}
 <script>
-
 	var handy_reader_data = "";
 	var ship_add = 0;
 	// 無視するキーコード
@@ -85,6 +84,8 @@
 				}).fail((error)=>{
 					//ajax通信がエラーのときの処理
 					console.log('どんまい！');
+					ajax_fail(error);
+
 				})
 				handy_reader_data = "";
 			} else if (ship_add == 0) {
@@ -107,6 +108,8 @@
 				}).fail((error)=>{
 					//ajax通信がエラーのときの処理
 					console.log('どんまい！');
+					ajax_fail(error);
+
 				})
 				handy_reader_data = "";
 				ship_add = 1;

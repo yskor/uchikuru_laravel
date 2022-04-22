@@ -32,7 +32,7 @@ class OfficeData extends Model
      */
     public static function viewFacilityAll()
     {
-        return OfficeTable::viewOfficeMaster()->where('care_flag', '=', 1)->get();
+        return OfficeTable::viewOfficeMaster()->where('office_type_code', '=', "C")->get();
     }
 
     /**
@@ -41,6 +41,15 @@ class OfficeData extends Model
      */
     public static function viewOfficeAll()
     {
-        return OfficeTable::viewOfficeMaster()->where('care_flag', '=', 0)->get();
+        return OfficeTable::viewOfficeMaster()->where('office_type_code', '=', "X")->get();
+    }
+
+    /**
+     *　施設QRから対象施設のデータを参照します。
+     * @param string $office_code
+     */
+    public static function viewOfficeData($office_qrcode)
+    {
+        return OfficeTable::viewOfficeMaster()->where('qr_code', '=', $office_qrcode)->first();
     }
 }

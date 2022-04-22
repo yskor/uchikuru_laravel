@@ -60,7 +60,7 @@
 	@else
 	{{-- 出荷予定の消耗品がない場合 --}}
 		<div class="alert alert-dark" role="alert">
-			<h4 class="">現在出荷予定の消耗品はありません</h4>
+			<h4 class="">施設在庫数を更新しました</h4>
 		</div>
 	@endif
 

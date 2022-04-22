@@ -1,7 +1,13 @@
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddModal">
-	<i class="fas fa-plus fa-fw"></i>追加
-</button>
+<div class="d-flex">
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddModal">
+		<i class="fas fa-plus fa-fw"></i>追加
+	</button>
+	
+	<div class="ms-auto">
+		<a class="btn btn-secondary" href="{{asset('qr_list')}}" target="_blank" rel="noopener noreferrer">QRコード一覧</a>
+	</div>
+</div>
 
 <div class="card">
 	<h6 class="card-header w-100">マスタ一覧</h6>
@@ -11,11 +17,11 @@
 				<tr>
 					<th class="text-center table-w text-nowrap">消耗品バーコード</th>
 					<th class="text-center table-w text-nowrap">消耗品名</th>
-					<th class="text-center table-w text-nowrap">仕入れ単価</th>
+					<th class="text-center table-w text-nowrap">仕入単価（税込み）</th>
 					<th class="text-center table-w text-nowrap">入数 / 単位</th>
 					<th class="text-center table-w text-nowrap">使用単位</th>
 					<th class="text-center table-w text-nowrap">複数使用</th>
-					<th class="text-center table-w text-nowrap">最終交渉日</th>
+					<th class="text-center table-w text-nowrap">最終価格交渉日</th>
 					<th class="text-center"></th>
 				</tr>
 			</thead>

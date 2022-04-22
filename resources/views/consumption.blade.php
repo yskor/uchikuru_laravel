@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '施設納品画面')
+@section('title', '施設消費画面')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -19,12 +19,9 @@
 {{-- メインコンテンツ --}}
 @section('main')
 
-{{-- 納品一覧表テーブル --}}
-{{-- @include('include/deliver_list_table') --}}
-{{-- @include('modal/qrreader') --}}
 
 <div id="qr">
-	<div id="message" class="mb-2">QRコードを読み取ってください。</div>
+    <div id="message" class="mb-2">QRコードを読み取ってください。</div>
     <div id="loadingMessage">⌛ Loading video...</div>
     <canvas id="canvas" style="width:100%;" height="480" width="640"></canvas>
     <div id="output">
@@ -113,7 +110,7 @@
                     console.log(qrcode)
                     $.ajax({
                         type: 'POST',
-                        url: "{{route('deliver_table')}}", //後述するweb.phpのURLと同じ形にする
+                        url: "{{route('consumption_consumables')}}", //後述するweb.phpのURLと同じ形にする
                         data: {
                             'qrcode': qrcode,    //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
                         },
@@ -122,7 +119,6 @@
                     }).done((res)=>{
                         console.log('ajax通ってる')
                         $('#qr').empty(); //#qrの子要素を削除
-                        // var consumalbes = res.consumables_code
                         $('#form').append(res.html); //できあがったテンプレートをビューに追加
 
                         console.log(res)
@@ -131,6 +127,7 @@
                     }).fail((error)=>{
                         //ajax通信がエラーのときの処理
                         console.log('どんまい！');
+                        ajax_fail(error);
                     })
                     $(this).html( "" );
                     $(this).prop( "hidden", true );
@@ -152,13 +149,13 @@
 </div>
 
 <div id="form" style="">
-	{{-- QRコードを読み込んだらHTML追加 --}}
+    {{-- QRコードを読み込んだらHTML追加 --}}
 </div>
 
-<form action="{{route('deliver_table')}}" method="post">
-	@csrf
-	<input type="text" name="qrcode" id="">
-	<button type="submit">送信</button>
+<form action="{{route('consumption_consumables')}}" method="post">
+    @csrf
+    <input type="text" name="qrcode" id="">
+    <button type="submit">送信</button>
 </form>
 
 @endsection
@@ -172,7 +169,7 @@
 @include('_sample')
 
 <script type="text/javascript">
-	$(function() {
+    $(function() {
 	
 		var list = $( "#list" );
 		var modal = $( "#modal" );
