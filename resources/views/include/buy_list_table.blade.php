@@ -24,6 +24,7 @@
 			<th class="text-center text-nowrap" >カテゴリ</th>
 			<th class="text-center text-nowrap">入数/個数</th>
 			<th class="text-center text-nowrap">仕入数</th>
+			<th class="text-center text-nowrap">仕入単価（税込み）</th>
 			<th class="text-center text-nowrap">仕入日時</th>
 			{{-- <th class="text-center table-w text-nowrap">状態</th> --}}
 		</tr>
@@ -57,6 +58,8 @@
 				<td class="text-center">{{ $data->quantity }} {{ $data->quantity_unit }} / {{ $data->number_unit }}</td>
 				<!-- <%* 仕入数量 *%> -->
 				<td class="text-center">{{ $data->buy_quantity }} {{ $data->number_unit }}</td>
+				<!-- <%* 仕入単価 *%> -->
+				<td class="text-center">{{ $data->buy_price }} 円</td>
 				<!-- 仕入日 -->
 				<td class="text-center">{{ $data->created_at }}</td>
 				<!-- 状態 -->

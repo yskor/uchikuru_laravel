@@ -1,20 +1,20 @@
-<div class="card mb-3">
+{{-- <div class="card mb-3">
     <div class="card-header">施設地域</div>
-    <div class="card-body">
+    <div class="card-body"> --}}
         
         <div class="mb-3" id="search-carehome">
             <div class="mb-1" id="facility-area">
-                {{-- <div class="input-group w-100">
+                <div class="input-group w-100">
                     <label class="input-group-text">施設地域</label>
-                    <input type="radio" class="btn-check" name="search-carehome-facility-area"
+                    {{-- <input type="radio" class="btn-check" name="search-carehome-facility-area"
                         id="search-carehome-facility-area-富山" value="富山">
                     <label class="btn btn-outline-primary" for="search-carehome-facility-area-富山"
                         style="width:80px">富山</label>
                     <input type="radio" class="btn-check" name="search-carehome-facility-area"
                         id="search-carehome-facility-area-石川" value="石川">
                     <label class="btn btn-outline-danger" for="search-carehome-facility-area-石川"
-                        style="width:80px">石川</label>
-                </div> --}}
+                        style="width:80px">石川</label> --}}
+                </div>
 
                 <script>
                     $( function() {
@@ -91,6 +91,6 @@
             </div>
         </div>
         @endif
-    </div>
+    {{-- </div>
 
-</div>
+</div> --}}

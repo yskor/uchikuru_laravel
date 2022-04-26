@@ -1,102 +1,189 @@
-<div id="list table-responsive">
-
-	@if (isset($deliver_consumables_list[0]))
-	<div>
-		<h4>{{$office_data->facility_name}}の未納消耗品</h4>
-	</div>
-	{{-- 出荷予定の消耗品がある場合 --}}
-	<table class="table table-striped" id="table" style="position: relative;">
-		<thead>
-			<tr class="table-scroll-fixed-top bg-white" style="">
-				{{-- <th class="text-center table-w text-nowrap"></th> --}}
-				{{-- <th class="text-center table-w text-nowrap">消耗品バーコード</th> --}}
-				<th class="text-center table-w text-nowrap">消耗品</th>
-				<th class="text-center table-w text-nowrap">入数/個数</th>
-				<th class="text-center table-w text-nowrap">出荷数</th>
-				<th class="text-center table-w text-nowrap">出荷日</th>
-				<th class="text-center table-w text-nowrap">出荷元</th>
-				<th class="text-center table-w text-nowrap"></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach ($deliver_consumables_list as $data)
-			<tr data-code="{{ $data->consumables_code }}">
-				{{-- <td class="text-center table-w">
-					<button type="button" class="btn btn-primary btn-sm" id="btn-info"
-						data-code="{{ $data->consumables_code }}" data-management-office-code=""
-						data-carehome-office-code="">
-						詳細
-					</button>
-				</td> --}}
-				<!-- <%* 消耗品コード *%> -->
-				{{-- <td class="text-center table-w">
-					<div class="mb-2">{{ $data->consumables_barcode }}</div>
-					<div id="qrcode-{{$data->consumables_barcode }}" data-bs-toggle="tooltip" data-bs-placement="top"
-						title="右クリックで保存できます。"></div>
-				</td> --}}
-				<!-- <%* 消耗品名 *%> -->
-				<td class="text-center">
-					<div class="mb-2">{{ $data->consumables_name }}</div>
-					<!-- <%* 画像 *%> -->
-					<div><img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
-							style="width:100px;height:100px;"></div>
-				</td>
-				<!-- <%* 入数 / 単位 *%> -->
-				<td class="text-center table-w">{{ $data->quantity }} {{ $data->quantity_unit }} / {{ $data->number_unit
-					}}</td>
-				<!-- <%* 施設出荷数 *%> -->
-				<td class="text-center table-w">
-					{{ $data->shipped_number }}
-					{{ $data->number_unit }}
-				</td>
-				<!-- <%* 施設出荷日 *%> -->
-				<td class="text-center table-w">
-					{{ $data->shipped_at }}
-				</td>
-				<!-- <%* 施設出荷日 *%> -->
-				<td class="text-center table-w">
-					{{ $data->office_name_from }}
-				</td>
-				<!-- <%* 納品ボタン *%> -->
-				<td class="text-center table-w">
-					<button type="button" class="btn btn-primary" id="btn-deliver" data-id="10059">納品</button>
-				</td>
-			</tr>
-			@endforeach
-		</tbody>
-	</table>
-	@else
-	{{-- 出荷予定の消耗品がない場合 --}}
-	<div class="alert alert-dark" role="alert">
-		<h4 class="">現在未納となっている消耗品はありません</h4>
-	</div>
-	@endif
-
-</div>
-
 @if (isset($deliver_consumables_list[0]))
-	@foreach ($deliver_consumables_list as $data)
-	<div class="card mb-3" style="max-width: 540px;">
-		<div class="row g-0">
-			<div class="col-4">
-				<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
-							style="width:100px;height:100px;">
-			</div>
-			<div class="col-8">
-				<div class="card-body">
-					<p class="card-title">{{ $data->consumables_name }}</p>
-					<p class="card-text">{{ $data->shipped_number }}
-						{{ $data->number_unit }}</p>
-					<button type="button" class="btn btn-primary" id="btn-deliver" data-id="{{ $data->ship_code }}">納品</button>
+		<div class="row gy-2">
+		@foreach ($deliver_consumables_list as $data)
+			<div class="card px-0 mx-2" style="max-width: 450px;">
+				<div class="card-header">
+					{{ $data->consumables_name }}
+				</div>
+				<div class="card-body p-0">
+					<div class="d-flex">
+						<div class="" width="100px">
+							<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}">
+						</div>
+						{{-- <form action="{{route('deliver_list')}}" method="post">
+							@csrf --}}
+							<div class="p-1" id="confirm-{{$data->ship_code}}">
+								{{-- <p class="card-text">現施設在庫数：{{ $data->stock_number }}{{
+									$data->number_unit }}</p> --}}
+								<input type="hidden" name="delivers[{{$data->ship_code}}][ship_code]" value="{{$data->ship_code}}">
+								<input type="hidden" name="delivers[{{$data->ship_code}}][consumables_code]" value="{{$data->consumables_code}}">
+								<div class="form-group" id="deliver-number-form-group">
+									<label for="stock-number">現施設在庫数<span class="badge bg-danger">必須</span>：</label>
+									{{-- 現施設在庫数の入力 --}}
+									@if (isset($data->stock_number))
+										{{-- 違う場合 --}}
+										<input type="number" id="miss-stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="{{$data->stock_number}}" disabled="" style="width:50px;">
+										{{-- 正しい場合 --}}
+										<input type="hidden" id="stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="{{$data->stock_number}}" disabled="" style="width:50px;">
+										<span class="" id="">{{$data->number_unit}}</span>
+									@else
+										{{-- 違う場合 --}}
+										<input type="number" id="miss-stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="0" disabled="" style="width:50px;">
+										{{-- 正しい場合 --}}
+										<input type="hidden" id="stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="0" disabled="" style="width:50px;">
+										<span class="" id="">{{$data->number_unit}}</span>
+									@endif
+								</div>
+								<div id="stock-question-{{$data->ship_code}}" class="mb-2">
+									<p class="mb-0">上記の現施設在庫数は一致しますか？</p>
+									<button type="button" class="btn btn-primary btn-sm" id="stock-btn-yes">はい</button>
+									<button type="button" class="btn btn-primary btn-sm" id="stock-btn-no">いいえ</button>
+								</div>
+								{{-- <p class="card-text">納品数：{{ $data->shipped_number }}{{ $data->number_unit }}</p> --}}
+								<label for="deliver-number">納品数<span class="badge bg-danger">必須</span>：</label>
+								{{-- 納品数の入力 --}}
+								{{-- 違った場合 --}}
+								<input type="number" id="miss-deliver-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][deliver_number]" value="{{$data->shipped_number}}" disabled="" style="width:50px;">
+								{{-- 正しい場合 --}}
+								<input type="hidden" id="deliver-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][deliver_number]" value="{{$data->shipped_number}}" disabled="" style="width:50px;">
+								<span class="" id="">{{$data->number_unit}}</span>
+								<div id="deliver-question-{{$data->ship_code}}" class="mb-2">
+									<p class="mb-0">上記の納品数は一致しますか？</p>
+									<button type="button" class="btn btn-primary btn-sm" id="deliver-btn-yes">はい</button>
+									<button type="button" class="btn btn-primary btn-sm" id="deliver-btn-no">いいえ</button>
+								</div>
+								<div class="ml-auto">
+									<button type="button" class="btn btn-primary" id="btn-deliver-{{$data->ship_code}}" data-id="{{ $data->ship_code }}" disabled>納品</button>
+								</div>
+								<div>{{$office_code}}</div>
+								<div>{{$data->ship_code}}</div>
+								<div>{{$data->consumables_code}}</div>
+								<div>{{$data->shipped_number}}</div>
+								<div>{{$data->stock_number}}</div>
+								<script>
+									$(function() {
+										
+										var parent = $( "#confirm-{{$data->ship_code}}" );
+										var stock_number = parent.find( "#stock-number-{{$data->ship_code}}" );
+										var miss_stock_number = parent.find( "#miss-stock-number-{{$data->ship_code}}" );
+										var deliver_number = parent.find( "#deliver-number-{{$data->ship_code}}" );
+										var miss_deliver_number = parent.find( "#miss-deliver-number-{{$data->ship_code}}" );
+										var stock_question = parent.find( "#stock-question-{{$data->ship_code}}" );
+										var deliver_question = parent.find( "#deliver-question-{{$data->ship_code}}" );
+										var deliver_do_btn = parent.find( "#btn-deliver-{{$data->ship_code}}" );
+										var confirm = 0
+										
+										parent.find( "#stock-btn-yes" ).on( "click", function(){
+											console.log(ボタンが押されました);
+											stock_question.prop( "hidden", true );
+											stock_number.prop( "disabled", false );
+											confirm += 1
+											if (confirm == 2) {
+												deliver_do_btn.prop("disabled", false)
+												confirm = 0
+											};
+										});
+									
+										parent.find( "#stock-btn-no" ).on( "click", function(){
+											console.log(ボタンが押されました)
+											miss_stock_number.prop( "disabled", false );
+											stock_question.prop( "hidden", true );
+											confirm += 1
+											if (confirm == 2) {
+												deliver_do_btn.prop("disabled", false)
+												confirm = 0
+											};
+										});
+		
+										parent.find( "#deliver-btn-yes" ).on( "click", function(){
+											console.log(ボタンが押されました)
+											deliver_number.prop( "disabled", false );
+											deliver_question.prop( "hidden", true );
+											parent.trigger( "click-btn-yes" );
+											confirm += 1
+											if (confirm == 2) {
+												deliver_do_btn.prop("disabled", false)
+												confirm = 0
+											};
+										});
+									
+										parent.find( "#deliver-btn-no" ).on( "click", function(){
+											
+											miss_deliver_number.prop( "disabled", false );
+											deliver_question.prop( "hidden", true );
+											parent.trigger( "click-btn-no" );
+											confirm += 1
+											if (confirm == 2) {
+												deliver_do_btn.prop("disabled", false)
+												confirm = 0
+											};
+										});
+
+										var $consumables_code = {{$data->consumables_code}}; 
+										deliver_do_btn.on("click", function(){
+
+											if ($consumables_code != null) {
+												$.ajax({
+													type: 'POST',
+													url: "{{route('edit_deliver')}}", //後述するweb.phpのURLと同じ形にする
+													data: {
+														'office_code': {{$office_code}},
+														'ship_code': {{$data->ship_code}},
+														'consumables_code': {{$data->consumables_code}},
+														'deliver_number': {{$data->shipped_number}},
+														'stock_number': {{$data->stock_number}},
+													},
+													dataType: 'json', //json形式で受け取る
+									
+												}).done((res)=>{
+													$('#form').html(res.html)
+													console.log('成功しました')
+													
+												}).fail((error)=>{
+													//ajax通信がエラーのときの処理
+													console.log('どんまい！');
+													ajax_fail(error);
+			
+												})
+											} else {
+												$.ajax({
+													type: 'POST',
+													url: "{{route('edit_deliver')}}", //後述するweb.phpのURLと同じ形にする
+													data: {
+														'office_code': {{$office_code}},
+														'ship_code': {{$data->ship_code}},
+														'consumables_code': 0,
+														'deliver_number': {{$data->shipped_number}},
+														'stock_number': 0,
+													},
+													dataType: 'json', //json形式で受け取る
+									
+												}).done((res)=>{
+													$('#form').html(res.html)
+													console.log('成功しました')
+													
+												}).fail((error)=>{
+													//ajax通信がエラーのときの処理
+													console.log('どんまい！');
+													ajax_fail(error);
+			
+												})
+											};
+										});
+									});
+								</script>
+							</div>
+						{{-- </form> --}}
+					</div>
 				</div>
 			</div>
+	
+		@endforeach
 		</div>
-	</div>
-	@endforeach
-
 @else
 {{-- 出荷予定の消耗品がない場合 --}}
 	<div class="alert alert-dark" role="alert">
 		<h4 class="">現在未納となっている消耗品はありません</h4>
 	</div>
 @endif
+

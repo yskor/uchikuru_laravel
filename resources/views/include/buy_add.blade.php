@@ -12,10 +12,8 @@
 					<option value="アシスト" selected="">アシスト</option>
 				</select>
 			</div>
-			<div class="table" id="buys_table">
-				<div id="buys">
-					@include("include/buy_consumables", ['consumables_buy_data' => $consumables_buy_data])
-				</div>
+			<div class="row" id="buys">
+				@include("include/buy_consumables", ['consumables_buy_data' => $consumables_buy_data])
 			</div>
 		</div>
 

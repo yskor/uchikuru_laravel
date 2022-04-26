@@ -20,10 +20,10 @@
 @section('main')
 
 <div class="alert alert-success" role="alert">
-    <h4 class="">現在出荷予定の消耗品はありません</h4>
+    <h4 class="">在庫数を更新しました。</h4>
 </div>
 
-<a href="{{route('consumption')}}">さらにQRコードを読み込む</a>
+<a class="btn btn-primary" href="{{route('consumption')}}">さらにQRコードを読み込む</a>
 
 @endsection
 

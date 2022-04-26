@@ -53,10 +53,8 @@
 
 {{-- バーコード読み取り --}}
 <script>
-
 	var handy_reader_data = "";
 	var ship_add = 0;
-	console.log('{{$office_code}}')
 	// 無視するキーコード
 	const ignore_keyCodes = [ 16, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123 ];
 
@@ -70,7 +68,7 @@
 				handy_reader_data = "";
 			}, 3000 );
 		}
-	
+		console.log({{$office_code}})
 		if( event.keyCode == 13 && handy_reader_data != "" ) {
 			// Enterキーが押された
 			console.log(handy_reader_data);
@@ -82,8 +80,7 @@
 					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
 						'handy_reader_data': handy_reader_data,
-						// 'office_code': '{{$office_code}}',
-						'office_code': '{{$office_code}}',
+						'office_code': {{$office_code}},
 						'ship_add': ship_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
 					},
 					dataType: 'json', //json形式で受け取る
@@ -97,6 +94,8 @@
 				}).fail((error)=>{
 					//ajax通信がエラーのときの処理
 					console.log('どんまい！');
+					ajax_fail(error);
+
 				})
 				handy_reader_data = "";
 			} else if (ship_add == 0) {
@@ -105,6 +104,7 @@
 					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
 						'handy_reader_data': handy_reader_data,
+						'office_code': {{$office_code}},
 						'ship_add': ship_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
 					},
 					dataType: 'json', //json形式で受け取る
@@ -115,13 +115,15 @@
 					// $('#consumablesShipModal').modal("show");
 					console.log(res)
 					console.log('成功しました')
+					ship_add = 1;
 					
 				}).fail((error)=>{
 					//ajax通信がエラーのときの処理
 					console.log('どんまい！');
+					ajax_fail(error);
+
 				})
 				handy_reader_data = "";
-				ship_add = 1;
 			}
 			
 
@@ -132,5 +134,6 @@
 	});
 	
 </script>
+
 
 @endsection

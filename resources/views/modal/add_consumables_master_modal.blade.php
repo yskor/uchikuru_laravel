@@ -11,10 +11,34 @@
 				<div class="modal-body">
 					@csrf
 					<div class="form-group" id="consumables-code-form-group">
-						<label for="consumables-code">消耗品バーコード<span class="badge bg-danger">必須</span> </label>
-						<input type="text" class="form-control" name="consumables_code" id="consumables-code" required>
+						<div id="barcode-group-1">
+							<label for="consumables-code">消耗品バーコード1<span class="badge bg-danger">必須</span> </label>
+							<input type="text" class="form-control" name="barcode[]" id="consumables-code">
+						</div>
+						<button id="add-barcode" class="btn btn-primary">追加</button>
 						<div id="consumables-code-feedback" class="invalid-feedback"></div>
 					</div>
+					<script>
+						var i = 1
+						$('#add-barcode').on('click', function() {
+							i += 1
+							var div = $('#consumables-code-form-group')
+							$(this).before(`
+								<div id="barcode-group-${i}">
+									<label for="consumables-code-${i}">消耗品バーコード${i}<span class="badge bg-danger">必須</span> </label>
+									
+									<input type="text" class="form-control" name="barcode[]" id="consumables-code-${i}">
+									
+									<button class="btn btn-danger" id="delete-barcode">削除</button>
+								</div>
+							`);
+						});
+						$('#delete-barcode').on('click', function() {
+							console.log('クリックされた')
+							$(this).remove()
+							i -= 1
+						});
+					</script>
 
 					<div class="form-group" id="consumables-name-form-group">
 						<label for="consumables-name">消耗品名 <span class="badge bg-danger">必須</span> </label>

@@ -1,4 +1,4 @@
-<div class="card mb-1" id="add_ship_{{$consumables_ship_data->consumables_code}}">
+<div class="card m-1 p-0" id="add_ship_{{$consumables_ship_data->consumables_code}}" style="width:350px;">
     <div class="card-header d-flex" style="background-color: rgba(0,0,0,.03)">
         <h5 class="w-100" id="ship_consumables_name">{{$consumables_ship_data->consumables_name}}</h5>
         <button type="button" class="btn-close" id="btn_remove_{{$consumables_ship_data->consumables_code}}"></button>
@@ -26,16 +26,13 @@
             
             <p class="" id="consumables_unit"><span><label for="consumables_unit">入数/個数:</label></span>{{$consumables_ship_data->quantity}}{{$consumables_ship_data->quantity_unit}}/{{$consumables_ship_data->number_unit}}</p>
             <label for="ship-number-form-group">出荷数 <span class="badge bg-danger">必須</span> </label>
-            <div class="input-group" id="ship-number-form-group">
+            <div class="input-group" id="ship-number-form-group" style="width:100px;">
                 {{-- 出荷数を入力する --}}
                 <input type="number" class="form-control" name="ships[{{$consumables_ship_data->consumables_code}}][ship_number]"
                     id="ship_number_{{$consumables_ship_data->consumables_code}}" aria-describedby="number-unit" required>
                 <span class="input-group-text"
                     id="number_unit">{{$consumables_ship_data->number_unit}}</span>
             </div>
-            {{-- 出荷日を入力する --}}
-            {{-- <label for="ship_date">出荷日 <span class="badge bg-danger">必須</span> </label>
-            <input class="form-control" type="date" name="ships[{{$consumables_ship_data->consumables_code}}][ship_date]" id="ship_date"> --}}
         </div>
     </div>
     

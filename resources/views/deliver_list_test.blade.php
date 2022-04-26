@@ -24,29 +24,36 @@
 {{-- @include('modal/qrreader') --}}
 
 @if (isset($deliver_consumables_list[0]))
-	@foreach ($deliver_consumables_list as $data)
-	<div class="card mb-3" style="max-width: 540px;">
-		<div class="row g-0">
-			<div class="col-4">
-				<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}">
-			</div>
-			<div class="col-8">
-				<div class="card-body">
-					<p class="card-title">{{ $data->consumables_name }}</p>
-					<p class="card-text">{{ $data->shipped_number }}
-						{{ $data->number_unit }}</p>
+<div class="row gy-2">
+@foreach ($deliver_consumables_list as $data)
+	<div class="card px-0 mx-2" style="max-width: 350px;">
+		<div class="card-header">
+			{{ $data->consumables_name }}
+		</div>
+		<div class="card-body">
+			<div class="d-flex">
+				<div class="px-3" width="100px">
+					<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}">
+				</div>
+				<div class="">
+					<p class="card-text">施設在庫数：{{ $data->stock_number }}{{
+						$data->number_unit }}</p>
+					<p class="card-text">納品数：{{ $data->shipped_number }}{{ $data->number_unit }}</p>
 					<button type="button" class="btn btn-primary" id="btn-deliver" data-id="{{ $data->ship_code }}">納品</button>
 				</div>
+
 			</div>
 		</div>
 	</div>
-	@endforeach
+
+@endforeach
+</div>
 
 @else
 {{-- 出荷予定の消耗品がない場合 --}}
-	<div class="alert alert-dark" role="alert">
-		<h4 class="">現在未納となっている消耗品はありません</h4>
-	</div>
+<div class="alert alert-dark" role="alert">
+	<h4 class="">現在未納となっている消耗品はありません</h4>
+</div>
 @endif
 
 <div id="form" style="">

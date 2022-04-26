@@ -68,6 +68,7 @@ Route::get('/ship_list/{office_code}', [ShipController::class, 'facility_ship_li
 Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_ship'])->name('facility_edit_ship');
 
 // 納品画面
+Route::get('/deliver', [DeliverController::class, 'deliver'])->name('deliver');
 Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
 Route::get('/deliver_list_test', [DeliverController::class, 'deliver_list_test'])->name('deliver_list_test');
 Route::post('/deliver_list', [DeliverController::class, 'edit_deliver'])->name('edit_deliver');

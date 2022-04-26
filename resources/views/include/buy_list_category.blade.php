@@ -1,22 +1,22 @@
-<div class="card mb-3">
-    <div class="card-header">検索</div>
-    <div class="card-body">
+<div class="mb-3">
+    {{-- <div class="card-header">検索</div>
+    <div class="card-body"> --}}
 
         <div class="mb-3" id="search-carehome">
-            {{-- <div class="mb-3" id="facility-area">
+            <div class="mb-1" id="category-area">
                 <div class="input-group w-100">
-                    <label class="input-group-text">施設地域</label>
-                    <input type="radio" class="btn-check" name="search-carehome-facility-area"
+                    <label class="input-group-text">カテゴリ</label>
+                    {{-- <input type="radio" class="btn-check" name="search-carehome-facility-area"
                         id="search-carehome-facility-area-富山" value="富山">
                     <label class="btn btn-outline-primary" for="search-carehome-facility-area-富山"
                         style="width:80px">富山</label>
                     <input type="radio" class="btn-check" name="search-carehome-facility-area"
                         id="search-carehome-facility-area-石川" value="石川">
                     <label class="btn btn-outline-danger" for="search-carehome-facility-area-石川"
-                        style="width:80px">石川</label>
+                        style="width:80px">石川</label> --}}
                 </div>
 
-                <script>
+                {{-- <script>
                     $( function() {
                         var parent = $( "#search-carehome" ).find( "#facility-area" );
                         
@@ -28,15 +28,15 @@
                         parent.trigger( "changed-facility-area", parent.find( "input[name=search-carehome-facility-area]" ).val() );
                     });
 
-                </script>
-            </div> --}}
-            <div id="facilitys">
+                </script> --}}
+            </div>
+            <div id="categories">
                 <div class="input-group w-100">
-                    @if ($consumables_category_code == 'all')
+                    {{-- @if ($consumables_category_code == 'all')
                     <a class="btn btn-success" href="{{ route('buy_list') }}" name="category_code_all" id="category_code_all">すべて</a>
                     @else
                     <a class="btn btn-outline-success" href="{{ route('buy_list') }}" name="category_code_all" id="category_code_all">すべて</a>
-                    @endif
+                    @endif --}}
                     @foreach($consumables_category_all as $data)
                         @if ($consumables_category_code == $data->consumables_category_code)
                         <a class="btn btn-success" href="{{ route('buy_list') }}/{{ $data->consumables_category_code }}" name="category_code_{{$data->consumables_category_code}}" id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
@@ -117,5 +117,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    {{-- </div> --}}
 </div>

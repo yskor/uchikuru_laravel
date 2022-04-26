@@ -36,7 +36,7 @@
 					</td>
 					<!-- <%* 消耗品名 *%> -->
 					<td class="text-center table-w">
-						<div class="mb-2 text-truncate table-w">{{ $data->consumables_name }}</div>
+						<div class="mb-2 table-w">{{ $data->consumables_name }}</div>
 						<!-- <%* 画像 *%> -->
 						@if(!empty( $data->image_file_extension))
 						<div><img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"

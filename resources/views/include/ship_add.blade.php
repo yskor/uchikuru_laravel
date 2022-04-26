@@ -1,18 +1,17 @@
-<form action="{{route('ship_list')}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('facility_ship_list', ['office_code' => $office_code]) }}" method="POST" enctype="multipart/form-data">
 	@csrf
 	<div class="card mb-3">
 		<div class="card-header">
 			<h5 class="card-title" id="card-title">出荷する消耗品</h5>
 		</div>
+
 		<div class="card-body">
-			<div class="input-group mb-2" id="ship-office-form-group">
+			<div class="input-group mb-2" id="ship-office-form-group" style="width:250;">
 				<label class="input-group-text" for="office_code_to">出荷先</label>
 				<select class="form-control" name="office_code_to" id="office_code_to" required>
 					{{-- office_codeがallの場合は空欄を初期値とする --}}
 					@if ($office_code == 'all') 
 					<option value="" selected=""></option>
-					@else
-					<option value=""></option>
 					@endif
 					@foreach ($facility_all as $facility)
 						{{-- office_codeが一致する場合は初期値とする --}}
@@ -26,10 +25,8 @@
 					@endforeach
 				</select>
 			</div>
-			<div class="table" id="ships_table">
-				<div id="ships">
-					@include("include/ship_consumables", ['consumables_ship_data' => $consumables_ship_data])
-				</div>
+			<div class="row" id="ships">
+				@include("include/ship_consumables", ['consumables_ship_data' => $consumables_ship_data])
 			</div>
 		</div>
 
@@ -41,7 +38,7 @@
 
 		<div class="card-footer">
 			<button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">閉じる</button>
-			<button type="submit" class="btn btn-primary" id="btn-do">出荷を予定する</button>
+			<button type="submit" class="btn btn-primary" id="btn-do">出荷する</button>
 		</div>
 	</div>
 </form>

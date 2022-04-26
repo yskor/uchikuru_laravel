@@ -23,7 +23,7 @@
 {{-- @include('include/deliver_list_table') --}}
 {{-- @include('modal/qrreader') --}}
 
-{{-- <div id="qr">
+<div id="qr">
 	<div id="message" class="mb-2">QRコードを読み取ってください。</div>
     <div id="loadingMessage">⌛ Loading video...</div>
     <canvas id="canvas" style="width:100%;" height="480" width="640"></canvas>
@@ -149,10 +149,10 @@
             });
         });
     </script>
-</div> --}}
+</div>
 
 <div id="form" style="">
-	@include('include_deliver_table')
+	{{-- QRコードを読み込んだらHTML追加 --}}
 </div>
 
 <form action="{{route('deliver_table')}}" method="post">
@@ -177,12 +177,41 @@
 		var list = $( "#list" );
 		var modal = $( "#modal" );
 		
+		// 一覧の「納品」ボタンがクリックされた
+		// list.on( "click-btn-deliver", function( event, id ) {
+		// 	modal.data( "id" , id );
+		// 	modal.modal( "show" );
+		// 	console.log('ここからajax')
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: "{{route('qrreader')}}", //後述するweb.phpのURLと同じ形にする
+		// 		data: {
+		// 				//ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
+		// 		},
+		// 		dataType: 'json', //json形式で受け取る
+
+		// 	}).done((res)=>{
+		// 		$('#qr').html(res.html); //できあがったテンプレートをビューに追加
+		// 		// $('#consumablesShipModal').modal("show");
+		// 		console.log(res)
+		// 		console.log('成功しました')
+				
+		// 	}).fail((error)=>{
+		// 		//ajax通信がエラーのときの処理
+		// 		console.log('どんまい！');
+		// 	})
+		// 	console.log('ajax通ってる')
+		// });
 		
 		// 納品処理が完了
 		modal.on( "done", function( event, message ) {
 			$(this).modal( "hide" );
 		});
 		
+		// modal.on( "hidden.bs.modal", function() {
+		// 	reload();
+		// });
+	
 	});
 	
 </script>

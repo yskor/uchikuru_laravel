@@ -22,15 +22,8 @@
 @include("include/ship_list_category")
 
 {{-- 一覧表テーブル --}}
-{{-- @include("include/ship_list_table") --}}
-{{-- @include("include/ship_add") --}}
 <div id="ship-add"></div>
-
-{{-- <form action="{{route('ship_consumables_test')}}" method="post">
-	@csrf
-	<input type="text" name="consumables_barcode" id="">
-	<button type="submit">送信</button>
-</form> --}}
+<div class="alert alert-dark">出荷する施設を選択して下さい。</div>
 
 @endsection
 
@@ -43,7 +36,7 @@
 @include('_sample')
 
 {{-- バーコード読み取り --}}
-<script>
+{{-- <script>
 	var handy_reader_data = "";
 	var ship_add = 0;
 	// 無視するキーコード
@@ -59,7 +52,7 @@
 				handy_reader_data = "";
 			}, 3000 );
 		}
-	
+		console.log({{$office_code}})
 		if( event.keyCode == 13 && handy_reader_data != "" ) {
 			// Enterキーが押された
 			console.log(handy_reader_data);
@@ -71,6 +64,7 @@
 					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
 						'handy_reader_data': handy_reader_data,
+						'office_code': {{$office_code}},
 						'ship_add': ship_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
 					},
 					dataType: 'json', //json形式で受け取る
@@ -94,6 +88,7 @@
 					url: "{{route('ship_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
 						'handy_reader_data': handy_reader_data,
+						'office_code': {{$office_code}},
 						'ship_add': ship_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
 					},
 					dataType: 'json', //json形式で受け取る
@@ -122,6 +117,6 @@
 		}
 	});
 	
-</script>
+</script> --}}
 
 @endsection

@@ -292,6 +292,25 @@ class ConsumablesData extends BaseData
     }
 
     /**
+     * 事業所コードから未納品の消耗品一覧を取得します。
+     * @param int $office_code
+     * @param int $consumables_category_code
+     * @return unknown
+     */
+    public static function viewFacilityCategoryConsumablesDeliverList($office_code, $status_code)
+    {
+        return DB::select("SELECT * FROM dbo.VIEW_消耗品出荷納品テーブル as m
+                            LEFT JOIN
+                            (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity
+                                    FROM dbo.VIEW_消耗品在庫テーブルのみ
+                                    WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS a
+                            ON a.consumables_code = m.consumables_code 
+                            Where m.office_code_to = $office_code and m.status_code = '$status_code'");
+    }
+
+    /**
      * 施設QRコードから未納品の消耗品リストを取得します。
      * @param int $office_code, 
      * @return unknown

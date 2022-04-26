@@ -99,6 +99,7 @@ class MasterController extends AuthController
         $param = $request->all();
 
         if ($request->post == 'add') {
+            // dd($param);
             // データ追加
             Consumables::insert_consumables($param);
         } elseif ($request->post == 'edit') {

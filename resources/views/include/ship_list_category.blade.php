@@ -1,6 +1,6 @@
-<div class="card mb-3">
-    <div class="card-header">検索</div>
-    <div class="card-body">
+{{-- <div class="card mb-3"> --}}
+    {{-- <div class="card-header">検索</div>
+    <div class="card-body"> --}}
 
         <div class="mb-3" id="search-carehome">
             <div class="mb-1" id="facility-area">
@@ -41,9 +41,9 @@
                     @endif
                     @foreach ($facility_all as $facility)
                         @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
-                        <a class="btn btn-primary" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-primary" style="width: 91px" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @elseif ($facility->prefecture_code == 16)
-                        <a class="btn btn-outline-primary" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-outline-primary" style="width: 91px" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @endif
                     @endforeach
                 </div>
@@ -52,9 +52,9 @@
                         style="width:80px">石川</label>
                     @foreach ($facility_all as $facility)
                         @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
-                        <a class="btn btn-danger" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-danger" style="width: 91px" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @elseif ($facility->prefecture_code == 17)
-                        <a class="btn btn-outline-danger" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        <a class="btn btn-outline-danger" style="width: 91px" href="{{route('ship_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
                         @endif
                     @endforeach
                 </div>
@@ -130,5 +130,5 @@
                 </div>
             </div>
         </div> --}}
-    </div>
-</div>
+    {{-- </div> --}}
+{{-- </div> --}}

@@ -84,15 +84,18 @@ class Consumables extends Model
             // 作成日からマスタデータの消耗品コードを取得
             $this_consumables = ConsumablesData::getConsumablesCreateat($master_values['登録日時']);
             
-            $id_values = [
-                "消耗品コード" => $this_consumables->consumables_code,
-                "識別コード" => $param['consumables_code'],
-                // "登録職員コード" => $param[''],
-                "登録日時" => now(),
-            ];
+            foreach ($param['barcode'] as $barcode) {
+                $id_values = [
+                    "消耗品コード" => $this_consumables->consumables_code,
+                    "識別コード" => $barcode,
+                    // "登録職員コード" => $param[''],
+                    "登録日時" => now(),
+                ];
+                
+                // 消耗品識別データに登録
+                ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
+            }
             
-            // 消耗品識別データに登録
-            ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -177,7 +180,7 @@ class Consumables extends Model
     }
 
     // 仕入追加
-    public static function insert_consumables_buy($consumables_code, $office_code, $buy_number, $staff_code)
+    public static function insert_consumables_buy($consumables_code, $office_code, $buy_number, $buy_price, $staff_code)
     {
         try {
 
@@ -188,6 +191,7 @@ class Consumables extends Model
                 "消耗品コード" => $consumables_code,
                 "仕入事業所コード" => $office_code,
                 "仕入個数" => $buy_number,
+                "仕入単価" => $buy_price,
                 "仕入職員コード" => $staff_code,
                 "作成日時" => now(),
             ];
@@ -289,7 +293,7 @@ class Consumables extends Model
                     "事業所コード" => $office_code,
                     "消耗品コード" => $consumables_code,
                     "個数在庫数" => $deliver_number,
-                    "入数在庫数" => $consumables_master->quantity,
+                    "入数在庫数" => 0,
                     "登録職員コード" => $staff_code,
                     "作成日時" => now(),
                     "更新日時" => now(),
@@ -307,24 +311,37 @@ class Consumables extends Model
     public static function insert_consumables_consumption($consumables_code, $office_code, $total_stock_quantity, $consumption_quantity, $staff_code)
     {
         try {
+            // 消耗品コードから現在の在庫を参照
+            $consumables = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+            // dd($consumables);
+            if ($consumables->use_quantity) {
+                $consumption_values = [
+                    "消耗品コード" => $consumables_code,
+                    "消費事業所コード" => $office_code,
+                    "消費数" => $consumption_quantity,
+                    "消費単位コード" => "Q",
+                    "消費日時" => now(),
+                    "消費職員コード" => $staff_code,
+                ];
+                $total_stock_quantity = $total_stock_quantity - $consumption_quantity;
+                $stock_number = floor($total_stock_quantity / $consumables->quantity);
+                $stock_quantity = ($total_stock_quantity % $consumables->quantity);
+            } else {
+                $consumption_values = [
+                    "消耗品コード" => $consumables_code,
+                    "消費事業所コード" => $office_code,
+                    "消費数" => $consumption_quantity,
+                    "消費単位コード" => "N",
+                    "消費日時" => now(),
+                    "消費職員コード" => $staff_code,
+                ];
+                $stock_number = $consumables->stock_number - 1;
+                $stock_quantity = $consumables->stock_quantity;
+            }
 
-            // 消費テーブルを追加
-            $consumption_values = [
-                "消耗品コード" => $consumables_code,
-                "消費事業所コード" => $office_code,
-                "消費数" => $consumption_quantity,
-                "消費単位コード" => "Q",
-                "消費日時" => now(),
-                "消費職員コード" => $staff_code,
-            ];
             ConsumablesTable::tableConsumablesConsumption()->insert($consumption_values);
             
-            // 消耗品コードから現在の在庫を参照
-            $consumables = ConsumablesData::getConsumablesIdItem($consumables_code);
             
-            $total_stock_quantity = $total_stock_quantity - $consumption_quantity;
-            $stock_number = floor($total_stock_quantity / $consumables->quantity);
-            $stock_quantity = ($total_stock_quantity % $consumables->quantity);
 
             // 在庫テーブルの消耗品を減らす
             $stock_values = [
