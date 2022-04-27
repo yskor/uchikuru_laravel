@@ -20,7 +20,6 @@
 @section('main')
 
 {{-- 納品一覧表テーブル --}}
-{{-- @include('include/deliver_list_table') --}}
 {{-- @include('modal/qrreader') --}}
 
 {{-- <div id="qr">
@@ -152,7 +151,7 @@
 </div> --}}
 
 <div id="form" style="">
-	@include('include_deliver_table')
+	@include('include/deliver_table')
 </div>
 
 <form action="{{route('deliver_table')}}" method="post">

@@ -301,12 +301,12 @@ class ConsumablesData extends BaseData
     {
         return DB::select("SELECT * FROM dbo.VIEW_消耗品出荷納品テーブル as m
                             LEFT JOIN
-                            (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+                            (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code as a_consumables_code,
                                     dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
                                     dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity
                                     FROM dbo.VIEW_消耗品在庫テーブルのみ
                                     WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS a
-                            ON a.consumables_code = m.consumables_code 
+                            ON a_consumables_code = m.consumables_code 
                             Where m.office_code_to = $office_code and m.status_code = '$status_code'");
     }
 

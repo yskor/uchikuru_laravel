@@ -69,9 +69,9 @@ Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_s
 
 // 納品画面
 Route::get('/deliver', [DeliverController::class, 'deliver'])->name('deliver');
-Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
+// Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
 Route::get('/deliver_list_test', [DeliverController::class, 'deliver_list_test'])->name('deliver_list_test');
-Route::post('/deliver_list', [DeliverController::class, 'edit_deliver'])->name('edit_deliver');
+Route::post('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
 // 納品一覧
 Route::post('/qrreader', [DeliverController::class, 'qrreader'])->name('qrreader');
 Route::post('/deliver_consumables', [DeliverController::class, 'deliver_consumables'])->name('deliver_consumables');

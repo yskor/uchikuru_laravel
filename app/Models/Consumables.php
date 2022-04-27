@@ -261,7 +261,7 @@ class Consumables extends Model
     }
 
     // 納品追加
-    public static function insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code)
+    public static function insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $stock_number,$staff_code)
     {
         try {
 
@@ -281,18 +281,17 @@ class Consumables extends Model
                 // 在庫テーブルに同じ消耗品がある場合は消耗品を増やす
                 $stock_values = [
                     "消耗品コード" => $consumables_code,
-                    "個数在庫数" => $consumables_stock->stock_number + $deliver_number,
+                    "個数在庫数" => $stock_number + $deliver_number,
                     "登録職員コード" => $staff_code,
                     "更新日時" => now(),
                 ];
                 ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
             } else {
                 // 在庫テーブルに同じ消耗品が無い場合は消耗品を追加
-                $consumables_master = ConsumablesData::viewOneConsumables($consumables_code);
                 $stock_values = [
                     "事業所コード" => $office_code,
                     "消耗品コード" => $consumables_code,
-                    "個数在庫数" => $deliver_number,
+                    "個数在庫数" => $stock_number + $deliver_number,
                     "入数在庫数" => 0,
                     "登録職員コード" => $staff_code,
                     "作成日時" => now(),

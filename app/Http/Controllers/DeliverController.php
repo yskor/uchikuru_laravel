@@ -37,20 +37,36 @@ class DeliverController extends AuthController
      */
     public function deliver_list(Request $request)
     {
+        $staff_code = $this->login->staff_code;
+        $office_code = $request->office_code;
+        $ship_code = $request->ship_code;
+        $consumables_code = $request->consumables_code;
+        $deliver_number = $request->deliver_number;
+        $stock_number = $request->stock_number;
+        $status_code = "S";
+        // dd($request->all());
+        Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $stock_number, $staff_code);
+
+        // 消耗品コードから消耗品を取得
+        // Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code);
+        // $consumables_code = 4520951011185;
         Log::debug(print_r($this->login, true));
 
-        $office_code = $this->login->office_code;
-        $status_code = 'D';
-        
-        // 対象事業所の未納品消耗出荷データを取得＊バーコードが増えた時に対応できていない
-        // $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
-        $consumables_ship_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
-        
-        $data = [
-            // 'consumables_ship_list' => $consumables_ship_list, //未納品一覧
-            'login' => $this->login,
-        ];
+        // 対象事業所の消耗品出荷データを取得＊バーコードが増えた時に対応できていない
+        $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
 
+        foreach ($deliver_consumables_list as $data) {
+            if ($data->stock_number == null) {
+                $data->stock_number = 0;
+            }
+        }
+
+        $data = [
+            'deliver_consumables_list' => $deliver_consumables_list, //対象の事業所出荷一覧
+            'office_code' => $office_code,
+            // 'office_data' => $office_data,
+        ];
+        // dd($data, $office_code, $consumables_code);
         return self::view($request, 'deliver_list', $data);
     }
 
@@ -136,6 +152,11 @@ class DeliverController extends AuthController
         // $deliver_consumables_list = ConsumablesData::viewFacilityConsumablesShip($office_qrcode);
         $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
 
+        foreach ($deliver_consumables_list as $data) {
+            if ($data->stock_number == null) {
+                $data->stock_number = 0;
+            }
+        }
         $data = [
             'deliver_consumables_list' => $deliver_consumables_list,
             'office_code' => $office_code,
@@ -173,6 +194,12 @@ class DeliverController extends AuthController
 
         // 対象事業所の消耗品出荷データを取得＊バーコードが増えた時に対応できていない
         $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
+
+        foreach ($deliver_consumables_list as $data) {
+            if ($data->stock_number == null) {
+                $data->stock_number = 0;
+            }
+        }
 
         $data = [
             'deliver_consumables_list' => $deliver_consumables_list, //対象の事業所出荷一覧

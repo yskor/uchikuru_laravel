@@ -10,27 +10,28 @@
 						<div class="" width="100px">
 							<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}">
 						</div>
-						{{-- <form action="{{route('deliver_list')}}" method="post">
-							@csrf --}}
+						<form action="{{route('deliver_list')}}" method="post">
+							@csrf
 							<div class="p-1" id="confirm-{{$data->ship_code}}">
 								{{-- <p class="card-text">現施設在庫数：{{ $data->stock_number }}{{
 									$data->number_unit }}</p> --}}
-								<input type="hidden" name="delivers[{{$data->ship_code}}][ship_code]" value="{{$data->ship_code}}">
-								<input type="hidden" name="delivers[{{$data->ship_code}}][consumables_code]" value="{{$data->consumables_code}}">
+								<input type="hidden" name="office_code" value="{{$office_code}}">
+								<input type="hidden" name="ship_code" value="{{$data->ship_code}}">
+								<input type="hidden" name="consumables_code" value="{{$data->consumables_code}}">
 								<div class="form-group" id="deliver-number-form-group">
 									<label for="stock-number">現施設在庫数<span class="badge bg-danger">必須</span>：</label>
 									{{-- 現施設在庫数の入力 --}}
 									@if (isset($data->stock_number))
 										{{-- 違う場合 --}}
-										<input type="number" id="miss-stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="{{$data->stock_number}}" disabled="" style="width:50px;">
+										<input type="number" id="miss-stock-number-{{$data->ship_code}}" name="stock_number" value="{{$data->stock_number}}" disabled="" style="width:50px;">
 										{{-- 正しい場合 --}}
-										<input type="hidden" id="stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="{{$data->stock_number}}" disabled="" style="width:50px;">
+										<input type="hidden" id="stock-number-{{$data->ship_code}}" name="stock_number" value="{{$data->stock_number}}" disabled="" style="width:50px;">
 										<span class="" id="">{{$data->number_unit}}</span>
 									@else
 										{{-- 違う場合 --}}
-										<input type="number" id="miss-stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="0" disabled="" style="width:50px;">
+										<input type="number" id="miss-stock-number-{{$data->ship_code}}" name="stock_number" value="0" disabled="" style="width:50px;">
 										{{-- 正しい場合 --}}
-										<input type="hidden" id="stock-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][stock_number]" value="0" disabled="" style="width:50px;">
+										<input type="hidden" id="stock-number-{{$data->ship_code}}" name="stock_number" value="0" disabled="" style="width:50px;">
 										<span class="" id="">{{$data->number_unit}}</span>
 									@endif
 								</div>
@@ -43,9 +44,9 @@
 								<label for="deliver-number">納品数<span class="badge bg-danger">必須</span>：</label>
 								{{-- 納品数の入力 --}}
 								{{-- 違った場合 --}}
-								<input type="number" id="miss-deliver-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][deliver_number]" value="{{$data->shipped_number}}" disabled="" style="width:50px;">
+								<input type="number" id="miss-deliver-number-{{$data->ship_code}}" name="deliver_number" value="{{$data->shipped_number}}" disabled="" style="width:50px;">
 								{{-- 正しい場合 --}}
-								<input type="hidden" id="deliver-number-{{$data->ship_code}}" name="delivers[{{$data->ship_code}}][deliver_number]" value="{{$data->shipped_number}}" disabled="" style="width:50px;">
+								<input type="hidden" id="deliver-number-{{$data->ship_code}}" name="deliver_number" value="{{$data->shipped_number}}" disabled="" style="width:50px;">
 								<span class="" id="">{{$data->number_unit}}</span>
 								<div id="deliver-question-{{$data->ship_code}}" class="mb-2">
 									<p class="mb-0">上記の納品数は一致しますか？</p>
@@ -53,13 +54,13 @@
 									<button type="button" class="btn btn-primary btn-sm" id="deliver-btn-no">いいえ</button>
 								</div>
 								<div class="ml-auto">
-									<button type="button" class="btn btn-primary" id="btn-deliver-{{$data->ship_code}}" data-id="{{ $data->ship_code }}" disabled>納品</button>
+									<button type="submit" class="btn btn-primary" id="btn-deliver-{{$data->ship_code}}" data-id="{{ $data->ship_code }}" disabled>納品</button>
 								</div>
-								<div>{{$office_code}}</div>
+								{{-- <div>{{$office_code}}</div>
 								<div>{{$data->ship_code}}</div>
 								<div>{{$data->consumables_code}}</div>
 								<div>{{$data->shipped_number}}</div>
-								<div>{{$data->stock_number}}</div>
+								<div>{{$data->stock_number}}</div> --}}
 								<script>
 									$(function() {
 										
@@ -74,7 +75,6 @@
 										var confirm = 0
 										
 										parent.find( "#stock-btn-yes" ).on( "click", function(){
-											console.log(ボタンが押されました);
 											stock_question.prop( "hidden", true );
 											stock_number.prop( "disabled", false );
 											confirm += 1
@@ -85,7 +85,6 @@
 										});
 									
 										parent.find( "#stock-btn-no" ).on( "click", function(){
-											console.log(ボタンが押されました)
 											miss_stock_number.prop( "disabled", false );
 											stock_question.prop( "hidden", true );
 											confirm += 1
@@ -96,7 +95,6 @@
 										});
 		
 										parent.find( "#deliver-btn-yes" ).on( "click", function(){
-											console.log(ボタンが押されました)
 											deliver_number.prop( "disabled", false );
 											deliver_question.prop( "hidden", true );
 											parent.trigger( "click-btn-yes" );
@@ -108,7 +106,6 @@
 										});
 									
 										parent.find( "#deliver-btn-no" ).on( "click", function(){
-											
 											miss_deliver_number.prop( "disabled", false );
 											deliver_question.prop( "hidden", true );
 											parent.trigger( "click-btn-no" );
@@ -119,61 +116,11 @@
 											};
 										});
 
-										var $consumables_code = {{$data->consumables_code}}; 
-										deliver_do_btn.on("click", function(){
-
-											if ($consumables_code != null) {
-												$.ajax({
-													type: 'POST',
-													url: "{{route('edit_deliver')}}", //後述するweb.phpのURLと同じ形にする
-													data: {
-														'office_code': {{$office_code}},
-														'ship_code': {{$data->ship_code}},
-														'consumables_code': {{$data->consumables_code}},
-														'deliver_number': {{$data->shipped_number}},
-														'stock_number': {{$data->stock_number}},
-													},
-													dataType: 'json', //json形式で受け取る
-									
-												}).done((res)=>{
-													$('#form').html(res.html)
-													console.log('成功しました')
-													
-												}).fail((error)=>{
-													//ajax通信がエラーのときの処理
-													console.log('どんまい！');
-													ajax_fail(error);
-			
-												})
-											} else {
-												$.ajax({
-													type: 'POST',
-													url: "{{route('edit_deliver')}}", //後述するweb.phpのURLと同じ形にする
-													data: {
-														'office_code': {{$office_code}},
-														'ship_code': {{$data->ship_code}},
-														'consumables_code': 0,
-														'deliver_number': {{$data->shipped_number}},
-														'stock_number': 0,
-													},
-													dataType: 'json', //json形式で受け取る
-									
-												}).done((res)=>{
-													$('#form').html(res.html)
-													console.log('成功しました')
-													
-												}).fail((error)=>{
-													//ajax通信がエラーのときの処理
-													console.log('どんまい！');
-													ajax_fail(error);
-			
-												})
-											};
-										});
+										
 									});
 								</script>
 							</div>
-						{{-- </form> --}}
+						</form>
 					</div>
 				</div>
 			</div>
