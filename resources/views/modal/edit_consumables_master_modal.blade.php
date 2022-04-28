@@ -55,10 +55,11 @@
 
 					<div class="form-check">
 						@if($data->use_quantity == 1)
-						<input class="form-check-input" type="checkbox" value="{{ $data->use_quantity }}" name="use_quantity" id="use-quantity"
-						checked="true">
+						<input class="form-check-input" type="checkbox" value="{{ $data->use_quantity }}"
+							name="use_quantity" id="use-quantity" checked="true">
 						@else
-						<input class="form-check-input" type="checkbox" value="{{ $data->use_quantity }}" name="use_quantity" id="use-quantity">
+						<input class="form-check-input" type="checkbox" value="{{ $data->use_quantity }}"
+							name="use_quantity" id="use-quantity">
 						@endif
 						<label class="form-check-label" for="use-quantity">この消耗品を使用すると【入数】を減らす。</label>
 					</div>
@@ -75,9 +76,11 @@
 					</script>
 					<div class="form-check">
 						@if($data->can_use_multiple == 1)
-						<input class="form-check-input" type="checkbox" checked="true" value="{{ $data->can_use_multiple }}" name="can_use_multiple" id="can-use-multiple">
+						<input class="form-check-input" type="checkbox" checked="true"
+							value="{{ $data->can_use_multiple }}" name="can_use_multiple" id="can-use-multiple">
 						@else
-						<input class="form-check-input" type="checkbox" value="{{ $data->can_use_multiple }}" name="can_use_multiple" id="can-use-multiple">
+						<input class="form-check-input" type="checkbox" value="{{ $data->can_use_multiple }}"
+							name="can_use_multiple" id="can-use-multiple">
 						@endif
 						<label class="form-check-label" for="can-use-multiple">1回のQRコード読み取りで複数の在庫を使用できる。</label>
 					</div>
@@ -105,9 +108,11 @@
 											@foreach($consumables_category_all as $category)
 											{{-- カテゴリごとに作成 --}}
 											@if ( $category->consumables_category_code == $consumables_category_code )
-											<option value="{{ $category->consumables_category_code }}" selected="">{{ $category->consumables_category_name }}</option>
+											<option value="{{ $category->consumables_category_code }}" selected="">{{
+												$category->consumables_category_name }}</option>
 											@else
-											<option value="{{ $category->consumables_category_code }}">{{ $category->consumables_category_name }}</option>
+											<option value="{{ $category->consumables_category_code }}">{{
+												$category->consumables_category_name }}</option>
 											@endif
 											@endforeach
 										</select>
@@ -126,19 +131,22 @@
 
 						</script>
 					</div>
-				
+
 					<div class="form-group" id="last-negotiation-date-form-group">
-						<label for="last-negotiation-date">最終交渉日 </label>
-						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date" value="{{ $data->last_negotiation_date }}">
+						<label for="last-negotiation-date">最終価格交渉日 </label>
+						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date"
+							value="{{ $data->last_negotiation_date }}">
 						<div id="last-negotiation-date-feedback" class="invalid-feedback"></div>
 					</div>
 
 					<div class="form-group" id="image-file-form-group">
 						<label for="image-file">画像ファイル </label>
 						<!-- <%* 画像 *%> -->
-						<div class="m-2"><img id="edit_preview_{{$data->consumables_code}}" src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
-							style="width:100px;height:100px;"></div>
-						<input type="file" class="form-control" name="image_file" id="edit-image-file-{{$data->consumables_code}}" accept="image/*">
+						<div class="m-2"><img id="edit_preview_{{$data->consumables_code}}"
+								src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
+								style="width:100px;height:100px;"></div>
+						<input type="file" class="form-control" name="image_file"
+							id="edit-image-file-{{$data->consumables_code}}" accept="image/*">
 						<script>
 							$('#edit-image-file-{{$data->consumables_code}}').on('change', function (e) {
 								var reader = new FileReader();
@@ -149,7 +157,7 @@
 							});
 						</script>
 					</div>
-					
+
 
 				</div>
 				<div class="modal-footer">

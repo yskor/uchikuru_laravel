@@ -14,6 +14,7 @@ class ConsumablesTable extends BaseTable
     const TABLE_STAFF_MASTER = "職員マスタ";
     const TABLE_CONSUMABLE_MASTER = "消耗品マスタ";
     const TABLE_CONSUMABLE_ID_MASTER = "消耗品識別マスタ";
+    const TABLE_CONSUMABLE_ID_MASTER_ONLY = "消耗品識別マスタのみ";
     const TABLE_CONSUMABLE_CATEGORY_MASTER = "消耗品種別マスタ";
     const TABLE_CONSUMABLE_STOCK = "消耗品在庫テーブル";
     const TABLE_CONSUMABLE_BUY = '消耗品仕入テーブル';
@@ -23,6 +24,7 @@ class ConsumablesTable extends BaseTable
     const VIEW_STAFF_MASTER = "VIEW_" . self::TABLE_STAFF_MASTER;
     const VIEW_CONSUMABLE_MASTER = "VIEW_" . self::TABLE_CONSUMABLE_MASTER;
     const VIEW_CONSUMABLE_ID_MASTER = "VIEW_" . self::TABLE_CONSUMABLE_ID_MASTER;
+    const VIEW_CONSUMABLE_ID_MASTER_ONLY = "VIEW_" . self::TABLE_CONSUMABLE_ID_MASTER_ONLY;
     const VIEW_CONSUMABLE_CATEGORY_MASTER = "VIEW_" . self::TABLE_CONSUMABLE_CATEGORY_MASTER;
     const VIEW_CONSUMABLE_STOCK = "VIEW_" . self::TABLE_CONSUMABLE_STOCK;
     const VIEW_CONSUMABLE_BUY = "VIEW_" . self::TABLE_CONSUMABLE_BUY;
@@ -40,6 +42,12 @@ class ConsumablesTable extends BaseTable
     public static function tableConsumablesIdMaster()
     {
         return DB::table(self::TABLE_CONSUMABLE_ID_MASTER);
+    }
+
+    // 消耗品識別マスタのみ
+    public static function tableConsumablesIdMasterOnly()
+    {
+        return DB::table(self::TABLE_CONSUMABLE_ID_MASTER_ONLY);
     }
 
     // 消耗品種別マスタを取得
@@ -83,6 +91,12 @@ class ConsumablesTable extends BaseTable
     public static function viewConsumablesIdMaster()
     {
         return DB::table(self::VIEW_CONSUMABLE_ID_MASTER);
+    }
+
+    // 消耗品識別マスタのみ
+    public static function viewConsumablesIdMasterOnly()
+    {
+        return DB::table(self::VIEW_CONSUMABLE_ID_MASTER_ONLY);
     }
 
 

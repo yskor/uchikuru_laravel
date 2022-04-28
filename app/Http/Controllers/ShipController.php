@@ -105,7 +105,7 @@ class ShipController extends AuthController
                     'office_code' => $office_code
                 ];
                 // htmlを作成
-                $html = view('include.ship_add', $data)->render();
+                $html = view('include.ship.ship_add', $data)->render();
                 
                 // htmlとデータをJson形式で返す
                 return self::jsonHtml($request, $html, $data);
@@ -120,7 +120,7 @@ class ShipController extends AuthController
                     'office_code' => $office_code
                 ];
                 // カードの中だけのhtmlを作成
-                $html = view('include.ship_consumables', $data)->render();
+                $html = view('include.ship.ship_consumables', $data)->render();
                 
                 // htmlとデータをJson形式で返す
                 return self::jsonHtml($request, $html, $data);
@@ -135,7 +135,7 @@ class ShipController extends AuthController
                 'login' => $this->login,
                 'office_code' => $office_code
             ];
-            $html = view('include.ship_consumables', $data)->render();
+            $html = view('include.ship.ship_consumables', $data)->render();
 
             return self::jsonHtml($request, $html, $data);
         }

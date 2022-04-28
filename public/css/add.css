@@ -98,3 +98,12 @@
     top: 0;
     z-index: 100;
 }
+
+/* barcode-form */
+.barcode-form {
+    width: 350px;
+}
+
+.form-ws {
+	width: 300px;
+}

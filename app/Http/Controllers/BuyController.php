@@ -94,7 +94,7 @@ class BuyController extends AuthController
                 'login' => $this->login,
             ];
             // htmlを作成
-            $html = view('include.buy_add', $data)->render();
+            $html = view('include.buy.buy_add', $data)->render();
             
             // htmlとデータをJson形式で返す
             return self::jsonHtml($request, $html, $data);
@@ -106,7 +106,7 @@ class BuyController extends AuthController
                 'login' => $this->login,
             ];
             // カードの中だけのhtmlを作成
-            $html = view('include.buy_consumables', $data)->render();
+            $html = view('include.buy.buy_consumables', $data)->render();
             
             // htmlとデータをJson形式で返す
             return self::jsonHtml($request, $html, $data);

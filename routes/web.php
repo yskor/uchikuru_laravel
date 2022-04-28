@@ -9,6 +9,7 @@ use App\Http\Controllers\DeliverController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\ShipController;
 use App\Http\Controllers\ConsumptionController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,8 @@ Route::post('/sample/office_html', [SampleController::class, 'office_html']);
 // マスタ一覧
 Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
 Route::get('/qr_list', [MasterController::class, 'qr_list'])->name('qr_list');
+Route::get('/add_master', [MasterController::class, 'add_master'])->name('add_master');
+Route::get('/update_master/{consumables_code}', [MasterController::class, 'update_master'])->name('update_master');
 
 // マスタ更新
 Route::post('/master_list', [MasterController::class, 'edit_master'])->name('edit_master');
@@ -82,8 +85,4 @@ Route::get('/consumption', [ConsumptionController::class, 'consumption'])->name(
 Route::post('/consumption_done', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
 Route::post('/consumption_consumables', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
 
-
-// test
-Route::get('/buy_list_test', [BuyController::class, 'buy_list_test'])->name('buy_list_test');
-Route::post('/buy_consumables_test', [BuyController::class, 'buy_consumables_test'])->name('buy_consumables_test');
-Route::post('/ship_consumables_test', [ShipController::class, 'ship_consumables_test'])->name('ship_consumables_test');
+Route::get('/test', [TestController::class, 'test'])->name('test');

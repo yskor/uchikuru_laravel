@@ -33,13 +33,12 @@
 {{-- メインコンテンツ --}}
 @section('main')
 <!-- カテゴリセレクタ -->
-@include("include/ship_list_category")
+@include("include/ship/ship_list_category")
 
 
 {{-- 一覧表テーブル --}}
 <div id="ship-add"></div>
-@include("include/ship_list_table")
-{{-- @include("include/ship_add") --}}
+@include("include/ship/ship_list_table")
 
 @endsection
 

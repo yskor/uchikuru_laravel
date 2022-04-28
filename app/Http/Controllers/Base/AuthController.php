@@ -49,4 +49,19 @@ abstract class AuthController extends ActionController
         $data['login'] = StaffLoginManager::getLogin($request);
         return parent::view($request, $view, $data, $mergeData);
     }
+
+    /**
+     * マスタ画面用ビューを取得します。
+     * @param Request $request
+     * @param string $view
+     * @param array $data
+     * @param array $mergeData
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    protected static function master_view(Request $request, string $view, $data = [], $mergeData = [])
+    {
+        // ログイン情報
+        $data['login'] = StaffLoginManager::getLogin($request);
+        return parent::view($request, $view, $data, $mergeData);
+    }
 }

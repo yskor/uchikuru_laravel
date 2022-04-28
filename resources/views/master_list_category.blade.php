@@ -37,10 +37,10 @@
 @include("modal/add_consumables_master_modal")
 
 <!-- カテゴリセレクタ -->
-@include("include/consumables_category")
+@include("include/master/master_consumables_category")
 
 <!-- テーブル -->
-@include("include/master_table")
+@include("include/master/master_table")
 
 @endsection
 

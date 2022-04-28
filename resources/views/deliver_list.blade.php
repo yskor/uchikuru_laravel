@@ -151,7 +151,7 @@
 </div> --}}
 
 <div id="form" style="">
-	@include('include/deliver_table')
+	@include('include/deliver/deliver_table')
 </div>
 
 <form action="{{route('deliver_table')}}" method="post">

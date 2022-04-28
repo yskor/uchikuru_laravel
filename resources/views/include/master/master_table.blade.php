@@ -1,9 +1,8 @@
 <div class="d-flex">
-	<!-- Button trigger modal -->
-	<button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddModal">
+	<a class="btn btn-primary mb-2" href="{{asset('add_master')}}">
 		<i class="fas fa-plus fa-fw"></i>追加
-	</button>
-	
+	</a>
+
 	<div class="ms-auto">
 		<a class="btn btn-secondary" href="{{asset('qr_list')}}" target="_blank" rel="noopener noreferrer">QRコード一覧</a>
 	</div>
@@ -16,8 +15,8 @@
 			<thead>
 				<tr>
 					<th class="text-center table-w text-nowrap">消耗品バーコード</th>
-					<th class="text-center table-w text-nowrap">消耗品名</th>
-					<th class="text-center table-w text-nowrap">仕入単価（税込み）</th>
+					<th class="text-center text-nowrap" style="width:200px;">消耗品名</th>
+					<th class="text-center table-w text-nowrap">仕入単価（税込）</th>
 					<th class="text-center table-w text-nowrap">入数 / 単位</th>
 					<th class="text-center table-w text-nowrap">使用単位</th>
 					<th class="text-center table-w text-nowrap">複数使用</th>
@@ -31,42 +30,40 @@
 					<!-- <%* 消耗品コード *%> -->
 					<td class="text-center table-w">
 						<div class="mb-2">{{ $data->consumables_barcode }}</div>
-						<div id="qrcode-{{$data->consumables_barcode }}" data-bs-toggle="tooltip" data-bs-placement="top"
-							title="右クリックで保存できます。"></div>
+						<div id="qrcode-{{$data->consumables_barcode }}" data-bs-toggle="tooltip"
+							data-bs-placement="top" title="右クリックで保存できます。"></div>
 					</td>
 					<!-- <%* 消耗品名 *%> -->
-					<td class="text-center table-w">
-						<div class="mb-2 table-w">{{ $data->consumables_name }}</div>
+					<td class="text-center">
+						<div class="mb-2">{{ $data->consumables_name }}</div>
 						<!-- <%* 画像 *%> -->
-						@if(!empty( $data->image_file_extension))
-						<div><img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
+						<div><img
+								src="{{ asset('upload/consumables/'. $data->image_file_extension)}}"
 								style="width:100px;height:100px;"></div>
-						@endif
 					</td>
 					<!-- <%* 仕入れ単価 *%> -->
-					<td class="text-center table-w">@if(!empty($data->number_unit_price)) {{ $data->number_unit_price }} 円 @else -@endif
+					<td class="text-center table-w">@if(!empty($data->number_unit_price)) {{ $data->number_unit_price }}
+						円 @else -@endif
 					</td>
 					<!-- <%* 入数 / 単位 *%> -->
-					<td class="text-center table-w">{{ $data->quantity }} {{ $data->quantity_unit }} / {{ $data->number_unit }}</td>
+					<td class="text-center table-w">{{ $data->quantity }} {{ $data->quantity_unit }} / {{
+						$data->number_unit }}</td>
 					<!-- <%* 使用単位 *%> -->
 					<td class="text-center table-w">@if($data->use_quantity == true) 入数 @else 個数 @endif</td>
 					<!-- <%* 複数使用可 *%> -->
 					<td class="text-center table-w">@if($data->can_use_multiple == true) 可 @else 不可 @endif</td>
-					<!-- <%* 最終交渉日 *%> -->
-                    
+					<!-- <%* 最終価格交渉日 *%> -->
+
 					<td class="text-center table-w">
-                        @if(!empty( $data->last_negotiation_date )) 
-                        {{ $data->last_negotiation_date }}
-                        @else
-                        -
-                        @endif
-                    </td>
-					<td  style="40px">
-						<button type="button" class="btn btn-primary t-btn" data-bs-toggle="modal"
-							data-bs-target="#Edit{{ $data->consumables_code }}" style="40px">
-							変更
-						</button>
-						@include("modal/edit_consumables_master_modal")
+						@if(!empty( $data->last_negotiation_date ))
+						{{ $data->last_negotiation_date }}
+						@else
+						-
+						@endif
+					</td>
+					<td style="40px">
+						<a class="btn btn-primary t-btn" href="{{asset('update_master'. '/' . $data->consumables_code )}}">変更</a>
+						{{-- @include("modal/edit_consumables_master_modal") --}}
 					</td>
 				</tr>
 				@endforeach

@@ -33,11 +33,11 @@
 {{-- メインコンテンツ --}}
 @section('main')
 <!-- カテゴリセレクタ -->
-@include("include/stock_list_category_facility")
+@include("include/stock/stock_list_category_facility")
 
 
 {{-- 一覧表テーブル --}}
-@include("include/stock_list_table")
+@include("include/stock/stock_list_table")
 
 @endsection
 

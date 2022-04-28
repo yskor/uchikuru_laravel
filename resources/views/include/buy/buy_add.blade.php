@@ -13,7 +13,7 @@
 				</select>
 			</div>
 			<div class="row" id="buys">
-				@include("include/buy_consumables", ['consumables_buy_data' => $consumables_buy_data])
+				@include("include/buy/buy_consumables", ['consumables_buy_data' => $consumables_buy_data])
 			</div>
 		</div>
 

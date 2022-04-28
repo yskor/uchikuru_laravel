@@ -38,7 +38,7 @@
 								<div id="stock-question-{{$data->ship_code}}" class="mb-2">
 									<p class="mb-0">上記の現施設在庫数は一致しますか？</p>
 									<button type="button" class="btn btn-primary btn-sm" id="stock-btn-yes">はい</button>
-									<button type="button" class="btn btn-primary btn-sm" id="stock-btn-no">いいえ</button>
+									<button type="button" class="btn btn-danger btn-sm" id="stock-btn-no">いいえ</button>
 								</div>
 								{{-- <p class="card-text">納品数：{{ $data->shipped_number }}{{ $data->number_unit }}</p> --}}
 								<label for="deliver-number">納品数<span class="badge bg-danger">必須</span>：</label>
@@ -51,7 +51,7 @@
 								<div id="deliver-question-{{$data->ship_code}}" class="mb-2">
 									<p class="mb-0">上記の納品数は一致しますか？</p>
 									<button type="button" class="btn btn-primary btn-sm" id="deliver-btn-yes">はい</button>
-									<button type="button" class="btn btn-primary btn-sm" id="deliver-btn-no">いいえ</button>
+									<button type="button" class="btn btn-danger btn-sm" id="deliver-btn-no">いいえ</button>
 								</div>
 								<div class="ml-auto">
 									<button type="submit" class="btn btn-primary" id="btn-deliver-{{$data->ship_code}}" data-id="{{ $data->ship_code }}" disabled>納品</button>

@@ -34,12 +34,12 @@
 {{-- メインコンテンツ --}}
 @section('main')
 <!-- カテゴリセレクタ -->
-@include("include/buy_list_category")
+@include("include/buy/buy_list_category")
 
 
 {{-- 一覧表テーブル --}}
 <div id="buy-add"></div>
-@include("include/buy_list_table")
+@include("include/buy/buy_list_table")
 
 @endsection
 

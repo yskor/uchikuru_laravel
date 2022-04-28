@@ -163,7 +163,7 @@ class DeliverController extends AuthController
         ];
         // dd($data);
         // 未納品の消耗品リストテーブルのhtmlを作成
-        $html = view('include.deliver_table', $data)->render();
+        $html = view('include.deliver.deliver_table', $data)->render();
         
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);
@@ -185,7 +185,7 @@ class DeliverController extends AuthController
         $deliver_number = $request->deliver_number;
         $stock_number = $request->stock_number;
         $status_code = "S";
-        Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code);
+        Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $stock_number, $staff_code);
 
         // 消耗品コードから消耗品を取得
         // Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code);
@@ -208,7 +208,7 @@ class DeliverController extends AuthController
         ];
         // dd($data, $office_code, $consumables_code);
         // return self::view($request, 'deliver_list', $data);
-        $html = view('include.deliver_table', $data)->render();
+        $html = view('include.deliver.deliver_table', $data)->render();
         
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);

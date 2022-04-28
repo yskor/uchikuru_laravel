@@ -33,107 +33,73 @@ class Consumables extends Model
 
 
     // マスタ登録
-    public static function insert_consumables($param)
+    public static function insert_consumables($param, $staff_code)
     {
         try {
-            // dd($param);
             // 最後のマスタデータの消耗品コードを取得
             $last_consumables = ConsumablesData::getLastConsumables();
             $consumables_code = $last_consumables->consumables_code + 1;
-            // dd($consumables_code);
-            // 複数使用可判定
-            try {
-                $can_use_multiple = $param['can_use_multiple'];
-            } catch (Exception $e) {
-                $can_use_multiple = 0;
-            }
-            // 入数使用判定
-            try {
-                $use_quantity = $param['use_quantity'];
-            } catch (Exception $e) {
-                $use_quantity = 0;
-            }
             // 画像があるか
             try {
                 $len = 8; //指定文字列
                 //指定した文字で埋める
                 $filename = str_pad($consumables_code, $len, 0, STR_PAD_LEFT); // => "00123"
                 $image_file_extension = $param['image_file']->getClientOriginalExtension(); //拡張子取得
-                $image_filename = $filename. '.' .$image_file_extension; //ファイル名取得
+                $image_filename = $filename . '.' . $image_file_extension; //ファイル名取得
                 $param['image_file']->storeAs('upload/consumables', $image_filename, 'public_uploads'); //ファイル保存
             } catch (Exception $e) {
                 $image_filename = '00000000.png'; //デフォルト値
             }
             $master_values = [
                 "消耗品名" => $param['consumables_name'],
-                "個数単位" => $param['number_unit'],
                 "個数単価" => $param['number_unit_price'],
+                "個数" => $param['number'],
                 "入数" => $param['quantity'],
-                "入数単位" => $param['quantity_unit'],
-                "入数使用" => $use_quantity,
-                "複数使用可" => $can_use_multiple,
+                "消費数量" => $param['use_quantity'],
+                "消費単位コード" => $param['use_unit'],
                 "消耗品種別コード" => $param['consumables_category_code'],
-                "最終交渉日" => $param['last_negotiation_date'],
+                "最終価格交渉日" => $param['last_negotiation_date'],
                 "画像ファイル拡張子" => $image_filename,
+                "最終更新職員コード" => $staff_code,
                 "登録日時" => now(),
                 "更新日時" => now()
             ];
-            
+
             // 消耗品マスタデータに登録
             ConsumablesTable::tableConsumablesMaster()->insert($master_values);
             // 作成日からマスタデータの消耗品コードを取得
             $this_consumables = ConsumablesData::getConsumablesCreateat($master_values['登録日時']);
-            
-            foreach ($param['barcode'] as $barcode) {
-                $id_values = [
-                    "消耗品コード" => $this_consumables->consumables_code,
-                    "識別コード" => $barcode,
-                    // "登録職員コード" => $param[''],
-                    "登録日時" => now(),
-                ];
-                
-                // 消耗品識別データに登録
-                ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
+            $unit_codes = ['B','N','Q'];
+            foreach ($unit_codes as $code) {
+                if($param['barcode'][$code]) {
+                    $id_values = [
+                        "消耗品コード" => $this_consumables->consumables_code,
+                        "識別コード" => $param['barcode'][$code],
+                        "消耗品単位コード" => $code,
+                        "登録日時" => now(),
+                    ];
+                    // 消耗品識別データに登録
+                    ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
+                }
             }
-            
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
         }
-
     }
 
     // マスタ更新
-    public static function update_consumables($param)
+    public static function update_consumables($param, $staff_code)
     {
 
         try {
-            // dd($param);
-            // 複数使用可判定
-            try {
-                $can_use_multiple = $param['can_use_multiple'];
-            } catch (Exception $e) {
-                $can_use_multiple = 0;
-            }
-            // 入数使用判定
-            try {
-                $use_quantity = $param['use_quantity'];
-            } catch (Exception $e) {
-                $use_quantity = 0;
-            }
-            // 最終交渉日判定
-            try {
-                $last_negotiation_date = $param['last_negotiation_date'];
-            } catch (Exception $e) {
-                $last_negotiation_date = Null;
-            }
             // 画像判定
             try {
                 $len = 8; //指定文字列
                 //指定した文字で埋める
                 $filename = str_pad($param['consumables_code'], $len, 0, STR_PAD_LEFT); // => "00123"
                 $image_file_extension = $param['image_file']->getClientOriginalExtension(); //拡張子取得
-                $image_filename = $filename. '.' .$image_file_extension; //ファイル名取得
+                $image_filename = $filename . '.' . $image_file_extension; //ファイル名取得
                 $param['image_file']->storeAs('upload/consumables', $image_filename, 'public_uploads'); //ファイル保存
             } catch (Exception $e) {
                 // 画像データ取得
@@ -141,26 +107,37 @@ class Consumables extends Model
                 $image_filename = $consumables->image_file_extension;
             }
 
-            // 対象マスタのバーコードを全て取得
-            $consumables_id_all = ConsumablesData::getConsumablesId($param['consumables_code']);
-
             // 識別コードが複数ある場合はバーコードを配列に格納
             $master_values = [
-                // "消耗品コード" => $param['consumables_code'],
                 "消耗品名" => $param['consumables_name'],
-                "個数単位" => $param['number_unit'],
                 "個数単価" => $param['number_unit_price'],
+                "個数" => $param['number'],
                 "入数" => $param['quantity'],
-                "入数単位" => $param['quantity_unit'],
-                "入数使用" => $use_quantity,
-                "複数使用可" => $can_use_multiple,
+                "消費数量" => $param['use_quantity'],
+                "消費単位コード" => $param['use_unit'],
                 "消耗品種別コード" => $param['consumables_category_code'],
-                "最終交渉日" => $last_negotiation_date,
+                "最終価格交渉日" => $param['last_negotiation_date'],
                 "画像ファイル拡張子" => $image_filename,
+                "最終更新職員コード" => $staff_code,
                 "更新日時" => now()
             ];
-            ConsumablesData::getOneConsumables($param['consumables_code'])->update($master_values);
 
+            ConsumablesData::getOneConsumables($param['consumables_code'])->update($master_values);
+            
+            $consumables = ConsumablesData::viewOneConsumables($param['consumables_code']);
+            $unit_codes = ['B','N','Q'];
+            foreach ($unit_codes as $code) {
+                if($param['barcode'][$code]) {
+                    $id_values = [
+                        "消耗品コード" => $consumables->consumables_code,
+                        "識別コード" => $param['barcode'][$code],
+                        "消耗品単位コード" => $code,
+                        "登録日時" => now(),
+                    ];
+                    // 消耗品識別データを更新
+                    ConsumablesData::getConsumablesBarcodeItem($param['consumables_code'], $param['barcode'][$code])->update($id_values);
+                }
+            }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -169,10 +146,10 @@ class Consumables extends Model
 
 
     // マスタ削除
-    public static function delete_consumables($consumables_code)
+    public static function delete_consumables($param)
     {
         try {
-            return ConsumablesData::getOneConsumables($consumables_code)->delete();
+            return ConsumablesData::getOneConsumables($param['consumables_code'])->delete();
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -242,7 +219,7 @@ class Consumables extends Model
                 "納品先事業所コード" => $office_code_to,
             ];
             ConsumablesTable::tableConsumablesShip()->insert($ship_values);
-            
+
             // 消耗品コードから現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code_from);
             // 在庫テーブルの消耗品を減らす
@@ -253,7 +230,6 @@ class Consumables extends Model
                 "更新日時" => now(),
             ];
             ConsumablesData::getConsumablesStockData($consumables_code, $office_code_from)->update($dec_values);
-
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -261,7 +237,7 @@ class Consumables extends Model
     }
 
     // 納品追加
-    public static function insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $stock_number,$staff_code)
+    public static function insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $stock_number, $staff_code)
     {
         try {
 
@@ -274,7 +250,7 @@ class Consumables extends Model
             ];
             // 出荷納品テーブルを更新
             ConsumablesData::getConsumablesShipData($ship_code)->update($deliver_values);
-            
+
             // 在庫テーブルから現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
             if ($consumables_stock) {
@@ -299,7 +275,6 @@ class Consumables extends Model
                 ];
                 ConsumablesTable::tableConsumablesStock()->insert($stock_values);
             }
-
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -339,8 +314,8 @@ class Consumables extends Model
             }
 
             ConsumablesTable::tableConsumablesConsumption()->insert($consumption_values);
-            
-            
+
+
 
             // 在庫テーブルの消耗品を減らす
             $stock_values = [
@@ -349,11 +324,9 @@ class Consumables extends Model
                 "更新日時" => now(),
             ];
             ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
-
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
         }
     }
-
 }

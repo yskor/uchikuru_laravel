@@ -19,10 +19,7 @@
 {{-- メインコンテンツ --}}
 @section('main')
 
-{{-- 納品一覧表テーブル --}}
-{{-- @include('include/deliver_list_table') --}}
-{{-- @include('modal/qrreader') --}}
-
+{{-- QRコード読み取り --}}
 <div id="qr">
 	<div id="message" class="mb-2">QRコードを読み取ってください。</div>
     <div id="loadingMessage">⌛ Loading video...</div>

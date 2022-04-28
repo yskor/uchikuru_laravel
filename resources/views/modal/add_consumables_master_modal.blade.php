@@ -10,35 +10,29 @@
 				</div>
 				<div class="modal-body">
 					@csrf
-					<div class="form-group" id="consumables-code-form-group">
-						<div id="barcode-group-1">
-							<label for="consumables-code">消耗品バーコード1<span class="badge bg-danger">必須</span> </label>
-							<input type="text" class="form-control" name="barcode[]" id="consumables-code">
+					<div>
+						<div class="form-group" id="consumables-code-form-group">
+							<div id="barcode-group-1">
+								<label for="consumables-code">消耗品バーコード（段）<span class="badge bg-danger">必須</span></label>
+								<input type="text" class="form-control" name="barcode[]" id="consumables-code">
+							</div>
+							<div id="consumables-code-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
-						<button id="add-barcode" class="btn btn-primary">追加</button>
-						<div id="consumables-code-feedback" class="invalid-feedback"></div>
+						<div class="form-group" id="consumables-code-form-group">
+							<div id="barcode-group-2">
+								<label for="consumables-code">消耗品バーコード（箱）<span class="badge bg-danger">必須</span>
+								</label>
+								<input type="text" class="form-control" name="barcode[]" id="consumables-code">
+							</div>
+							<div id="consumables-code-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
+						</div>
+						<div class="form-group" id="consumables-code-form-group">
+							<div id="barcode-group-3">
+								<label for="consumables-code">消耗品バーコード（個）</label>
+								<input type="text" class="form-control" name="barcode[]" id="consumables-code">
+							</div>
+						</div>
 					</div>
-					<script>
-						var i = 1
-						$('#add-barcode').on('click', function() {
-							i += 1
-							var div = $('#consumables-code-form-group')
-							$(this).before(`
-								<div id="barcode-group-${i}">
-									<label for="consumables-code-${i}">消耗品バーコード${i}<span class="badge bg-danger">必須</span> </label>
-									
-									<input type="text" class="form-control" name="barcode[]" id="consumables-code-${i}">
-									
-									<button class="btn btn-danger" id="delete-barcode">削除</button>
-								</div>
-							`);
-						});
-						$('#delete-barcode').on('click', function() {
-							console.log('クリックされた')
-							$(this).remove()
-							i -= 1
-						});
-					</script>
 
 					<div class="form-group" id="consumables-name-form-group">
 						<label for="consumables-name">消耗品名 <span class="badge bg-danger">必須</span> </label>
@@ -138,8 +132,9 @@
 					</div>
 
 					<div class="form-group" id="last-negotiation-date-form-group">
-						<label for="last-negotiation-date">最終交渉日 </label>
-						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date" value="">
+						<label for="last-negotiation-date">最終価格交渉日 </label>
+						<input type="date" class="form-control" name="last_negotiation_date" id="last-negotiation-date"
+							value="">
 						<div id="last-negotiation-date-feedback" class="invalid-feedback"></div>
 					</div>
 
@@ -147,7 +142,7 @@
 						<label for="image-file">画像ファイル </label>
 						<!-- <%* 画像 *%> -->
 						<div class="m-2"><img id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
-							style="width:100px;height:100px;"></div>
+								style="width:100px;height:100px;"></div>
 						<input type="file" class="form-control" name="image_file" id="add-image-file" accept="image/*">
 						<script>
 							$('#add-image-file').on('change', function (e) {

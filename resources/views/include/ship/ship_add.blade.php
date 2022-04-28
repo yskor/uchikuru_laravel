@@ -26,7 +26,7 @@
 				</select>
 			</div>
 			<div class="row" id="ships">
-				@include("include/ship_consumables", ['consumables_ship_data' => $consumables_ship_data])
+				@include("include/ship/ship_consumables", ['consumables_ship_data' => $consumables_ship_data])
 			</div>
 		</div>
 
