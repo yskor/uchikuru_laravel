@@ -59,7 +59,7 @@
             </a>
           </li>
           <li class="nav-item border">
-            <a class="nav-link" href="{{route('master_list')}}">
+            <a class="nav-link" href="{{route('master_list_category', ['consumables_category_code' => 1])}}">
               <i class="fas fa-database "></i>
                 マスタ一覧
             </a>
@@ -129,7 +129,7 @@
             </a>
           </li>
           <li class="nav-item border">
-            <a class="nav-link" href="{{route('master_list')}}" style="font-size: 5px">
+            <a class="nav-link" href="{{route('master_list_category', ['consumables_category_code' => 1])}}" style="font-size: 5px">
               <i class="fas fa-database " style="font-size: 16px"></i>
               <br>マスタ一覧
             </a>

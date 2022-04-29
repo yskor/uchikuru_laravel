@@ -33,19 +33,20 @@ Route::post('/sample/office', [SampleController::class, 'office']);
 Route::post('/sample/office_html', [SampleController::class, 'office_html']);
 
 // マスタ一覧
-Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
+// Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
 Route::get('/qr_list', [MasterController::class, 'qr_list'])->name('qr_list');
 Route::get('/add_master', [MasterController::class, 'add_master'])->name('add_master');
 Route::get('/update_master/{consumables_code}', [MasterController::class, 'update_master'])->name('update_master');
 
 // マスタ更新
-Route::post('/master_list', [MasterController::class, 'edit_master'])->name('edit_master');
+// Route::post('/master_list', [MasterController::class, 'edit_master'])->name('edit_master');
+// Route::post('/edit_master', [MasterController::class, 'edit_master'])->name('edit_master');
 
 // マスタカテゴリ別一覧
 Route::get('/master_list/{consumables_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
 
 // マスタカテゴリ別一覧
-Route::post('/master_list/{consumables_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
+Route::post('/master_list/{consumables_category_code}', [MasterController::class, 'edit_master'])->name('edit_master');;
 
 // 在庫一覧
 Route::get('/stock_list', [StockController::class, 'stock_list'])->name('stock_list');

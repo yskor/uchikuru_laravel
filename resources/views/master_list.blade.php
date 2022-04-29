@@ -37,11 +37,8 @@
 <!-- カテゴリセレクタ -->
 @include("include/master/master_consumables_category")
 
-
 <!-- テーブル -->
 @include("include/master/master_table")
-
-
 
 @endsection
 

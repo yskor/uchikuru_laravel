@@ -44,7 +44,7 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesIdAll()
     {
-        return ConsumablesTable::viewConsumablesIdMaster()->get();
+        return ConsumablesTable::viewConsumablesIdMaster()->where('unit_code', '=', 'N')->get();
     }
 
     // マスタ一覧表示画面用
@@ -95,6 +95,17 @@ class ConsumablesData extends BaseData
     }
 
     /**
+     * 指定された消耗品コードと消耗品単位コードから消耗品を取得します。
+     * @param string $consumables_code
+     */
+    public static function viewConsumablesBarcodeItem($consumables_code, $unit_code)
+    {
+        return ConsumablesTable::viewConsumablesIdMasterOnly()
+                ->where('consumables_code', '=', $consumables_code)
+                ->where('unit_code', '=', $unit_code)->first();
+    }
+
+    /**
      * 指定された消耗品コードから消耗品識別バーコードを全て取得します。
      * @param string $consumables_code
      */
@@ -110,7 +121,10 @@ class ConsumablesData extends BaseData
      */
     public static function getCategoryConsumablesList($consumables_category_code)
     {
-        return ConsumablesTable::viewConsumablesIdMaster()->where('consumables_category_code', '=', $consumables_category_code)->get();
+        return ConsumablesTable::viewConsumablesIdMaster()
+                ->where('consumables_category_code', '=', $consumables_category_code)
+                ->where('unit_code', '=', 'N')
+                ->get();
     }
 
     /**
@@ -236,7 +250,7 @@ class ConsumablesData extends BaseData
 						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
 						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
 								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
-                        ON a.consumables_code = m.consumables_code");
+                        ON a.consumables_code = m.consumables_code WHERE m.unit_code = 'N'");
     }
 
     /**
@@ -258,7 +272,7 @@ class ConsumablesData extends BaseData
 						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
 						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
 								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
-                        ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code");
+                        ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.unit_code = 'N' ");
     }
 
 

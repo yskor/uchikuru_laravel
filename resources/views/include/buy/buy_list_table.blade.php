@@ -2,7 +2,7 @@
 	<h6 class="card-header">富山</h6>
 	<div class="card-body">
 		<div class="row">
-			<div class="input-group">
+			<div class="input-group" style="width: 350px;">
 				<div class="input-group-prepend">
 					<label class="input-group-text" for="office-code-to">仕入先</label>
 				</div>

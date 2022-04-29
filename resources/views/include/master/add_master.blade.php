@@ -1,4 +1,4 @@
-<form class="" action="{{ route('edit_master') }}" method="post" enctype="multipart/form-data">
+<form class="" action="{{route('master_list_category', ['consumables_category_code' => 1])}}" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="post" value="add">
 	<div class="card">
 		<div class="card-header">
@@ -64,10 +64,10 @@
 				</div>
 
 				<div class="mb-1" style="width: 350px">
-					<label for="">使用数量 <span class="badge bg-danger">必須</span> </label>
+					<label for="">消費数量 <span class="badge bg-danger">必須</span> </label>
 					<div class="d-flex">
 						<input type="number" class="form-control" id="use-quantity" name="use_quantity"
-							placeholder="1回あたりの使用数量を入力" aria-label="quantity_unit" required>
+							placeholder="1回あたりの消費数量を入力" aria-label="quantity_unit" required>
 						<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 							<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"
 								autocomplete="off" checked>
@@ -126,7 +126,7 @@
 
 		</div>
 		<div class="card-footer d-flex justify-content-end">
-			<button type="submit" class="btn btn-primary">登録する</button>
+			<input type="submit" class="btn btn-primary mx-3" name="post" value="登録する">
 		</div>
 	</div>
 </form>

@@ -17,9 +17,7 @@
 					<th class="text-center table-w text-nowrap">消耗品バーコード</th>
 					<th class="text-center text-nowrap" style="width:200px;">消耗品名</th>
 					<th class="text-center table-w text-nowrap">仕入単価（税込）</th>
-					<th class="text-center table-w text-nowrap">入数 / 単位</th>
-					<th class="text-center table-w text-nowrap">使用単位</th>
-					<th class="text-center table-w text-nowrap">複数使用</th>
+					<th class="text-center table-w text-nowrap">消費単位</th>
 					<th class="text-center table-w text-nowrap">最終価格交渉日</th>
 					<th class="text-center"></th>
 				</tr>
@@ -45,13 +43,9 @@
 					<td class="text-center table-w">@if(!empty($data->number_unit_price)) {{ $data->number_unit_price }}
 						円 @else -@endif
 					</td>
-					<!-- <%* 入数 / 単位 *%> -->
-					<td class="text-center table-w">{{ $data->quantity }} {{ $data->quantity_unit }} / {{
+					<!-- <%* 消費数量 *%> -->
+					<td class="text-center table-w">{{ $data->use_quantity }} {{ $data->use_unit }} / {{
 						$data->number_unit }}</td>
-					<!-- <%* 使用単位 *%> -->
-					<td class="text-center table-w">@if($data->use_quantity == true) 入数 @else 個数 @endif</td>
-					<!-- <%* 複数使用可 *%> -->
-					<td class="text-center table-w">@if($data->can_use_multiple == true) 可 @else 不可 @endif</td>
 					<!-- <%* 最終価格交渉日 *%> -->
 
 					<td class="text-center table-w">

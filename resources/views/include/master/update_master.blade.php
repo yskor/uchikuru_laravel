@@ -1,6 +1,7 @@
-<form class="" action="{{ route('edit_master') }}" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="post" value="edit">
+<form class="" action="{{route('master_list_category', ['consumables_category_code' => $consumables->consumables_category_code])}}" method="post" enctype="multipart/form-data">
+	{{-- <input type="hidden" name="post" value="edit"> --}}
 	<input type="hidden" name="consumables_code" value="{{$consumables->consumables_code}}">
+	<input type="hidden" name="consumables_category_code" value="{{$consumables->consumables_category_code}}">
 	<div class="card">
 		<div class="card-header">
 			<h5 class="card-title" id="AddModalLabel">消耗品情報を更新</h5>
@@ -65,24 +66,24 @@
 				</div>
 
 				<div class="mb-1" style="width: 350px">
-					<label for="">使用数量 <span class="badge bg-danger">必須</span> </label>
+					<label for="">消費数量 <span class="badge bg-danger">必須</span> </label>
 					<div class="d-flex">
 						<input type="number" class="form-control" id="use-quantity" name="use_quantity"
 							value="{{$consumables->use_quantity}}" aria-label="quantity_unit" required>
 						<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
-							@if($consumables->use_unit_code == 'N')
+							@if($consumables->use_unit_code == 'Q')
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"
-								autocomplete="off" checked>
+								autocomplete="off">
 								<label class="btn btn-outline-primary" for="use-unit-number">箱</label>
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-quantity" value="Q"
-								autocomplete="off">
+								autocomplete="off" checked>
 								<label class="btn btn-outline-primary" for="use-unit-quantity">個</label>
 							@else
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"
-								autocomplete="off">
+								autocomplete="off" checked>
 								<label class="btn btn-outline-primary" for="use-unit-number">箱</label>
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-quantity" value="Q"
-								autocomplete="off" checked>
+								autocomplete="off">
 								<label class="btn btn-outline-primary" for="use-unit-quantity">個</label>
 							@endif
 						</span>
@@ -97,7 +98,7 @@
 						required>
 						@foreach($consumables_category_all as $category)
 						{{-- カテゴリごとに作成 --}}
-						@if ($category->consumables_category_code = $consumables->consumables_category_code)
+						@if ($category->consumables_category_code == $consumables->consumables_category_code)
 						<option value="{{ $category->consumables_category_code }}" selected>{{
 							$category->consumables_category_name }}</option>
 						@else
@@ -140,7 +141,8 @@
 
 		</div>
 		<div class="card-footer d-flex justify-content-end">
-			<button type="submit" class="btn btn-primary">更新する</button>
+			<input type="submit" class="btn btn-primary mx-3" name="post" value="更新する">
+			@include('modal/master_delete')
 		</div>
 	</div>
 </form>

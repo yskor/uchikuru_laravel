@@ -107,7 +107,6 @@ class Consumables extends Model
                 $image_filename = $consumables->image_file_extension;
             }
 
-            // 識別コードが複数ある場合はバーコードを配列に格納
             $master_values = [
                 "消耗品名" => $param['consumables_name'],
                 "個数単価" => $param['number_unit_price'],
@@ -134,8 +133,14 @@ class Consumables extends Model
                         "消耗品単位コード" => $code,
                         "登録日時" => now(),
                     ];
-                    // 消耗品識別データを更新
-                    ConsumablesData::getConsumablesBarcodeItem($param['consumables_code'], $param['barcode'][$code])->update($id_values);
+                    // 消耗品コードと単位コードから既にあるか確認。あるは更新、無い場合は追加
+                    if (ConsumablesData::viewConsumablesBarcodeItem($param['consumables_code'], $code)) {
+                        // 消耗品識別データを更新
+                        ConsumablesData::getConsumablesBarcodeItem($param['consumables_code'], $param['barcode'][$code])->update($id_values);
+                    } else {
+                        // 消耗品識別データに登録
+                        ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -149,7 +154,8 @@ class Consumables extends Model
     public static function delete_consumables($param)
     {
         try {
-            return ConsumablesData::getOneConsumables($param['consumables_code'])->delete();
+            ConsumablesData::getOneConsumables($param['consumables_code'])->delete();
+            ConsumablesData::getConsumablesIdItem($param['consumables_code'])->delete();
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;

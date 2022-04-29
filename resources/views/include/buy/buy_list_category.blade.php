@@ -31,7 +31,7 @@
                 </script> --}}
             </div>
             <div id="categories">
-                <div class="input-group w-100">
+                <div class="w-100">
                     {{-- @if ($consumables_category_code == 'all')
                     <a class="btn btn-success" href="{{ route('buy_list') }}" name="category_code_all" id="category_code_all">すべて</a>
                     @else
@@ -39,9 +39,9 @@
                     @endif --}}
                     @foreach($consumables_category_all as $data)
                         @if ($consumables_category_code == $data->consumables_category_code)
-                        <a class="btn btn-success" href="{{ route('buy_list') }}/{{ $data->consumables_category_code }}" name="category_code_{{$data->consumables_category_code}}" id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
+                        <a class="btn btn-success" href="{{ route('buy_list_category', ['consumables_category_code' => $data->consumables_category_code])}}" name="category_code_{{$data->consumables_category_code}}" id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
                         @else
-                        <a class="btn btn-outline-success" href="{{ route('buy_list') }}/{{ $data->consumables_category_code }}" name="category_code_{{$data->consumables_category_code}}" id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
+                        <a class="btn btn-outline-success" href="{{ route('buy_list_category', ['consumables_category_code' => $data->consumables_category_code])}}" name="category_code_{{$data->consumables_category_code}}" id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
                         @endif
                     @endforeach
                 </div>

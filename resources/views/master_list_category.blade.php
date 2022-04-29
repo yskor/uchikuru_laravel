@@ -33,8 +33,6 @@
 
 {{-- メインコンテンツ --}}
 @section('main')
-<!-- 追加モーダル -->
-@include("modal/add_consumables_master_modal")
 
 <!-- カテゴリセレクタ -->
 @include("include/master/master_consumables_category")

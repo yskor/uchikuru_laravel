@@ -15,31 +15,31 @@ use Exception;
 class MasterController extends AuthController
 {
 
-    //
-    /**
-     * 消耗品一覧を表示します。
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function master_list(Request $request)
-    {
-        Log::debug(print_r($this->login, true));
+    // //
+    // /**
+    //  * 消耗品一覧を表示します。
+    //  * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    //  */
+    // public function master_list(Request $request)
+    // {
+    //     Log::debug(print_r($this->login, true));
 
-        // 消耗品識別データを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-        // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
-        $consumables_list = ConsumablesData::viewConsumablesIdAll();
-        // dd($consumables_list);
+    //     // 消耗品識別データを取得
+    //     $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+    //     // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
+    //     $consumables_list = ConsumablesData::viewConsumablesIdAll();
+    //     // dd($consumables_list);
 
-        $data = [
-            'consumables_category_all' => $consumables_category_all,
-            'consumables_list' => $consumables_list,
-            'login' => $this->login,
-            // 'category' => '全て',
-            'consumables_category_code' => 'all'
-        ];
+    //     $data = [
+    //         'consumables_category_all' => $consumables_category_all,
+    //         'consumables_list' => $consumables_list,
+    //         'login' => $this->login,
+    //         // 'category' => '全て',
+    //         'consumables_category_code' => 'all'
+    //     ];
 
-        return self::view($request, 'master_list', $data);
-    }
+    //     return self::view($request, 'master_list', $data);
+    // }
 
     //
     /**
@@ -135,7 +135,7 @@ class MasterController extends AuthController
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit_master(Request $request)
+    public function edit_master($consumables_category_code, Request $request)
     {
         Log::debug(print_r($this->login, true));
 
@@ -143,13 +143,13 @@ class MasterController extends AuthController
         $staff_code = $this->login->staff_code;
         // dd($param);
 
-        if ($request->post == 'add') {
+        if ($request->post == '登録する') {
             // データ追加
             Consumables::insert_consumables($param, $staff_code);
-        } elseif ($request->post == 'edit') {
+        } elseif ($request->post == '更新する') {
             // データ追加
             Consumables::update_consumables($param, $staff_code);
-        } elseif ($request->post == 'delete') {
+        } elseif ($request->post == '削除する') {
             // データ追加
             Consumables::delete_consumables($param);
         }
@@ -162,9 +162,10 @@ class MasterController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_list' => $consumables_list,
-            'consumables_category_code' => 'all'
+            // 'consumables_category_code' => $param['consumables_category_code'],
+            'consumables_category_code' => $consumables_category_code,
         ];
 
-        return self::view($request, 'master_list', $data);
+        return self::view($request, 'master_list_category', $data);
     }
 }
