@@ -43,28 +43,6 @@ class MasterController extends AuthController
 
     //
     /**
-     * 消耗品一覧を表示します。
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function qr_list(Request $request)
-    {
-        Log::debug(print_r($this->login, true));
-
-        // 消耗品識別データを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-        // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
-        $consumables_list = ConsumablesData::viewConsumablesIdAll();
-
-        $data = [
-            'consumables_category_all' => $consumables_category_all,
-            'consumables_list' => $consumables_list,
-        ];
-
-        return self::view($request, 'qr_list', $data);
-    }
-
-    //
-    /**
      * カテゴリに絞った消耗品一覧表示
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */

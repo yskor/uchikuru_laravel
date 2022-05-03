@@ -44,8 +44,7 @@
 						円 @else -@endif
 					</td>
 					<!-- <%* 消費数量 *%> -->
-					<td class="text-center table-w">{{ $data->use_quantity }} {{ $data->use_unit }} / {{
-						$data->number_unit }}</td>
+					<td class="text-center table-w">{{ $data->use_quantity }} {{ $data->use_unit }}</td>
 					<!-- <%* 最終価格交渉日 *%> -->
 
 					<td class="text-center table-w">

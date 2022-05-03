@@ -107,3 +107,11 @@
 .form-ws {
 	width: 300px;
 }
+
+.modal-open {
+	padding-right: 0px !important;
+	overflow: auto;
+}
+.modal {
+	padding-right: 0px !important;
+}

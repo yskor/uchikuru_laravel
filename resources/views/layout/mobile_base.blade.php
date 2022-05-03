@@ -1,19 +1,19 @@
 <html>
 <head>
 	<title>@yield('title')</title>
-	@include('layout.head')
+	@include('layout.mobile_head')
 	@include('layout.style')
 	@include('layout.script')
 </head>
-<body class="">
+<body>
 	<header>
-		@include('layout.header')
+		@include('layout.mobile_header')
 	</header>
 	<main style="padding-bottom:100px;">
-		@include('layout.main')
+		@include('layout.mobile_main')
 	</main>
 	<footer>
-		@include('layout.footer')
+		@include('layout.mobile_footer')
 	</footer>
 </body>
 </html>

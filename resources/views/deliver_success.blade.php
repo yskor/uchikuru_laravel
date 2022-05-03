@@ -1,4 +1,4 @@
-@extends('layout.base')
+@extends('layout.mobile_base')
 @section('title', '施設納品画面')
 
 {{-- headタグ内 --}}

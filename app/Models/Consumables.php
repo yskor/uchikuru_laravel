@@ -288,35 +288,36 @@ class Consumables extends Model
     }
 
     // 消費
-    public static function insert_consumables_consumption($consumables_code, $office_code, $total_stock_quantity, $consumption_quantity, $staff_code)
+    public static function insert_consumables_consumption($consumables_code, $office_code, $consumption_quantity, $consumption_unit_code, $staff_code)
     {
         try {
             // 消耗品コードから現在の在庫を参照
-            $consumables = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
             // dd($consumables);
-            if ($consumables->use_quantity) {
+            if ($consumption_unit_code == "Q") {
                 $consumption_values = [
                     "消耗品コード" => $consumables_code,
                     "消費事業所コード" => $office_code,
                     "消費数" => $consumption_quantity,
-                    "消費単位コード" => "Q",
+                    "消費単位コード" => $consumption_unit_code,
                     "消費日時" => now(),
                     "消費職員コード" => $staff_code,
                 ];
+                $total_stock_quantity = $consumables_stock->stock_number * $consumables_stock->quantity + $consumables_stock->stock_quantity;
                 $total_stock_quantity = $total_stock_quantity - $consumption_quantity;
-                $stock_number = floor($total_stock_quantity / $consumables->quantity);
-                $stock_quantity = ($total_stock_quantity % $consumables->quantity);
+                $stock_number = floor($total_stock_quantity / $consumables_stock->quantity);
+                $stock_quantity = ($total_stock_quantity % $consumables_stock->quantity);
             } else {
                 $consumption_values = [
                     "消耗品コード" => $consumables_code,
                     "消費事業所コード" => $office_code,
                     "消費数" => $consumption_quantity,
-                    "消費単位コード" => "N",
+                    "消費単位コード" => $consumption_unit_code,
                     "消費日時" => now(),
                     "消費職員コード" => $staff_code,
                 ];
-                $stock_number = $consumables->stock_number - 1;
-                $stock_quantity = $consumables->stock_quantity;
+                $stock_number = $consumables_stock->stock_number - $consumption_quantity;
+                $stock_quantity = $consumables_stock->stock_quantity;
             }
 
             ConsumablesTable::tableConsumablesConsumption()->insert($consumption_values);

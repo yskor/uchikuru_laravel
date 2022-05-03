@@ -1,4 +1,4 @@
-@extends('layout.base')
+@extends('layout.mobile_base')
 @section('title', '施設消費画面')
 
 {{-- headタグ内 --}}
@@ -13,21 +13,17 @@
 @endsection
 
 {{-- ヘッダー --}}
-@section('header')
+@section('mobile_header')
 @endsection
 
 {{-- メインコンテンツ --}}
-@section('main')
+@section('mobile_main')
 
 
 <div id="qr">
     <div id="message" class="mb-2">QRコードを読み取ってください。</div>
     <div id="loadingMessage">⌛ Loading video...</div>
     <canvas id="canvas" style="width:100%;" height="480" width="640"></canvas>
-    <div id="output">
-        <div id="outputMessage">No QR code detected.</div>
-        <div><b>Data:</b> <span id="outputData"></span></div>
-    </div>
     <div id="data"></div>
     <script>
         $(function() {
@@ -152,16 +148,10 @@
     {{-- QRコードを読み込んだらHTML追加 --}}
 </div>
 
-<form action="{{route('consumption_consumables')}}" method="post">
-    @csrf
-    <input type="text" name="qrcode" id="">
-    <button type="submit">送信</button>
-</form>
-
 @endsection
 
 {{-- フッター --}}
-@section('footer')
+@section('mobile_footer')
 @endsection
 
 {{-- JavaScript --}}

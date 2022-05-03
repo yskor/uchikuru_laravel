@@ -75,10 +75,12 @@ Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_s
 Route::get('/deliver', [DeliverController::class, 'deliver'])->name('deliver');
 // Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
 Route::get('/deliver_list_test', [DeliverController::class, 'deliver_list_test'])->name('deliver_list_test');
-Route::post('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
+// Route::post('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
+Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
+Route::post('/deliver', [DeliverController::class, 'deliver_consumables'])->name('deliver_consumables');
 // 納品一覧
 Route::post('/qrreader', [DeliverController::class, 'qrreader'])->name('qrreader');
-Route::post('/deliver_consumables', [DeliverController::class, 'deliver_consumables'])->name('deliver_consumables');
+// Route::post('/deliver_consumables', [DeliverController::class, 'deliver_consumables'])->name('deliver_consumables');
 Route::post('/deliver_table', [DeliverController::class, 'deliver_table'])->name('deliver_table');
 
 // 消費画面

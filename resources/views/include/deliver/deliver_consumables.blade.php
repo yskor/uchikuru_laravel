@@ -1,0 +1,104 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deliverconsumablesModal{{$data->ship_code}}">
+	納品する
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deliverconsumablesModal{{$data->ship_code}}" tabindex="-1" aria-labelledby="deliverconsumablesModal{{$data->ship_code}}Label" aria-hidden="true">
+	<div class="modal-dialog">
+		<form class="" action="{{route('deliver_consumables')}}" method="post">
+			@csrf
+			<div id="confirm-{{$data->ship_code}}" class="modal-content bg-dark">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deliverconsumablesModal{{$data->ship_code}}Label">納品数の確認</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body justify-content-center">
+					<img class="mb-2" id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
+							style="width:100px;height:100px;">
+					{{-- データ受け渡し用 --}}
+					<input type="hidden" name="office_code" value="{{$office_code}}">
+					<input type="hidden" name="ship_code" value="{{$data->ship_code}}">
+					<input type="hidden" name="consumables_code" value="{{$data->consumables_code}}">
+					{{-- 現施設在庫数の入力 --}}
+					@if (isset($data->stock_number))
+					<div class="input-group mb-1" style="width:200px;">
+						<span class="input-group-text" style="width: 112;">施設在庫数</span>
+						<input type="number" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number"
+							value="{{$data->stock_number}}">
+						<span class="input-group-text" id="stock-number-{{$data->ship_code}}">{{$data->number_unit}}</span>
+					</div>
+					@else
+					<div class="input-group mb-1" style="width:200px;">
+						<span class="input-group-text" style="width: 112;">施設在庫数</span>
+						<input type="" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number" value="0">
+						<span class="input-group-text" id="stock-number-{{$data->ship_code}}">{{$data->number_unit}}</span>
+					</div>
+					@endif
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="stock-check-{{$data->ship_code}}">
+						<label class="form-check-label" for="stock-check-{{$data->ship_code}}">在庫数の確認<span class="badge bg-danger">必須</span></label>
+					</div>
+					<div class="input-group mb-1"style="width:200px;">
+						{{-- <label for="deliver-number">納品数：</label> --}}
+						<span class="input-group-text" style="width: 112;">納品数</span>
+						<input type="number" class="form-control text-center" id="deliver-number-{{$data->ship_code}}" name="deliver_number"
+							value="{{$data->shipped_number}}">
+						<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">{{$data->number_unit}}</span>
+					</div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="deliver-check-{{$data->ship_code}}" disabled>
+						<label class="form-check-label" for="deliver-check-{{$data->ship_code}}">納品数の確認<span class="badge bg-danger">必須</span></label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+					<button type="submit" class="btn btn-primary" id="btn-deliver-{{$data->ship_code}}"
+						data-id="{{ $data->ship_code }}" disabled>納品</button>
+				</div>
+				<script>
+					$(function() {
+						
+						var parent = $( "#confirm-{{$data->ship_code}}" );
+						var stock_number = parent.find( "#stock-number-{{$data->ship_code}}" );
+						var miss_stock_number = parent.find( "#miss-stock-number-{{$data->ship_code}}" );
+						var deliver_number = parent.find( "#deliver-number-{{$data->ship_code}}" );
+						var miss_deliver_number = parent.find( "#miss-deliver-number-{{$data->ship_code}}" );
+						var stock_check = parent.find( "#stock-check-{{$data->ship_code}}" );
+						var deliver_check = parent.find( "#deliver-check-{{$data->ship_code}}" );
+						var deliver_do_btn = parent.find( "#btn-deliver-{{$data->ship_code}}" );
+						var confirm = 0
+						
+						// parent.find( "#stock-btn-yes" ).on( "click", function(){
+						// 	stock_check.prop( "value", true );
+						// 	stock_number.prop( "disabled", false );
+						// 	confirm += 1
+						// 	if (confirm == 2) {
+						// 		deliver_do_btn.prop("disabled", false)
+						// 		confirm = 0
+						// 	};
+						// });
+
+						stock_check.change(function(){
+							console.log('stock_number_chenge')
+							console.log(stock_check)
+							if ( $(this).is(':checked') )
+								deliver_check.prop('disabled',false);
+							else
+								deliver_check.prop('disabled',true);
+						});
+
+						deliver_check.change(function(){
+							console.log('dliver_number_chenge')
+							console.log(deliver_do_btn)
+							if ( $(this).is(':checked') && stock_check.is(':checked') )
+								deliver_do_btn.prop("disabled", false);
+							else
+								deliver_do_btn.prop("disabled", true);
+						});
+					});
+				</script>
+			</div>
+		</form>
+	</div>
+</div>

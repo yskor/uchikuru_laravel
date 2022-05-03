@@ -1,5 +1,5 @@
 @extends('layout.mobile_base')
-@section('title', '施設消費画面')
+@section('title', '施設納品画面')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -17,13 +17,12 @@
 @endsection
 
 {{-- メインコンテンツ --}}
-@section('main')
+@section('mobile_main')
 
-<div class="alert alert-success" role="alert">
-    <h4 class="">在庫数を更新しました。</h4>
+
+<div id="form" style="">
+	@include('include/deliver/deliver_consumables')
 </div>
-
-<a class="btn btn-primary" href="{{route('consumption')}}">さらにQRコードを読み込む</a>
 
 @endsection
 
@@ -35,5 +34,20 @@
 @section('script')
 @include('_sample')
 
+<script type="text/javascript">
+	$(function() {
+	
+		var list = $( "#list" );
+		var modal = $( "#modal" );
+		
+		
+		// 納品処理が完了
+		modal.on( "done", function( event, message ) {
+			$(this).modal( "hide" );
+		});
+		
+	});
+	
+</script>
 
 @endsection
