@@ -9,12 +9,11 @@
             <img src="{{ asset('upload/consumables/'.$consumables_stock->image_file_extension)}}" style="width:100px;height:100px;">
         </div>
         <div class="w-100 px-2">
-            {{-- @if($consumption_unit_code) --}}
-            {{-- @if($consumables->use_unit_code == 'N') --}}
+            @if($consumables->use_unit_code == 'Q')
             <p>現在の在庫数は{{$consumables_stock_number}}箱と{{$consumables_stock_quantity}}個です</p>
-            {{-- @elseif($consumption_unit_code == "N")
-            <p>現在の在庫数は{{$consumables_stock_number}}箱です。</p> --}}
-            {{-- @endif --}}
+            @elseif($consumables->use_unit_code == "N")
+            <p>現在の在庫数は{{$consumables_stock_number}}箱です。</p>
+            @endif
         </div>
     </div>
     

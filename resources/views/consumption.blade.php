@@ -19,6 +19,11 @@
 {{-- メインコンテンツ --}}
 @section('mobile_main')
 
+{{-- <form action="{{route('consumption_consumables')}}" method="post">
+	@csrf
+	<input type="number" name="qrcode">
+	<input type="submit" class="btn btn-primary" value="送信">
+</form> --}}
 
 <div id="qr">
     <div id="message" class="mb-2">QRコードを読み取ってください。</div>

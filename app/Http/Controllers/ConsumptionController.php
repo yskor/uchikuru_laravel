@@ -75,6 +75,8 @@ class ConsumptionController extends AuthController
             // $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
             $consumption_quantity = $consumables->use_quantity;
             $consumption_unit_code = $consumables->use_unit_code;
+
+            // dd($consumables,$consumption_unit_code);
             
             // $total_stock_quantity = $consumables_stock->stock_number * $consumables->quantity + $consumables_stock->stock_quantity;
             
@@ -97,9 +99,9 @@ class ConsumptionController extends AuthController
                 'consumables' => $consumables,
                 'consumption_quantity' => $consumption_quantity,
                 'consumption_use_unit' => $consumables->use_unit,
-                'consumption_unit_code' => $consumption_unit_code,
+                // 'consumption_unit_code' => $consumption_unit_code,
                 'consumables_stock_number' => $consumables_stock->stock_number,
-                'consumables_stock_quantity' => $consumables_stock->quantity,
+                'consumables_stock_quantity' => $consumables_stock->stock_quantity,
                 'consumables_stock' => $consumables_stock,
             ];
     

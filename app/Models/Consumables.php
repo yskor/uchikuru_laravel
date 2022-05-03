@@ -315,6 +315,7 @@ class Consumables extends Model
                 $total_stock_quantity = $total_stock_quantity - $consumption_quantity;
                 $stock_number = floor($total_stock_quantity / $consumables_stock->quantity);
                 $stock_quantity = ($total_stock_quantity % $consumables_stock->quantity);
+                dd($stock_number, $stock_quantity, $total_stock_quantity);
             } else {
                 $consumption_values = [
                     "消耗品コード" => $consumables_code,
