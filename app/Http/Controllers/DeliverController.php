@@ -83,28 +83,35 @@ class DeliverController extends AuthController
      */
     public function deliver_table(Request $request)
     {
-        $office_qrcode = $request->qrcode;
-        $office_data = OfficeData::viewOfficeData($office_qrcode);
-        $office_code = $office_data->office_code;
-        $status_code = "S";
-        
-        Log::debug(print_r($this->login, true));
+        try {
+            
+                    $office_qrcode = $request->qrcode;
+                    $office_data = OfficeData::viewOfficeData($office_qrcode);
+                    $office_code = $office_data->office_code;
+                    $status_code = "S";
+                    
+                    Log::debug(print_r($this->login, true));
+                    
+                    // $deliver_consumables_list = ConsumablesData::viewFacilityConsumablesShip($office_qrcode);
+                    $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
+            
+                    foreach ($deliver_consumables_list as $data) {
+                        if ($data->stock_number == null) {
+                            $data->stock_number = 0;
+                        }
+                    }
+                    $data = [
+                        'deliver_consumables_list' => $deliver_consumables_list,
+                        'office_code' => $office_code,
+                    ];
+                    // dd($data);
+                    // 未納品の消耗品リストテーブルのhtmlを作成
+                    $html = view('include.deliver.deliver_table', $data)->render();
 
-        // $deliver_consumables_list = ConsumablesData::viewFacilityConsumablesShip($office_qrcode);
-        $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
-
-        foreach ($deliver_consumables_list as $data) {
-            if ($data->stock_number == null) {
-                $data->stock_number = 0;
-            }
+        } catch (\Exception $e) {
+            ConsumablesData::rollback();
+            throw new \Exception("読み込みエラーです。施設QRコード以外のQRコードを読み込んでいるか、バーコードが登録されていません。");
         }
-        $data = [
-            'deliver_consumables_list' => $deliver_consumables_list,
-            'office_code' => $office_code,
-        ];
-        // dd($data);
-        // 未納品の消耗品リストテーブルのhtmlを作成
-        $html = view('include.deliver.deliver_table', $data)->render();
         
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);

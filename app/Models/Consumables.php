@@ -179,23 +179,27 @@ class Consumables extends Model
                 "作成日時" => now(),
             ];
             ConsumablesTable::tableConsumablesBuy($consumables_code)->insert($buy_values);
+            
             // 在庫テーブルの消耗品を増やす
+            $consumables_master = ConsumablesData::viewOneConsumables($consumables_code);
+            // 仕入れ数＊入り個数
+            $stock_number = $buy_number * $consumables_master->number;
+
             if ($consumables_stock) {
                 // 在庫がある場合
                 $stock_values = [
-                    "個数在庫数" => $consumables_stock->stock_number + $buy_number,
+                    "個数在庫数" => $consumables_stock->stock_number + $stock_number,
                     "更新日時" => now()
                 ];
                 // 在庫を更新
-                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->save($stock_values);
             } else {
                 // 在庫がない場合
                 // 消耗品コードからマスタデータを参照
-                $consumables_master = ConsumablesData::viewOneConsumables($consumables_code);
                 $stock_values = [
                     "事業所コード" => 91,
                     "消耗品コード" => $consumables_code,
-                    "個数在庫数" => $buy_number,
+                    "個数在庫数" => $stock_number,
                     "入数在庫数" => $consumables_master->quantity,
                     "作成日時" => now(),
                     "更新日時" => now(),

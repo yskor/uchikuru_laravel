@@ -77,40 +77,48 @@ class BuyController extends AuthController
         $buy_add = $request->buy_add;
 
         // $handy_reader_dataとバーコードが一致するデータを参照
-        $consumables_buy_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
+        // $consumables_buy_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
+        $consumables_buy_data = ConsumablesData::viewBuyConsumablesBarcode($handy_reader_data);
         
-        // $buy_addが1の時はカードの中身だけを増やす
-        if ($buy_add == 0) {
-            if ($consumables_buy_data) {
-                // 在庫を増やす
-                // Consumables::insert_consumables_buy($buy_quantity, $consumables_buy_data->consumables_code);
-            } else {
-                $consumables_buy_data = 0;
+        try {
+            // $buy_addが1の時はカードの中身だけを増やす
+            if ($buy_add == 0) {
+                if ($consumables_buy_data) {
+                    // 在庫を増やす
+                    // Consumables::insert_consumables_buy($buy_quantity, $consumables_buy_data->consumables_code);
+                } else {
+                    $consumables_buy_data = 0;
+                }
+                // データに渡したいデータを格納
+                $data = [
+                    'handy_reader_data' => $handy_reader_data,
+                    'consumables_buy_data' => $consumables_buy_data,
+                    'login' => $this->login,
+                ];
+                // htmlを作成
+                $html = view('include.buy.buy_add', $data)->render();
+                
+                // htmlとデータをJson形式で返す
+                return self::jsonHtml($request, $html, $data);
+            } elseif ($buy_add == 1) {
+                // データに渡したいデータを格納
+                $data = [
+                    'handy_reader_data' => $handy_reader_data,
+                    'consumables_buy_data' => $consumables_buy_data,
+                    'login' => $this->login,
+                ];
+                // カードの中だけのhtmlを作成
+                $html = view('include.buy.buy_consumables', $data)->render();
+                
+                // htmlとデータをJson形式で返す
+                // return self::jsonHtml($request, $html, $data);
             }
-            // データに渡したいデータを格納
-            $data = [
-                'handy_reader_data' => $handy_reader_data,
-                'consumables_buy_data' => $consumables_buy_data,
-                'login' => $this->login,
-            ];
-            // htmlを作成
-            $html = view('include.buy.buy_add', $data)->render();
-            
-            // htmlとデータをJson形式で返す
-            return self::jsonHtml($request, $html, $data);
-        } elseif ($buy_add == 1) {
-            // データに渡したいデータを格納
-            $data = [
-                'handy_reader_data' => $handy_reader_data,
-                'consumables_buy_data' => $consumables_buy_data,
-                'login' => $this->login,
-            ];
-            // カードの中だけのhtmlを作成
-            $html = view('include.buy.buy_consumables', $data)->render();
-            
-            // htmlとデータをJson形式で返す
-            return self::jsonHtml($request, $html, $data);
+        } catch (\Exception $e) {
+            ConsumablesData::rollback();
+            throw new \Exception("読み込みエラーです。段ボール以外のバーコードが読み込まれているか、バーコードが登録されていません。");
         }
+        // htmlとデータをJson形式で返す
+        return self::jsonHtml($request, $html, $data);
     }
 
         

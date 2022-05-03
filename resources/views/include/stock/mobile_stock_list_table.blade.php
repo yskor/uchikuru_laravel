@@ -34,14 +34,14 @@
 							@endif
 							箱
 							@if($data->use_unit_code == 'Q')
-								{{-- 消費単位が個数の時 --}}
-								+
-								@if ($data->stock_quantity)
-								{{ $data->stock_quantity }}
-								@else
-								0
-								@endif
-								個
+							{{-- 消費単位が個数の時 --}}
+							+
+							@if ($data->stock_quantity)
+							{{ $data->stock_quantity }}
+							@else
+							0
+							@endif
+							個
 							@endif
 						</td>
 					</tr>
@@ -64,14 +64,14 @@
 							@endif
 							箱
 							@if($data->use_unit_code == 'Q')
-								{{-- 消費単位が個数の時 --}}
-								+
-								@if ($data->f_stock_quantity)
-								{{ $data->f_stock_quantity }}
-								@else
-								0
-								@endif
-								個
+							{{-- 消費単位が個数の時 --}}
+							+
+							@if ($data->f_stock_quantity)
+							{{ $data->f_stock_quantity }}
+							@else
+							0
+							@endif
+							個
 							@endif
 						</td>
 					</tr>

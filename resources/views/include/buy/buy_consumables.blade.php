@@ -26,16 +26,16 @@
             {{-- 職員コード --}}
             <input type="hidden" name="staff_code" value="{{$login->staff_code}}">
 
-            <p class="" id="consumables_unit"><span><label
-                        for="consumables_unit">入数/個数:</label></span>{{$consumables_buy_data->quantity}}{{$consumables_buy_data->quantity_unit}}/{{$consumables_buy_data->number_unit}}
-            </p>
+            {{-- <p class="" id="consumables_unit"><span><label
+                        for="consumables_unit">個数:</label></span>{{$consumables_buy_data->number}}箱/段
+            </p> --}}
             <label for="buy-number-form-group">仕入数 <span class="badge bg-danger">必須</span> </label>
             <div class="input-group" id="buy-number-form-group" style="width:100px;">
                 {{-- 仕入数を入力する --}}
                 <input type="number" class="form-control"
                     name="buys[{{$consumables_buy_data->consumables_code}}][buy_number]"
                     id="buy_number_{{$consumables_buy_data->consumables_code}}" aria-describedby="number-unit" required>
-                <span class="input-group-text" id="number_unit">{{$consumables_buy_data->number_unit}}</span>
+                <span class="input-group-text" id="number_unit">段</span>
             </div>
             <label for="buy-number-form-group">仕入単価（税込） <span class="badge bg-danger">必須</span> </label>
             <div class="input-group" id="buy-number-form-group" style="width:200px;">
