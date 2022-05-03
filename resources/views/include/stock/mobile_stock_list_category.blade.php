@@ -1,4 +1,4 @@
-<div class="mb-3" id="category-area">
+<div class="mb-3 d-flex justify-content-center" id="category-area">
     <div class="input-group mb-1" style="width: 250px">
         <label class="input-group-text" for="category-selsect">カテゴリ</label>
         <select class="form-select" id="category-selsect" aria-label="Category select" onChange="location.href=value;">

@@ -1,4 +1,4 @@
-<div class="row g-2">
+<div class="row g-2 justify-content-center">
 	@foreach ($consumables_stock_list as $data)
 	<div class="col-6 card p-0 mx-2" style="width:325px;">
 		<div class="card-header">
