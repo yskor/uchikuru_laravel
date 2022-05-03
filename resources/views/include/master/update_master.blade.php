@@ -1,4 +1,12 @@
 <a class="btn btn-secondary mb-3" href="{{route('master_list_category', ['consumables_category_code' => $consumables->consumables_category_code])}}">一覧に戻る</a>
+
+<!-- フラッシュメッセージ -->
+@if (session('message'))
+<div class="alert alert-success">
+	{{ session('message') }}
+</div>
+@endif
+
 <form class="" action="{{route('master_list_category', ['consumables_category_code' => $consumables->consumables_category_code])}}" method="post" enctype="multipart/form-data">
 	{{-- <input type="hidden" name="post" value="edit"> --}}
 	<input type="hidden" name="consumables_code" value="{{$consumables->consumables_code}}">
@@ -13,21 +21,21 @@
 				<div class="form-group" id="consumables-code-form-group" style="width: 325px">
 					<div id="barcode-group-1">
 						<label for="consumables-code">消耗品バーコード（段）<span class="badge bg-danger">必須</span></label>
-						<input type="text" class="form-control" name="barcode[B]" id="consumables-code-1" value="{{$consumables_barcode_list['barcode_B']}}" required>
+						<input type="text" class="form-control" name="barcode[B]" id="consumables-code-1" value="{{$consumables_barcode_list['barcode_B']}}" placeholder="段ボールのバーコードを入力してください" required>
 						<div id="" class="invalid-feedback">バーコードを読み込んでください</div>
 					</div>
 				</div>
 				<div class="form-group" id="consumables-code-form-group" style="width: 325px">
 					<div id="barcode-group-2">
 						<label for="consumables-code">消耗品バーコード（箱）<span class="badge bg-danger">必須</span> </label>
-						<input type="text" class="form-control" name="barcode[N]" id="consumables-code-2" value="{{$consumables_barcode_list['barcode_N']}}" required>
+						<input type="text" class="form-control" name="barcode[N]" id="consumables-code-2" value="{{$consumables_barcode_list['barcode_N']}}" placeholder="箱のバーコードを入力してください" required>
 					</div>
 					<div id="consumables-code-2-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 				</div>
 				<div class="form-group" id="consumables-code-form-group" style="width: 325px">
 					<div id="barcode-group-3">
 						<label for="consumables-code">消耗品バーコード（個）</label>
-						<input type="text" class="form-control" name="barcode[Q]" id="consumables-code-3" value="{{$consumables_barcode_list['barcode_Q']}}">
+						<input type="text" class="form-control" name="barcode[Q]" id="consumables-code-3" value="{{$consumables_barcode_list['barcode_Q']}}" placeholder="個のバーコードを入力してください">
 					</div>
 					<div id="consumables-code-3-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 				</div>
@@ -45,7 +53,7 @@
 					<label for="number-unit-price">仕入単価（税込） <span class="badge bg-danger">必須</span></label>
 					<div class="input-group" id="number-unit-price-form-group">
 						<input type="number" class="form-control text-end" name="number_unit_price" id="number-unit-price"
-							value="{{$consumables->number_unit_price}}" required>
+							value="{{$consumables->number_unit_price}}" placeholder="箱の仕入単価（税込）を入力してください" required>
 						<span class="input-group-text">円</span>
 						<div id="number-unit-price-feedback" class="invalid-feedback">箱の仕入単価（税込）を入力してください</div>
 					</div>
@@ -57,10 +65,10 @@
 					<label for="">単位数量 <span class="badge bg-danger">必須</span> </label>
 					<div class="input-group">
 						<input type="number" class="form-control text-end" id="quantity" name="quantity" value="{{$consumables->quantity}}"
-							aria-label="quantity_unit" required>
+							aria-label="quantity_unit" placeholder="個数を入力" required>
 						<span class="input-group-text">個</span>
 						<input type="number" class="form-control text-end" id="number" name="number" value="{{$consumables->number}}"
-							aria-label="number_unit" required>
+							aria-label="number_unit" placeholder="箱数を入力" required>
 						<span class="input-group-text">箱/段</span>
 					</div>
 				</div>
@@ -69,7 +77,7 @@
 					<label for="">消費数量 <span class="badge bg-danger">必須</span> </label>
 					<div class="d-flex">
 						<input type="number" class="form-control text-end" id="use-quantity" name="use_quantity"
-							value="{{$consumables->use_quantity}}" aria-label="quantity_unit" required>
+							value="{{$consumables->use_quantity}}" aria-label="quantity_unit"　placeholder="1回あたりの消費数量を入力してください" required>
 						<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 							@if($consumables->use_unit_code == 'Q')
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"

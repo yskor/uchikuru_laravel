@@ -27,11 +27,6 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 // require_once 'web/sample.php';
 // require_once 'web/master.php';
 
-// サンプルページ
-Route::get('/sample', [SampleController::class, 'sample']);
-Route::post('/sample/office', [SampleController::class, 'office']);
-Route::post('/sample/office_html', [SampleController::class, 'office_html']);
-
 // マスタ一覧
 // Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
 Route::get('/qr_list', [MasterController::class, 'qr_list'])->name('qr_list');
@@ -54,10 +49,11 @@ Route::get('/stock_list', [StockController::class, 'stock_list'])->name('stock_l
 Route::get('/stock_list/{office_code}', [StockController::class, 'facility_stock_list'])->name('facility_stock_list');
 // 在庫事業所別かつ消耗品カテゴリ一覧
 Route::get('/stock_list/{office_code}/{consumables_category_code}', [StockController::class, 'facility_category_stock_list'])->name('facility_category_stock_list');
+Route::get('/stock_list_mobile/{office_code}/{consumables_category_code}', [StockController::class, 'stock_list_mobile'])->name('stock_list_mobile');
 
 // 仕入一覧
 Route::get('/buy_list', [BuyController::class, 'buy_list'])->name('buy_list');
-Route::post('/buy_list', [BuyController::class, 'edit_buy'])->name('edit_buy');
+Route::post('/buy_consumables/{consumables_category_code}', [BuyController::class, 'edit_buy'])->name('edit_buy');
 Route::post('/buy_consumables', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
 // カテゴリ別仕入一覧
 Route::get('/buy_list/{consumables_category_code}', [BuyController::class, 'buy_list_category'])->name('buy_list_category');

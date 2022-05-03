@@ -26,7 +26,7 @@ class MasterController extends AuthController
 
     //     // 消耗品識別データを取得
     //     $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-    //     // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
+    //     // 消耗品一覧用データを取得
     //     $consumables_list = ConsumablesData::viewConsumablesIdAll();
     //     // dd($consumables_list);
 
@@ -119,7 +119,6 @@ class MasterController extends AuthController
 
         $param = $request->all();
         $staff_code = $this->login->staff_code;
-        // dd($param);
 
         if ($request->post == '登録する') {
             // データ追加
@@ -134,16 +133,19 @@ class MasterController extends AuthController
 
         // 消耗品識別データを取得
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-        // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
-        $consumables_list = ConsumablesData::viewConsumablesIdAll();
+        // 消耗品データを取得
+        $consumables = ConsumablesData::viewOneConsumables($param['consumables_code']);
+        // 消耗品バーコードデータを取得
+        $consumables_barcode_list = ConsumablesData::viewConsumablesBarcodeList($param['consumables_code']);
 
         $data = [
             'consumables_category_all' => $consumables_category_all,
-            'consumables_list' => $consumables_list,
-            // 'consumables_category_code' => $param['consumables_category_code'],
-            'consumables_category_code' => $consumables_category_code,
+            'consumables' => $consumables,
+            'consumables_barcode_list' => $consumables_barcode_list,
         ];
 
-        return self::view($request, 'master_list_category', $data);
+        session()->flash('message', '消耗品情報を更新しました');
+
+        return self::view($request, 'master_consumables_update', $data);
     }
 }

@@ -1,1 +1,0 @@
-<div class="alert alert-primary">{{$office->facility_name}}</div>

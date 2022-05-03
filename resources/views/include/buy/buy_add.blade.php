@@ -1,8 +1,9 @@
-<form action="{{route('buy_list')}}" method="POST" enctype="multipart/form-data">
+{{-- <form id="add-form" action="{{route('buy_list',['consumables_category_code' => $consumables_category_code])}}" method="POST" enctype="multipart/form-data"> --}}
+<form id="add-form" action="{{route('buy_consumables'). "/". $consumables_category_code}}" method="POST" enctype="multipart/form-data">
 	@csrf
 <div class="card mb-3">
 		<div class="card-header">
-			<h5 class="card-title" id="card-title">仕入れた消耗品</h5>
+			<h5 class="card-title" id="card-title">読み取った消耗品</h5>
 		</div>
 		<div class="card-body">
 			<div class="input-group mb-2" id="buy-office-form-group">
@@ -17,15 +18,21 @@
 			</div>
 		</div>
 
-		{{-- <div class="form-group" id="buy-number-form-group">
-			<label for="buy-number">仕入れ数 <span class="badge bg-danger">必須</span> </label>
-			<input type="number" class="form-control"
-				id="buy-number"><span>{{$consumables_buy_data->number_unit}}<span>
-		</div> --}}
-
 		<div class="card-footer">
-			<button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">閉じる</button>
+			<button type="button" class="btn btn-danger" id="btn-cancel" data-bs-dismiss="modal">取り消す</button>
 			<button type="submit" class="btn btn-primary" id="btn-do">仕入れる</button>
 		</div>
 	</div>
 </form>
+<script>
+	 $( function() {
+		var parent = $( "#add-form" );
+		var cancel = parent.find( "#btn-cancel" );
+		
+		cancel.on( "click", function() {
+			parent.remove();
+			location.reload(); // リロード
+		});
+		
+	});
+</script>

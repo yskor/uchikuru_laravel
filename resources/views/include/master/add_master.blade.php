@@ -10,21 +10,21 @@
 				<div class="form-group" id="consumables-code-form-group" style="width: 350px">
 					<div id="barcode-group-1">
 						<label for="consumables-code">消耗品バーコード（段）<span class="badge bg-danger">必須</span></label>
-						<input type="text" class="form-control" name="barcode[B]" id="consumables-code-1" placeholder="段ボールのバーコード" required>
+						<input type="text" class="form-control" name="barcode[B]" id="consumables-code-1" placeholder="段ボールのバーコードを入力してください" required>
 						<div id="" class="invalid-feedback">バーコードを読み込んでください</div>
 					</div>
 				</div>
 				<div class="form-group" id="consumables-code-form-group" style="width: 350px">
 					<div id="barcode-group-2">
 						<label for="consumables-code">消耗品バーコード（箱）<span class="badge bg-danger">必須</span> </label>
-						<input type="text" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="箱のバーコード" required>
+						<input type="text" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="箱のバーコードを入力してください" required>
 					</div>
 					<div id="consumables-code-2-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 				</div>
 				<div class="form-group" id="consumables-code-form-group" style="width: 350px">
 					<div id="barcode-group-3">
 						<label for="consumables-code">消耗品バーコード（個）</label>
-						<input type="text" class="form-control" name="barcode[Q]" id="consumables-code-3" placeholder="個のバーコード">
+						<input type="text" class="form-control" name="barcode[Q]" id="consumables-code-3" placeholder="個のバーコードを入力してください">
 					</div>
 					<div id="consumables-code-3-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 				</div>
@@ -34,7 +34,7 @@
 				<div class="mb-1" id="consumables-name-form-group" style="width: 350px">
 					<label for="consumables-name">消耗品名 <span class="badge bg-danger">必須</span> </label>
 					<input type="text" class="form-control" name="consumables_name" id="consumables-name"
-						placeholder="消耗品名を入力" required>
+						placeholder="消耗品名を入力してください" required>
 					<div id="consumables-name-feedback" class="invalid-feedback"></div>
 				</div>
 
@@ -42,7 +42,7 @@
 					<label for="number-unit-price">仕入単価（税込） <span class="badge bg-danger">必須</span></label>
 					<div class="input-group" id="number-unit-price-form-group">
 						<input type="number" class="form-control" name="number_unit_price" id="number-unit-price"
-							placeholder="箱の仕入単価（税込）を入力" required>
+							placeholder="箱の仕入単価（税込）を入力してください" required>
 						<span class="input-group-text">円</span>
 						<div id="number-unit-price-feedback" class="invalid-feedback">箱の仕入単価（税込）を入力してください</div>
 					</div>
@@ -67,7 +67,7 @@
 					<label for="">消費数量 <span class="badge bg-danger">必須</span> </label>
 					<div class="d-flex">
 						<input type="number" class="form-control" id="use-quantity" name="use_quantity"
-							placeholder="1回あたりの消費数量を入力" aria-label="quantity_unit" required>
+							placeholder="1回あたりの消費数量を入力してください" aria-label="quantity_unit" required>
 						<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 							<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"
 								autocomplete="off" checked>
@@ -85,7 +85,7 @@
 					<label class="" for="consumables-category-code">カテゴリ<span class="badge bg-danger">必須</span></label>
 					<select name="consumables_category_code" id="consumables-category-code" class="form-select"
 						required>
-						<option value="" selected=""></option>
+						<option value='' disabled selected style='display:none;'>カテゴリを選択してください</option>
 						@foreach($consumables_category_all as $category)
 						{{-- カテゴリごとに作成 --}}
 						<option value="{{ $category->consumables_category_code }}">{{

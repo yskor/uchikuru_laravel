@@ -1,5 +1,5 @@
 @extends('layout.mobile_base')
-@section('title', '施設納品画面')
+@section('title', '施設納品')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -21,7 +21,7 @@
 
 {{-- QRコード読み取り --}}
 <div id="qr">
-	<div id="message" class="mb-2">QRコードを読み取ってください。</div>
+    <div id="message" class="mb-2">QRコードを読み取ってください。</div>
     <div id="loadingMessage">⌛ Loading video...</div>
     <canvas id="canvas" style="width:100%;" height="480" width="640"></canvas>
     <div id="output">
@@ -149,13 +149,13 @@
 </div>
 
 <div id="form" style="">
-	{{-- QRコードを読み込んだらHTML追加 --}}
+    {{-- QRコードを読み込んだらHTML追加 --}}
 </div>
 
 <form action="{{route('deliver_table')}}" method="post">
-	@csrf
-	<input type="text" name="qrcode" id="">
-	<button type="submit">送信</button>
+    @csrf
+    <input type="text" name="qrcode" id="">
+    <button type="submit">送信</button>
 </form>
 
 @endsection
@@ -169,7 +169,7 @@
 @include('_sample')
 
 <script type="text/javascript">
-	$(function() {
+    $(function() {
 	
 		var list = $( "#list" );
 		var modal = $( "#modal" );

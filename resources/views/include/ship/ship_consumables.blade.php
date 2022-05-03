@@ -24,7 +24,7 @@
             {{-- 職員コード --}}
             <input type="hidden" name="staff_code" value="{{$login->staff_code}}">
             
-            <p class="" id="consumables_unit"><span><label for="consumables_unit">入数/個数:</label></span>{{$consumables_ship_data->quantity}}{{$consumables_ship_data->quantity_unit}}/{{$consumables_ship_data->number_unit}}</p>
+            {{-- <p class="" id="consumables_unit"><span><label for="consumables_unit">入数/個数:</label></span>{{$consumables_ship_data->quantity}}{{$consumables_ship_data->quantity_unit}}/{{$consumables_ship_data->number_unit}}</p> --}}
             <label for="ship-number-form-group">出荷数 <span class="badge bg-danger">必須</span> </label>
             <div class="input-group" id="ship-number-form-group" style="width:100px;">
                 {{-- 出荷数を入力する --}}

@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '消耗品仕入画面')
+@section('title', '消耗品仕入れ')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -36,6 +36,24 @@
 <!-- カテゴリセレクタ -->
 @include("include/buy/buy_list_category")
 
+
+<!-- フラッシュメッセージ -->
+@if (session('error_message'))
+<div class="alert alert-success">
+	{{ session('message') }}
+</div>
+@elseif (session('success_message'))
+<div class="alert alert-success">
+	{{ session('success_message') }}
+</div>
+@endif
+
+{{-- <form action="{{route('buy_consumables')}}" method="post">
+	@csrf
+	<input type="number" name="handy_reader_data">
+	<input type="submit" class="btn btn-primary" value="送信">
+</form>
+<h1>{{$consumables_category_code}}ここです</h1> --}}
 
 {{-- 一覧表テーブル --}}
 <div id="buy-add"></div>
@@ -78,7 +96,8 @@
 					url: "{{route('buy_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
 						'handy_reader_data': handy_reader_data,
-						'buy_add': buy_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
+						'buy_add': buy_add,
+						'consumables_category_code': {{$consumables_category_code}}, 
 					},
 					dataType: 'json', //json形式で受け取る
 	
@@ -92,14 +111,15 @@
 					console.log('どんまい！');
 					ajax_fail(error);
 				})
-				handy_reader_data = "";
+				buy_add = "";
 			} else if (buy_add == 0) {
 				$.ajax({
 					type: 'POST',
 					url: "{{route('buy_consumables')}}", //後述するweb.phpのURLと同じ形にする
 					data: {
 						'handy_reader_data': handy_reader_data,
-						'buy_add': buy_add, //ここはサーバーに贈りたい情報。今回は検索ファームのバリューを送りたい。
+						'buy_add': buy_add,
+						'consumables_category_code': {{$consumables_category_code}}, 
 					},
 					dataType: 'json', //json形式で受け取る
 	

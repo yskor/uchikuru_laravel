@@ -1,6 +1,6 @@
 <div class="row g-2">
 	@foreach ($consumables_stock_list as $data)
-	<div class="col-6 card p-0 mx-1" style="width:400px;">
+	<div class="col-6 card p-0 mx-2" style="width:325px;">
 		<div class="card-header">
 			{{-- 消耗品名 --}}
 			<h5 class="w-100" id="ship_consumables_name">

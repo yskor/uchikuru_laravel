@@ -91,7 +91,7 @@ class Consumables extends Model
     // マスタ更新
     public static function update_consumables($param, $staff_code)
     {
-
+        // dd($param);
         try {
             // 画像判定
             try {
@@ -136,7 +136,8 @@ class Consumables extends Model
                     // 消耗品コードと単位コードから既にあるか確認。あるは更新、無い場合は追加
                     if (ConsumablesData::viewConsumablesBarcodeItem($param['consumables_code'], $code)) {
                         // 消耗品識別データを更新
-                        ConsumablesData::getConsumablesBarcodeItem($param['consumables_code'], $param['barcode'][$code])->update($id_values);
+                        // dd($param['consumables_code']);
+                        ConsumablesData::getConsumablesBarcodeItem($param['consumables_code'], $code)->update($id_values);
                     } else {
                         // 消耗品識別データに登録
                         ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
@@ -189,10 +190,10 @@ class Consumables extends Model
                 // 在庫がある場合
                 $stock_values = [
                     "個数在庫数" => $consumables_stock->stock_number + $stock_number,
-                    "更新日時" => now()
+                    // "更新日時" => now()
                 ];
                 // 在庫を更新
-                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->save($stock_values);
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
             } else {
                 // 在庫がない場合
                 // 消耗品コードからマスタデータを参照
@@ -207,6 +208,9 @@ class Consumables extends Model
                 // 在庫に新たに追加
                 ConsumablesTable::tableConsumablesStock()->insert($stock_values);
             }
+
+            // マスタの単価を更新
+            ConsumablesData::getOneConsumables($consumables_code)->update(["個数単価" => $buy_price]);
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;

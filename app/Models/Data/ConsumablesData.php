@@ -85,18 +85,20 @@ class ConsumablesData extends BaseData
 
     /**
      * 指定された消耗品コードとバーコードから消耗品を取得します。
-     * @param string $consumables_code
+     * @param int $consumables_code
+     * @param int $unit_code
      */
-    public static function getConsumablesBarcodeItem($consumables_code, $barcode)
+    public static function getConsumablesBarcodeItem($consumables_code, $unit_code)
     {
         return ConsumablesTable::tableConsumablesIdMaster()
                 ->where('消耗品コード', '=', $consumables_code)
-                ->where('識別コード', '=', $barcode);
+                ->where('消耗品単位コード', '=', $unit_code);
     }
 
     /**
      * 指定された消耗品コードと消耗品単位コードから消耗品を取得します。
      * @param string $consumables_code
+     * @param int $unit_code
      */
     public static function viewConsumablesBarcodeItem($consumables_code, $unit_code)
     {
@@ -330,7 +332,8 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesCategoryBuyAll($consumables_category_code)
     {
-        return ConsumablesTable::viewConsumablesBuy()->where('consumables_category_code', '=', $consumables_category_code)->get();
+        return ConsumablesTable::viewConsumablesBuy()
+            ->where('consumables_category_code', '=', $consumables_category_code)->orderBy('created_at', 'desc')->get();
     }
 
     // 消耗品仕入コードから消耗品データを取得

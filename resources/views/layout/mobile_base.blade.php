@@ -13,7 +13,7 @@
 		@include('layout.mobile_main')
 	</main>
 	<footer>
-		@include('layout.mobile_footer')
+		@include('layout.footer')
 	</footer>
 </body>
 </html>

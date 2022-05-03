@@ -24,7 +24,7 @@ class DeliverController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // $office_code = $this->login->office_code;
-        
+
         $data = [
             'login' => $this->login,
         ];
@@ -47,19 +47,20 @@ class DeliverController extends AuthController
         $status_code = "S";
         // dd($request->all());
         Consumables::insert_consumables_deliver(
-            $ship_code, 
-            $consumables_code, 
-            $office_code, 
-            $deliver_number, 
-            $stock_number, 
-            $staff_code);
+            $ship_code,
+            $consumables_code,
+            $office_code,
+            $deliver_number,
+            $stock_number,
+            $staff_code
+        );
 
         // 消耗品コードから消耗品を取得
         // Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code);
         // $consumables_code = 4520951011185;
         Log::debug(print_r($this->login, true));
 
-        // 対象事業所の消耗品出荷データを取得＊バーコードが増えた時に対応できていない
+        // 対象事業所の消耗品出荷データを取得
         $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
 
         foreach ($deliver_consumables_list as $data) {
@@ -84,35 +85,34 @@ class DeliverController extends AuthController
     public function deliver_table(Request $request)
     {
         try {
-            
-                    $office_qrcode = $request->qrcode;
-                    $office_data = OfficeData::viewOfficeData($office_qrcode);
-                    $office_code = $office_data->office_code;
-                    $status_code = "S";
-                    
-                    Log::debug(print_r($this->login, true));
-                    
-                    // $deliver_consumables_list = ConsumablesData::viewFacilityConsumablesShip($office_qrcode);
-                    $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
-            
-                    foreach ($deliver_consumables_list as $data) {
-                        if ($data->stock_number == null) {
-                            $data->stock_number = 0;
-                        }
-                    }
-                    $data = [
-                        'deliver_consumables_list' => $deliver_consumables_list,
-                        'office_code' => $office_code,
-                    ];
-                    // dd($data);
-                    // 未納品の消耗品リストテーブルのhtmlを作成
-                    $html = view('include.deliver.deliver_table', $data)->render();
 
+            $office_qrcode = $request->qrcode;
+            $office_data = OfficeData::viewOfficeData($office_qrcode);
+            $office_code = $office_data->office_code;
+            $status_code = "S";
+
+            Log::debug(print_r($this->login, true));
+
+            // $deliver_consumables_list = ConsumablesData::viewFacilityConsumablesShip($office_qrcode);
+            $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
+
+            foreach ($deliver_consumables_list as $data) {
+                if ($data->stock_number == null) {
+                    $data->stock_number = 0;
+                }
+            }
+            $data = [
+                'deliver_consumables_list' => $deliver_consumables_list,
+                'office_code' => $office_code,
+            ];
+            // dd($data);
+            // 未納品の消耗品リストテーブルのhtmlを作成
+            $html = view('include.deliver.deliver_table', $data)->render();
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw new \Exception("読み込みエラーです。施設QRコード以外のQRコードを読み込んでいるか、バーコードが登録されていません。");
         }
-        
+
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);
     }
@@ -139,7 +139,7 @@ class DeliverController extends AuthController
         // $consumables_code = 4520951011185;
         Log::debug(print_r($this->login, true));
 
-        // 対象事業所の消耗品出荷データを取得＊バーコードが増えた時に対応できていない
+        // 対象事業所の消耗品出荷データを取得
         $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
 
         foreach ($deliver_consumables_list as $data) {

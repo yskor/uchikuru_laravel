@@ -58,7 +58,6 @@ class BuyController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
-            'login' => $this->login,
             'consumables_category_code' => $consumables_category_code
         ];
         
@@ -75,9 +74,9 @@ class BuyController extends AuthController
         // バーコードリーダーで読み取った数字を取得
         $handy_reader_data = $request->handy_reader_data;
         $buy_add = $request->buy_add;
+        $consumables_category_code = $request->consumables_category_code;
 
         // $handy_reader_dataとバーコードが一致するデータを参照
-        // $consumables_buy_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
         $consumables_buy_data = ConsumablesData::viewBuyConsumablesBarcode($handy_reader_data);
         
         try {
@@ -92,8 +91,9 @@ class BuyController extends AuthController
                 // データに渡したいデータを格納
                 $data = [
                     'handy_reader_data' => $handy_reader_data,
-                    'consumables_buy_data' => $consumables_buy_data,
                     'login' => $this->login,
+                    'consumables_category_code' => $consumables_category_code,
+                    'consumables_buy_data' => $consumables_buy_data,
                 ];
                 // htmlを作成
                 $html = view('include.buy.buy_add', $data)->render();
@@ -104,14 +104,13 @@ class BuyController extends AuthController
                 // データに渡したいデータを格納
                 $data = [
                     'handy_reader_data' => $handy_reader_data,
-                    'consumables_buy_data' => $consumables_buy_data,
                     'login' => $this->login,
+                    'consumables_category_code' => $consumables_category_code,
+                    'consumables_buy_data' => $consumables_buy_data,
                 ];
                 // カードの中だけのhtmlを作成
                 $html = view('include.buy.buy_consumables', $data)->render();
                 
-                // htmlとデータをJson形式で返す
-                // return self::jsonHtml($request, $html, $data);
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
@@ -126,7 +125,7 @@ class BuyController extends AuthController
      * 仕入テーブルに追加。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit_buy(Request $request)
+    public function edit_buy($consumables_category_code, Request $request)
     {
         Log::debug(print_r($this->login, true));
         // POSTの値を全て取得
@@ -157,11 +156,13 @@ class BuyController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
-            'login' => $this->login,
-            'consumables_category_code' => 'all'
+            // 'consumables_category_code' => 'all'
+            'consumables_category_code' => $consumables_category_code
         ];
 
-        return self::view($request, 'buy_list', $data);
+        session()->flash('success_message', '消耗品を仕入れました');
+
+        return self::view($request, 'buy_list_category', $data);
     }
     
 

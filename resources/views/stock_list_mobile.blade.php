@@ -17,6 +17,7 @@
 
 {{-- メインコンテンツ --}}
 @section('mobile_main')
+@include('include/stock/mobile_stock_list_category')
 @include('include/stock/mobile_stock_list_table')
 
 @endsection
