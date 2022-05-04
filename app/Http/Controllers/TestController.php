@@ -9,6 +9,7 @@ use App\Models\Data\ConsumablesData;
 use App\Models\Consumables;
 use Illuminate\Support\Facades\Log;
 use App\Models\Data\BaseData;
+use App\Models\Data\OfficeData;
 use App\Models\Data\Table\ConsumablesTable;
 use Exception;
 
@@ -49,4 +50,5 @@ class TestController extends AuthController
 
         return self::view($request, 'master_list', $data);
     }
+
 }

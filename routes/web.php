@@ -10,6 +10,7 @@ use App\Http\Controllers\BuyController;
 use App\Http\Controllers\ShipController;
 use App\Http\Controllers\ConsumptionController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\QrController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +86,6 @@ Route::post('/consumption_done', [ConsumptionController::class, 'consumption_don
 Route::post('/consumption_consumables', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
 
 Route::get('/test', [TestController::class, 'test'])->name('test');
+
+// 施設QR一覧
+Route::get('/facility_qr_list', [QrController::class, 'facility_qr_list'])->name('facility_qr_list');

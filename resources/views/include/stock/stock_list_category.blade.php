@@ -48,9 +48,11 @@
         <div class="input-group w-100" id="ishikawa-area" style="display: none">
             @foreach ($facility_all as $facility)
                 @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
-                <a class="btn btn-danger" style="width: 80px" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                <a class="btn btn-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
+                @elseif ($facility->prefecture_code == 17 and $facility->office_code == 50)
+                @elseif ($facility->prefecture_code == 17 and $facility->office_code == 51)
                 @elseif ($facility->prefecture_code == 17)
-                <a class="btn btn-outline-danger" style="width: 80px" href="{{route('stock_list')}}/{{ $facility->office_code }}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                <a class="btn btn-outline-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
                 @endif
             @endforeach
         </div>

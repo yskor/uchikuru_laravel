@@ -37,6 +37,12 @@
 <!-- カテゴリセレクタ -->
 @include("include/master/master_consumables_category")
 
+<!-- フラッシュメッセージ -->
+@if (session('message'))
+<div class="alert alert-success">
+	{{ session('message') }}
+</div>
+@endif
 <!-- テーブル -->
 @include("include/master/master_table")
 

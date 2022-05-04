@@ -21,6 +21,8 @@
 @include("include/stock/stock_list_category")
 
 
+
+
 @endsection
 
 {{-- フッター --}}

@@ -1,3 +1,11 @@
+<a class="btn btn-secondary mb-3" href="{{route('master_list_category', ['consumables_category_code' => 1])}}">一覧に戻る</a>
+
+<!-- フラッシュメッセージ -->
+@if (session('message'))
+<div class="alert alert-success">
+	{{ session('message') }}
+</div>
+@endif
 <form class="" action="{{route('master_list_category', ['consumables_category_code' => 1])}}" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="post" value="add">
 	<div class="card">
