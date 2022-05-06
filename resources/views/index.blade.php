@@ -84,7 +84,7 @@
 				</div>
 			</a>
 		</div>
-		<div class="col-6 col-md-3 user_menu text-center mb-5">
+		{{-- <div class="col-6 col-md-3 user_menu text-center mb-5">
 			<a href="{{route('consumption')}}">
 				<div class="user_menu_icon d-flex align-items-center justify-content-center">
 					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-qr-code-scan text-white" viewBox="0 0 16 16">
@@ -99,9 +99,9 @@
 					施設消費
 				</div>
 			</a>
-		</div>
+		</div> --}}
 		@else
-		<div class="col-6 col-md-3 user_menu text-center mb-5">
+		{{-- <div class="col-6 col-md-3 user_menu text-center mb-5">
 			<a href="{{route('stock_list')}}">
 				<div class="user_menu_icon d-flex align-items-center justify-content-center">
 					<svg xmlns="http://www.w3.org/2000/svg" style="font-size: 30px" fill="currentColor" class="bi bi-boxes svg-inline--fa fa-building fa-w-14 text-white menu-icon-size fa-fw" viewBox="0 0 16 16">
@@ -112,7 +112,7 @@
 					在庫一覧
 				</div>
 			</a>
-		</div>
+		</div> --}}
 		<div class="col-6 col-md-3 user_menu text-center mb-5">
 			<a href="{{route('consumption')}}">
 				<div class="user_menu_icon d-flex align-items-center justify-content-center">
@@ -125,7 +125,7 @@
 					</svg>
 				</div>
 				<div class="p-2">
-					施設消費
+					QRコード読み取り
 				</div>
 			</a>
 		</div>

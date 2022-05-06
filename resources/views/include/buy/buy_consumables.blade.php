@@ -37,14 +37,13 @@
                     id="buy_number_{{$consumables_buy_data->consumables_code}}" aria-describedby="number-unit" required>
                 <span class="input-group-text" id="number_unit">段</span>
             </div>
-            <label for="buy-number-form-group">仕入単価（税込） <span class="badge bg-danger">必須</span> </label>
+            {{-- <label for="buy-number-form-group">仕入単価（税込） <span class="badge bg-danger">必須</span> </label>
             <div class="input-group" id="buy-number-form-group" style="width:200px;">
-                {{-- 仕入数を入力する --}}
                 <input type="number" class="form-control"
                     name="buys[{{$consumables_buy_data->consumables_code}}][buy_price]"
                     id="buy_number_{{$consumables_buy_data->consumables_code}}" aria-describedby="number-unit" required>
                 <span class="input-group-text" id="number_unit">円</span>
-            </div>
+            </div> --}}
         </div>
     </div>
 
