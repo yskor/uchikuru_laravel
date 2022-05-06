@@ -17,51 +17,17 @@ class ConsumptionController extends AuthController
 
     
     /**
-     * 消費画面
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function consumption(Request $request)
-    {
-        try {
-            $consumables_code = $request->consumables_code;
-            $office_code = $this->login->office_code;
-            Log::debug(print_r($this->login, true));
-            
-            // バーコードから消耗品を取得
-            $consumables = ConsumablesData::viewOneConsumables($consumables_code);
-            // $consumables_code = $consumables->consumables_code;
-            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
-            
-            // カードの中だけのhtmlを作成
-            $data = [
-                'consumables' => $consumables,
-                'consumables_stock' => $consumables_stock,
-            ];
-            // dd($data);
-            // $html = view('include.consumption.consumption_consumables', $data)->render();
-        } catch (\Exception $e) {
-            ConsumablesData::rollback();
-            throw new \Exception("読み込みエラーです。もう一度QRコードを読み込んでください");
-        }
-        // htmlとデータをJson形式で返す
-        // return self::jsonHtml($request, $html, $data);
-        return self::view($request, 'consumption', $data);
-    }
-
-    /**
      * QRコードで読み取った消耗品コードに紐づく出荷消耗品を返す
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function consumption_consumables($consumables_code, Request $request)
+    public function consumption($consumables_code, Request $request)
     {
         try {
-            // $consumables_barcode = $request->qrcode;
             $office_code = $this->login->office_code;
             Log::debug(print_r($this->login, true));
             
             // バーコードから消耗品を取得
             $consumables = ConsumablesData::viewOneConsumables($consumables_code);
-            // $consumables_code = $consumables->consumables_code;
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
             
             // カードの中だけのhtmlを作成
@@ -69,14 +35,10 @@ class ConsumptionController extends AuthController
                 'consumables' => $consumables,
                 'consumables_stock' => $consumables_stock,
             ];
-            // dd($data);
-            // $html = view('include.consumption.consumption_consumables', $data)->render();
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw new \Exception("読み込みエラーです。もう一度QRコードを読み込んでください");
         }
-        // htmlとデータをJson形式で返す
-        // return self::jsonHtml($request, $html, $data);
         return self::view($request, 'consumption', $data);
     }
 
@@ -109,8 +71,6 @@ class ConsumptionController extends AuthController
             // 消耗品コードから現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
     
-            // dd($data, $office_code, $consumables_stock, $consumables_code);
-            // カードの中だけのhtmlを作成
             $data = [
                 'consumables' => $consumables,
                 'consumption_quantity' => $consumption_quantity,
@@ -119,10 +79,7 @@ class ConsumptionController extends AuthController
                 'consumables_stock' => $consumables_stock,
             ];
     
-            session()->flash('succes_message', '在庫数を減らしました');
-    
-            // dd($data);
-            // $html = view('modal.consumption_consumables', $data)->render();
+            session()->flash('success_message', '在庫数を減らしました');
 
         } catch (\Exception $e) {
             ConsumablesData::rollback();

@@ -82,11 +82,11 @@ Route::post('/qrreader', [DeliverController::class, 'qrreader'])->name('qrreader
 Route::post('/deliver_table', [DeliverController::class, 'deliver_table'])->name('deliver_table');
 
 // 消費画面
-Route::get('/consumption', [ConsumptionController::class, 'consumption'])->name('consumption');
-Route::get('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
-Route::post('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
-// Route::post('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
-Route::post('/consumption', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
+Route::get('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption'])->name('consumption');
+// Route::post('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption'])->name('consumption');
+Route::post('/consumption_done', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
+// Route::get('/consumption_done', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
+// Route::post('/consumption', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
 // Route::post('/consumption_consumables', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
 
 Route::get('/test', [TestController::class, 'test'])->name('test');

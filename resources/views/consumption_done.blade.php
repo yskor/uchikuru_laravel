@@ -13,11 +13,11 @@
 @endsection
 
 {{-- ヘッダー --}}
-@section('header')
+@section('mobile_header')
 @endsection
 
 {{-- メインコンテンツ --}}
-@section('main')
+@section('mobile_main')
 
 @include('include/consumption/consumption_done')
 

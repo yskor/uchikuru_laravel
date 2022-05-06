@@ -1,8 +1,8 @@
 <!-- フラッシュメッセージ -->
-@if (session('success_message'))
+{{-- @if (session('success_message')) --}}
 <div class="card w-100 mb-3">
     <div class="card-header">
-        <h5 class="w-100">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumption_use_unit}}消費しました</h5>
+        <h5 class="w-100">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumables->use_unit}}消費しました</h5>
     </div>
     <div class="card-body d-flex">
         <div class="">
@@ -19,9 +19,9 @@
     
 </div>
 <div class="d-flex justify-content-center">
-    <a class="btn btn-primary" href="{{route('consumption')}}">続けてQRコードを読み込む</a>
+    <a class="btn btn-primary" href="https://uchipo.com/test_home/qr">続けてQRコードを読み込む</a>
 </div>
-@elseif (session('miss_message'))
+{{-- @elseif (session('miss_message'))
 <div class="card w-100 mb-3">
     <div class="card-header">
         <h5 class="w-100" id="">エラー</h5>
@@ -32,6 +32,6 @@
     
 </div>
 <div class="d-flex justify-content-center">
-    <a class="btn btn-primary" href="{{route('consumption')}}">再度QRコードを読み込む</a>
+    <a class="btn btn-primary" href="https://uchipo.com/test_home/qr">再度QRコードを読み込む</a>
 </div>
-@endif
+@endif --}}

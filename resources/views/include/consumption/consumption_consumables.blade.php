@@ -4,7 +4,7 @@
 </div>
 @else
 <div class="card">
-	{{-- <form class="" action="{{route('consumption_done')}}" method="post"> --}}
+	<form class="" action="{{route('consumption_done')}}" method="post">
 		@csrf
 		<div id="confirm" class="card-content bg-dark">
 			<div class="card-header">
@@ -24,7 +24,7 @@
 						<div class="input-group mb-1" style="width:200px;">
 							<span class="input-group-text" style="width: 100;">使用数量</span>
 							<input type="number" class="form-control text-center" id="consumption-number" name="consumption_number"
-								value="{{$consumables->use_quantity}}">
+								value="{{$consumables->use_quantity}}" disabled>
 							<span class="input-group-text" id="consumption-number">{{$consumables->use_unit}}</span>
 						</div>
 						<div class="form-check form-switch">
@@ -41,7 +41,6 @@
 			<script>
 				$(function() {
 					
-					console.log('スクリプト')
 					var parent = $( "#confirm" );
 					var consumption_number = parent.find( "#consumption-number" );
 					var consumption_check = parent.find( "#consumption-check" );
@@ -57,7 +56,7 @@
 				});
 			</script>
 		</div>
-	{{-- </form> --}}
+	</form>
 </div>
 
 @endif
