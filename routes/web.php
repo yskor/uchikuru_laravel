@@ -31,7 +31,7 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 // マスタ一覧
 // Route::get('/master_list', [MasterController::class, 'master_list'])->name('master_list');
 Route::get('/qr_list', [MasterController::class, 'qr_list'])->name('qr_list');
-Route::get('/add_master', [MasterController::class, 'add_master'])->name('add_master');
+Route::get('/add_master/{consumables_category_code}', [MasterController::class, 'add_master'])->name('add_master');
 Route::get('/update_master/{consumables_code}', [MasterController::class, 'update_master'])->name('update_master');
 
 // マスタ更新
@@ -81,9 +81,10 @@ Route::post('/qrreader', [DeliverController::class, 'qrreader'])->name('qrreader
 Route::post('/deliver_table', [DeliverController::class, 'deliver_table'])->name('deliver_table');
 
 // 消費画面
-Route::get('/consumption', [ConsumptionController::class, 'consumption'])->name('consumption');
-Route::post('/consumption_done', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
-Route::post('/consumption_consumables', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
+Route::get('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
+// Route::post('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
+Route::post('/consumption', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
+// Route::post('/consumption_consumables', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
 
 Route::get('/test', [TestController::class, 'test'])->name('test');
 

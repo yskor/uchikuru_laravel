@@ -164,18 +164,20 @@ class Consumables extends Model
     }
 
     // 仕入追加
-    public static function insert_consumables_buy($consumables_code, $office_code, $buy_number, $buy_price, $staff_code)
+    public static function insert_consumables_buy($consumables_code, $office_code, $buy_number, $staff_code)
     {
         try {
 
             // 消耗品コードから現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+            // 消耗品コードからマスタデータを参照
+            $consumables_data = ConsumablesData::viewOneConsumables($consumables_code);
             // 仕入テーブルの消耗品を増やす
             $buy_values = [
                 "消耗品コード" => $consumables_code,
                 "仕入事業所コード" => $office_code,
                 "仕入個数" => $buy_number,
-                "仕入単価" => $buy_price,
+                "仕入単価" => $consumables_data->number_unit_price,
                 "仕入職員コード" => $staff_code,
                 "作成日時" => now(),
             ];
@@ -209,8 +211,6 @@ class Consumables extends Model
                 ConsumablesTable::tableConsumablesStock()->insert($stock_values);
             }
 
-            // マスタの単価を更新
-            ConsumablesData::getOneConsumables($consumables_code)->update(["個数単価" => $buy_price]);
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;

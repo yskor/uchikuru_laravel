@@ -1,12 +1,6 @@
-<a class="btn btn-secondary mb-3" href="{{route('master_list_category', ['consumables_category_code' => 1])}}">一覧に戻る</a>
+<a class="btn btn-secondary mb-3" href="{{route('master_list_category', ['consumables_category_code' => $consumables_category_code])}}">一覧に戻る</a>
 
-<!-- フラッシュメッセージ -->
-@if (session('message'))
-<div class="alert alert-success">
-	{{ session('message') }}
-</div>
-@endif
-<form class="" action="{{route('master_list_category', ['consumables_category_code' => 1])}}" method="post" enctype="multipart/form-data">
+<form class="" action="{{route('master_list_category', ['consumables_category_code' => $consumables_category_code])}}" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="post" value="add">
 	<div class="card">
 		<div class="card-header">
@@ -18,21 +12,21 @@
 				<div class="form-group" id="consumables-code-form-group" style="width: 350px">
 					<div id="barcode-group-1">
 						<label for="consumables-code">消耗品バーコード（段）<span class="badge bg-danger">必須</span></label>
-						<input type="text" class="form-control" name="barcode[B]" id="consumables-code-1" placeholder="段ボールのバーコードを入力してください" required>
+						<input type="number" class="form-control" name="barcode[B]" id="consumables-code-1" placeholder="段ボールのバーコードを入力してください" required>
 						<div id="" class="invalid-feedback">バーコードを読み込んでください</div>
 					</div>
 				</div>
 				<div class="form-group" id="consumables-code-form-group" style="width: 350px">
 					<div id="barcode-group-2">
 						<label for="consumables-code">消耗品バーコード（箱）<span class="badge bg-danger">必須</span> </label>
-						<input type="text" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="箱のバーコードを入力してください" required>
+						<input type="number" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="箱のバーコードを入力してください" required>
 					</div>
 					<div id="consumables-code-2-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 				</div>
 				<div class="form-group" id="consumables-code-form-group" style="width: 350px">
 					<div id="barcode-group-3">
 						<label for="consumables-code">消耗品バーコード（個）</label>
-						<input type="text" class="form-control" name="barcode[Q]" id="consumables-code-3" placeholder="個のバーコードを入力してください">
+						<input type="number" class="form-control" name="barcode[Q]" id="consumables-code-3" placeholder="個のバーコードを入力してください">
 					</div>
 					<div id="consumables-code-3-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 				</div>

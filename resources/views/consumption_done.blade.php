@@ -1,5 +1,5 @@
 @extends('layout.mobile_base')
-@section('title', '施設消費画面')
+@section('title', '消耗品を使用する')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -19,11 +19,8 @@
 {{-- メインコンテンツ --}}
 @section('main')
 
-<div class="alert alert-success" role="alert">
-    <h4 class="">在庫数を更新しました。</h4>
-</div>
+@include('include/consumption/consumption_done')
 
-<a class="btn btn-primary" href="{{route('consumption')}}">さらにQRコードを読み込む</a>
 
 @endsection
 

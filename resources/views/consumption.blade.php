@@ -1,5 +1,5 @@
 @extends('layout.mobile_base')
-@section('title', '施設消費画面')
+@section('title', '消耗品を使用する')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -19,13 +19,10 @@
 {{-- メインコンテンツ --}}
 @section('mobile_main')
 
-{{-- <form action="{{route('consumption_consumables')}}" method="post">
-	@csrf
-	<input type="number" name="qrcode">
-	<input type="submit" class="btn btn-primary" value="送信">
-</form> --}}
 
-<div id="qr">
+@include('include/consumption/consumption_consumables')
+
+{{-- <div id="qr">
     <div id="message" class="mb-2">QRコードを読み取ってください。</div>
     <div id="loadingMessage">⌛ Loading video...</div>
     <canvas id="canvas" style="width:100%;" height="480" width="640"></canvas>
@@ -147,11 +144,7 @@
             });
         });
     </script>
-</div>
-
-<div id="form" style="">
-    {{-- QRコードを読み込んだらHTML追加 --}}
-</div>
+</div> --}}
 
 @endsection
 

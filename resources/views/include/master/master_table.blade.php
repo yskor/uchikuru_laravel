@@ -1,5 +1,5 @@
 <div class="d-flex">
-	<a class="btn btn-primary mb-2" href="{{asset('add_master')}}">
+	<a class="btn btn-primary mb-2" href="{{asset('add_master') . '/' . $consumables_category_code}}">
 		<i class="fas fa-plus fa-fw"></i>追加
 	</a>
 

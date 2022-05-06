@@ -70,7 +70,7 @@ class MasterController extends AuthController
      * 消耗品登録画面
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function add_master(Request $request)
+    public function add_master($consumables_category_code, Request $request)
     {
         Log::debug(print_r($this->login, true));
 
@@ -79,6 +79,7 @@ class MasterController extends AuthController
 
         $data = [
             'consumables_category_all' => $consumables_category_all,
+            'consumables_category_code' => $consumables_category_code,
         ];
 
         return self::view($request, 'master_consumables_add', $data);
@@ -150,18 +151,18 @@ class MasterController extends AuthController
             
             // 消耗品識別データを取得
             $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-            // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
-            $consumables_list = ConsumablesData::viewConsumablesIdAll();
+            // 対象のカテゴリデータを取得
+            $consumables_list = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
     
             $data = [
                 'consumables_category_all' => $consumables_category_all,
                 'consumables_list' => $consumables_list,
                 'login' => $this->login,
-                'consumables_category_code' => 'all'
+                'consumables_category_code' => $consumables_category_code
             ];
     
-            session()->flash('message', '消耗品を登録しました');
-            return self::view($request, 'master_list', $data);
+            session()->flash('add_message', '消耗品を登録しました');
+            return self::view($request, 'master_list_category', $data);
 
         } elseif ($request->post == '更新する') {
             // データ追加
@@ -179,7 +180,7 @@ class MasterController extends AuthController
                 'consumables_barcode_list' => $consumables_barcode_list,
             ];
     
-            session()->flash('message', '消耗品情報を更新しました');
+            session()->flash('update_message', '消耗品情報を更新しました');
     
             return self::view($request, 'master_consumables_update', $data);
 
@@ -188,18 +189,18 @@ class MasterController extends AuthController
             Consumables::delete_consumables($param);
             // 消耗品識別データを取得
             $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-            // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
-            $consumables_list = ConsumablesData::viewConsumablesIdAll();
+            // 対象のカテゴリデータを取得
+            $consumables_list = ConsumablesData::getCategoryConsumablesList($consumables_category_code);    
     
             $data = [
                 'consumables_category_all' => $consumables_category_all,
                 'consumables_list' => $consumables_list,
                 'login' => $this->login,
-                'consumables_category_code' => 'all'
+                'consumables_category_code' => $consumables_category_code
             ];
     
-            session()->flash('message', '消耗品を削除しました');
-            return self::view($request, 'master_list', $data);
+            session()->flash('delete_message', '消耗品を削除しました');
+            return self::view($request, 'master_list_category', $data);
         }
 
     }

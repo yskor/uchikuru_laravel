@@ -1,5 +1,5 @@
 {{-- <form id="add-form" action="{{route('buy_list',['consumables_category_code' => $consumables_category_code])}}" method="POST" enctype="multipart/form-data"> --}}
-<form id="add-form" action="{{route('buy_consumables'). "/". $consumables_category_code}}" method="POST" enctype="multipart/form-data">
+<form id="add-form" action="{{route('buy_list'). "/". $consumables_category_code}}" method="POST" enctype="multipart/form-data">
 	@csrf
 <div class="card mb-3">
 		<div class="card-header">

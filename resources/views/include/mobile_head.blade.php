@@ -13,3 +13,5 @@
 <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.2/dist/css/bootstrap-night.min.css" rel="stylesheet"> -->
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{{-- スマホ用フッターメニュー --}}
+<script src="https://uchipo.com/test_share/js/menu.js" data-office-code={{$login->office_code}}></script>

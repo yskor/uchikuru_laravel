@@ -141,7 +141,6 @@ class BuyController extends AuthController
                 $data['consumables_code'], //消耗品コード
                 $office_code, //仕入事業所コード
                 $data['buy_number'], //出荷数
-                $data['buy_price'], //出荷数
                 $staff_code, //職員コード
                 // $data['ship_date'], //出荷日
             ); 
