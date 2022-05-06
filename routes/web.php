@@ -58,6 +58,7 @@ Route::post('/buy_consumables/{consumables_category_code}', [BuyController::clas
 Route::post('/buy_consumables', [BuyController::class, 'buy_consumables'])->name('buy_consumables');
 // カテゴリ別仕入一覧
 Route::get('/buy_list/{consumables_category_code}', [BuyController::class, 'buy_list_category'])->name('buy_list_category');
+Route::post('/buy_list/{consumables_category_code}', [BuyController::class, 'edit_buy'])->name('edit_buy');
 
 // 出荷一覧
 Route::get('/ship_list', [ShipController::class, 'ship_list'])->name('ship_list');
@@ -81,7 +82,9 @@ Route::post('/qrreader', [DeliverController::class, 'qrreader'])->name('qrreader
 Route::post('/deliver_table', [DeliverController::class, 'deliver_table'])->name('deliver_table');
 
 // 消費画面
+Route::get('/consumption', [ConsumptionController::class, 'consumption'])->name('consumption');
 Route::get('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
+Route::post('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');
 // Route::post('/consumption/{consumables_code}', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
 Route::post('/consumption', [ConsumptionController::class, 'consumption_done'])->name('consumption_done');
 // Route::post('/consumption_consumables', [ConsumptionController::class, 'consumption_consumables'])->name('consumption_consumables');

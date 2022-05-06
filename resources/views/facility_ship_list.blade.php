@@ -33,7 +33,7 @@
 {{-- メインコンテンツ --}}
 @section('main')
 <!-- カテゴリセレクタ -->
-@include("include/ship/ship_list_category")
+@include("include/ship/ship_list_facility_category")
 
 
 {{-- 一覧表テーブル --}}
@@ -67,7 +67,7 @@
 				handy_reader_data = "";
 			}, 3000 );
 		}
-		console.log({{$office_code}})
+		// console.log({{$office_code}})
 		if( event.keyCode == 13 && handy_reader_data != "" ) {
 			// Enterキーが押された
 			console.log(handy_reader_data);
@@ -92,7 +92,7 @@
 					console.log('成功しました')
 				}).fail((error)=>{
 					//ajax通信がエラーのときの処理
-					console.log('どんまい！');
+					console.log('失敗');
 					ajax_fail(error);
 
 				})
@@ -118,7 +118,7 @@
 					
 				}).fail((error)=>{
 					//ajax通信がエラーのときの処理
-					console.log('どんまい！');
+					console.log('失敗');
 					ajax_fail(error);
 
 				})

@@ -122,7 +122,7 @@
                         
                     }).fail((error)=>{
                         //ajax通信がエラーのときの処理
-                        console.log('どんまい！');
+                        console.log('失敗');
                         ajax_fail(error)
                     })
                     $(this).html( "" );
@@ -186,7 +186,7 @@
 				
 		// 	}).fail((error)=>{
 		// 		//ajax通信がエラーのときの処理
-		// 		console.log('どんまい！');
+		// 		console.log('失敗');
 		// 	})
 		// 	console.log('ajax通ってる')
 		// });

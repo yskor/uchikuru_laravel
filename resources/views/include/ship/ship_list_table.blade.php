@@ -21,9 +21,8 @@
 					{{-- 職員コード --}}
 					<input type="hidden" name="staff_code" value="{{$login->staff_code}}">
 					
-					<label for="ship-number-form-group">出荷数：</label>
 					<div class="input-group" id="ship-number-form-group">
-						<p>{{$data->shipped_number}}{{$data->number_unit}}({{$data->quantity}}{{$data->quantity_unit}}/{{$data->number_unit}})</p>
+						<h6><span>出荷数：</span>{{$data->shipped_number}}箱</h6>
 					</div>
 				</div>
 			</div>
@@ -33,9 +32,7 @@
 	</div>
 	@else
 	{{-- 出荷予定の消耗品がない場合 --}}
-		<div class="alert alert-dark" role="alert">
-			<h4 class="">出荷中の消耗品はありません</h4>
-		</div>
+		<div class="alert alert-dark" role="alert">出荷中の消耗品はありません</div>
 	@endif
 
 <script>

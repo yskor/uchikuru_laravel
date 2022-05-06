@@ -10,8 +10,16 @@ use App\Models\Consumables;
 use App\Models\Data\OfficeData;
 use App\Models\Data\Table\ConsumablesTable;
 use App\Models\Data\Table\OfficeTable;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
+
+class NotStockException extends Exception {
+}
+class ShipException extends Exception {
+}
+class QrException extends Exception {
+}
 
 class ShipController extends AuthController
 {
@@ -35,7 +43,7 @@ class ShipController extends AuthController
             'facility_all' => $facility_all, //全ての事業所データ
             'consumables_category_all' => $consumables_category_all,
             'login' => $this->login,
-            'office_code' => 'all'
+            'office_code' => 'all', //事業所コード
         ];
         // dd($data);
         return self::view($request, 'ship_list', $data);
@@ -55,6 +63,8 @@ class ShipController extends AuthController
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
+        // 事業所データ
+        $office_data = OfficeData::getOffice($office_code);    
         // 対象事業所の消耗品出荷データを取得
         $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
 
@@ -63,7 +73,8 @@ class ShipController extends AuthController
             'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
             'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
             'login' => $this->login,
-            'office_code' => $office_code //事業所コード
+            'office_code' => $office_code, //事業所コード
+            'office_data' => $office_data, //事業所データ
         ];
         // dd(!empty($data['consumables_ship_list']));
         return self::view($request, 'facility_ship_list', $data);
@@ -86,51 +97,62 @@ class ShipController extends AuthController
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
-
+        // 事業所データ
+        $office_data = OfficeData::getOffice($office_code);    
         // $handy_reader_dataとバーコードが一致するデータを参照
-        $consumables_ship_data = ConsumablesData::viewConsumablesBarcode($handy_reader_data);
-        $consumables_code = $consumables_ship_data->consumables_code;
-        // 在庫があるか確認
-        $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code_from);
         try {
-            if ($consumables_stock) {
-                // $ship_addが1の時はカードの中身だけを増やす
-                if ($ship_add == 0) {
-                    // データに渡したいデータを格納
-                    $data = [
-                        'facility_all' => $facility_all, //全ての事業所データ
-                        'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
-                        'handy_reader_data' => $handy_reader_data,
-                        'consumables_ship_data' => $consumables_ship_data,
-                        'login' => $this->login,
-                        'office_code' => $office_code
-                    ];
-                    // htmlを作成
-                    $html = view('include.ship.ship_add', $data)->render();
-    
-                    // htmlとデータをJson形式で返す
-                    return self::jsonHtml($request, $html, $data);
-                } elseif ($ship_add == 1) {
-                    // データに渡したいデータを格納
-                    $data = [
-                        'facility_all' => $facility_all, //全ての事業所データ
-                        'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
-                        'handy_reader_data' => $handy_reader_data,
-                        'consumables_ship_data' => $consumables_ship_data,
-                        'login' => $this->login,
-                        'office_code' => $office_code
-                    ];
-                    // カードの中だけのhtmlを作成
-                    $html = view('include.ship.ship_consumables', $data)->render();
-    
-                    // htmlとデータをJson形式で返す
-                    return self::jsonHtml($request, $html, $data);
+            // QRコードから消耗品を取得
+            $consumables_ship_data = ConsumablesData::viewShipConsumablesBarcode($handy_reader_data);
+            // 消耗品があるか
+            if($consumables_ship_data) {
+                $consumables_code = $consumables_ship_data->consumables_code;
+                // 在庫があるか確認
+                $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code_from);
+                if ($consumables_stock) {
+                    // $ship_addが1の時はカードの中身だけを増やす
+                    if ($ship_add == 0) {
+                        // データに渡したいデータを格納
+                        $data = [
+                            'facility_all' => $facility_all, //全ての事業所データ
+                            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
+                            'handy_reader_data' => $handy_reader_data,
+                            'consumables_ship_data' => $consumables_ship_data,
+                            'login' => $this->login,
+                            'office_code' => $office_code,
+                            'office_data' => $office_data,
+                        ];
+                        // htmlを作成
+                        $html = view('include.ship.ship_add', $data)->render();
+        
+                        // htmlとデータをJson形式で返す
+                        return self::jsonHtml($request, $html, $data);
+                    } elseif ($ship_add == 1) {
+                        // データに渡したいデータを格納
+                        $data = [
+                            'facility_all' => $facility_all, //全ての事業所データ
+                            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
+                            'handy_reader_data' => $handy_reader_data,
+                            'consumables_ship_data' => $consumables_ship_data,
+                            'login' => $this->login,
+                            'office_code' => $office_code,
+                            'office_data' => $office_data,
+                        ];
+                        // カードの中だけのhtmlを作成
+                        $html = view('include.ship.ship_consumables', $data)->render();
+        
+                        // htmlとデータをJson形式で返す
+                        return self::jsonHtml($request, $html, $data);
+                    }
+                } else {
+                    throw new Exception($consumables_ship_data->consumables_name . "は本部に在庫がありません");
                 }
             } else {
-                throw new \Exception("本部に在庫がありません");
+                throw new Exception("QRコード読み取りエラー。再度QRコードを読み込んでください。");
             }
-        } catch (\Exception $e) {
+
+        } catch (Exception $e) {
             ConsumablesData::rollback();
+            throw $e;
         }
     }
 
@@ -194,6 +216,9 @@ class ShipController extends AuthController
         $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
+        // 事業所データ
+        $office_data = OfficeData::getOffice($office_code);    
+
         foreach ($param['ships'] as $data) {
             // dd($data);
             // 出荷納品テーブルに追加
@@ -215,7 +240,8 @@ class ShipController extends AuthController
             'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
             'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
             'login' => $this->login,
-            'office_code' => $office_code //事業所コード
+            'office_code' => $office_code, //事業所コード
+            'office_data' => $office_data,
         ];
 
         return self::view($request, 'facility_ship_list', $data);

@@ -1,13 +1,13 @@
-    <div id="message" class="mb-2">QRコードを読み取ってください。</div>
-    <div id="loadingMessage">⌛ Loading video...</div>
-    <canvas id="canvas" style="width:100%;" height="480" width="640"></canvas>
-    <div id="output">
-        <div id="outputMessage">No QR code detected.</div>
-        <div><b>Data:</b> <span id="outputData"></span></div>
-    </div>
-    <div id="data"></div>
-    <script>
-        $(function() {
+<div id="message" class="mb-2">QRコードを読み取ってください。</div>
+<div id="loadingMessage">⌛ Loading video...</div>
+<canvas id="canvas" style="width:100%;" height="480" width="640"></canvas>
+<div id="output">
+    <div id="outputMessage">No QR code detected.</div>
+    <div><b>Data:</b> <span id="outputData"></span></div>
+</div>
+<div id="data"></div>
+<script>
+    $(function() {
 
             var video = document.createElement("video");
             var canvasElement = document.getElementById("canvas");
@@ -104,7 +104,7 @@
                         
                     }).fail((error)=>{
                         //ajax通信がエラーのときの処理
-                        console.log('どんまい！');
+                        console.log('失敗');
                     })
                     $(this).html( "" );
                     $(this).prop( "hidden", true );
@@ -122,5 +122,4 @@
                 
             });
         });
-    </script>
-    
+</script>

@@ -167,9 +167,11 @@ class ConsumablesData extends BaseData
      *　消耗品バーコードから消耗品を参照します。
      * @param string $consumables_code
      */
-    public static function viewConsumablesBarcode($consumables_barcode)
+    public static function viewShipConsumablesBarcode($consumables_barcode)
     {
-        return ConsumablesTable::viewConsumablesIdMaster()->where('consumables_barcode', '=', $consumables_barcode)->first();
+        return ConsumablesTable::viewConsumablesIdMaster()
+            ->where('consumables_barcode', '=', $consumables_barcode)
+            ->where('unit_code', '=', 'N')->first();
     }
 
     /**

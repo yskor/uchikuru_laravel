@@ -47,6 +47,8 @@ abstract class AuthController extends ActionController
     {
         // ログイン情報
         $data['login'] = StaffLoginManager::getLogin($request);
+        // 二重送信防止
+        $request->session()->regenerateToken();
         return parent::view($request, $view, $data, $mergeData);
     }
 

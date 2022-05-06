@@ -4,8 +4,10 @@
 		<div class="col-6 card p-0 mx-1" style="width:170px">
 			<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" class="card-img-top" alt="" style="width:168px;height:168px;">
 			<div class="card-body">
-			<h5 class="card-title">{{ $data->consumables_name }}</h5>
-			@include('include/deliver/deliver_consumables')
+				<h5 class="card-title">{{ $data->consumables_name }}</h5>
+			</div>
+			<div class="card-footer d-flex justify-content-end">
+				@include('include/deliver/deliver_consumables')
 			</div>
 		</div>
 
