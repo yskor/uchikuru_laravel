@@ -33,9 +33,9 @@ class ConsumablesData extends BaseData
      * 消耗品種別マスタから全てのカテゴリデータを取得します。
 
      */
-    public static function getConsumablesCategoryAll()
+    public static function viewConsumablesCategoryAll()
     {
-        return ConsumablesTable::viewConsumablesCategoryMaster()->get();
+        return ConsumablesTable::viewConsumablesCategoryMaster()->OrderBy('sort_order', 'asc')->get();
     }
 
     /**
@@ -44,7 +44,7 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesIdAll()
     {
-        return ConsumablesTable::viewConsumablesIdMaster()->where('unit_code', '=', 'N')->get();
+        return ConsumablesTable::viewConsumablesIdMaster()->where('unit_code', '=', 'N')->OrderBy('id', 'asc')->get();
     }
 
     // マスタ一覧表示画面用
@@ -71,7 +71,9 @@ class ConsumablesData extends BaseData
      */
     public static function getConsumablesCategory($consumables_category_code)
     {
-        return ConsumablesTable::viewConsumablesCategoryMaster()->where('consumables_category_code', '=', $consumables_category_code)->first();
+        return ConsumablesTable::viewConsumablesCategoryMaster()
+            ->where('consumables_category_code', '=', $consumables_category_code)
+            ->first();
     }
 
     /**
@@ -91,8 +93,8 @@ class ConsumablesData extends BaseData
     public static function getConsumablesBarcodeItem($consumables_code, $unit_code)
     {
         return ConsumablesTable::tableConsumablesIdMaster()
-                ->where('消耗品コード', '=', $consumables_code)
-                ->where('消耗品単位コード', '=', $unit_code);
+            ->where('消耗品コード', '=', $consumables_code)
+            ->where('消耗品単位コード', '=', $unit_code);
     }
 
     /**
@@ -103,8 +105,10 @@ class ConsumablesData extends BaseData
     public static function viewConsumablesBarcodeItem($consumables_code, $unit_code)
     {
         return ConsumablesTable::viewConsumablesIdMasterOnly()
-                ->where('consumables_code', '=', $consumables_code)
-                ->where('unit_code', '=', $unit_code)->first();
+            ->where('consumables_code', '=', $consumables_code)
+            ->where('unit_code', '=', $unit_code)
+            ->OrderBy('id', 'asc')
+            ->first();
     }
 
     /**
@@ -124,9 +128,9 @@ class ConsumablesData extends BaseData
     public static function getCategoryConsumablesList($consumables_category_code)
     {
         return ConsumablesTable::viewConsumablesIdMaster()
-                ->where('consumables_category_code', '=', $consumables_category_code)
-                ->where('unit_code', '=', 'N')
-                ->get();
+            ->where('consumables_category_code', '=', $consumables_category_code)
+            ->where('unit_code', '=', 'N')
+            ->get();
     }
 
     /**
@@ -171,7 +175,8 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesIdMaster()
             ->where('consumables_barcode', '=', $consumables_barcode)
-            ->where('unit_code', '=', 'N')->first();
+            ->where('unit_code', '=', 'N')
+            ->first();
     }
 
     /**
@@ -182,7 +187,8 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesIdMaster()
             ->where('consumables_barcode', '=', $consumables_barcode)
-            ->where('unit_code', '=', 'B')->first();
+            ->where('unit_code', '=', 'B')
+            ->first();
     }
 
     /**
@@ -192,14 +198,14 @@ class ConsumablesData extends BaseData
     public static function viewConsumablesBarcodeList($consumables_code)
     {
         $barcode_B = ConsumablesTable::viewConsumablesIdMasterOnly()
-                    ->where('consumables_code', '=', $consumables_code)
-                    ->where('unit_code', '=', 'B')->value('consumables_barcode');
+            ->where('consumables_code', '=', $consumables_code)
+            ->where('unit_code', '=', 'B')->value('consumables_barcode');
         $barcode_N = ConsumablesTable::viewConsumablesIdMasterOnly()
-                    ->where('consumables_code', '=', $consumables_code)
-                    ->where('unit_code', '=', 'N')->value('consumables_barcode');
+            ->where('consumables_code', '=', $consumables_code)
+            ->where('unit_code', '=', 'N')->value('consumables_barcode');
         $barcode_Q = ConsumablesTable::viewConsumablesIdMasterOnly()
-                    ->where('consumables_code', '=', $consumables_code)
-                    ->where('unit_code', '=', 'Q')->value('consumables_barcode');
+            ->where('consumables_code', '=', $consumables_code)
+            ->where('unit_code', '=', 'Q')->value('consumables_barcode');
 
         $barcodes = [
             'barcode_B' => $barcode_B,
@@ -207,9 +213,8 @@ class ConsumablesData extends BaseData
             'barcode_Q' => $barcode_Q
         ];
         // dd($barcodes);
-        
+
         return $barcodes;
-    
     }
 
     /**
@@ -356,7 +361,9 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesShip()
             ->where('office_code_to', '=', $office_code_to)
-            ->where('status_code', '=', 'S')->get();
+            ->where('status_code', '=', 'S')
+            ->orderBy('ship_code', 'desc')
+            ->get();
     }
 
     /**
@@ -387,7 +394,9 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesShip()
             ->where('qr_code', '=', $office_qrcode)
-            ->where('status_code', '=', 'S')->get();
+            ->where('status_code', '=', 'S')
+            ->orderBy('ship_code', 'desc')
+            ->get();
     }
 
     /**

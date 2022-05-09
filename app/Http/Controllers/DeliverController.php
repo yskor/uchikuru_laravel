@@ -23,8 +23,6 @@ class DeliverController extends AuthController
     {
         Log::debug(print_r($this->login, true));
 
-        // $office_code = $this->login->office_code;
-
         $data = [
             'login' => $this->login,
         ];
@@ -56,8 +54,6 @@ class DeliverController extends AuthController
         );
 
         // 消耗品コードから消耗品を取得
-        // Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code);
-        // $consumables_code = 4520951011185;
         Log::debug(print_r($this->login, true));
 
         // 対象事業所の消耗品出荷データを取得
@@ -93,7 +89,6 @@ class DeliverController extends AuthController
 
             Log::debug(print_r($this->login, true));
 
-            // $deliver_consumables_list = ConsumablesData::viewFacilityConsumablesShip($office_qrcode);
             $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
 
             foreach ($deliver_consumables_list as $data) {
@@ -105,7 +100,6 @@ class DeliverController extends AuthController
                 'deliver_consumables_list' => $deliver_consumables_list,
                 'office_code' => $office_code,
             ];
-            // dd($data);
             // 未納品の消耗品リストテーブルのhtmlを作成
             $html = view('include.deliver.deliver_table', $data)->render();
         } catch (\Exception $e) {
@@ -135,8 +129,6 @@ class DeliverController extends AuthController
         Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $stock_number, $staff_code);
 
         // 消耗品コードから消耗品を取得
-        // Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $staff_code);
-        // $consumables_code = 4520951011185;
         Log::debug(print_r($this->login, true));
 
         // 対象事業所の消耗品出荷データを取得
@@ -148,14 +140,13 @@ class DeliverController extends AuthController
             }
         }
 
-        session()->flash('message', '納品が完了しました');
+        $consumables = ConsumablesData::viewConsumablesShipData($ship_code);
+        session()->flash('message', $consumables->consumables_name . 'を' .$deliver_number. '箱納品しました');
 
         $data = [
             'deliver_consumables_list' => $deliver_consumables_list, //対象の事業所出荷一覧
             'office_code' => $office_code,
-            // 'office_data' => $office_data,
         ];
-        // dd($data, $office_code, $consumables_code);
         return self::view($request, 'deliver_list', $data);
     }
 }

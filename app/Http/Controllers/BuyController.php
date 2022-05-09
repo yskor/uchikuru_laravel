@@ -25,7 +25,7 @@ class BuyController extends AuthController
     //     Log::debug(print_r($this->login, true));
 
     //     // 消耗品カテゴリデータを取得
-    //     $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+    //     $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
     //     // 消耗品仕入データを参照
     //     $consumables_buy_all = ConsumablesData::viewConsumablesBuyAll();
 
@@ -37,10 +37,10 @@ class BuyController extends AuthController
     //     ];
 
     //     // dd($data);
-        
+
     //     return self::view($request, 'buy_list', $data);
     // }
-    
+
     //
     /**
      * カテゴリ別の仕入一覧をを表示します。
@@ -49,18 +49,18 @@ class BuyController extends AuthController
     public function buy_list_category($consumables_category_code, Request $request)
     {
         Log::debug(print_r($this->login, true));
-        
+
         // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 消耗品カテゴリデータと紐づく仕入データを参照
         $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuyAll($consumables_category_code);
-        
+
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
             'consumables_category_code' => $consumables_category_code
         ];
-        
+
         return self::view($request, 'buy_list_category', $data);
     }
 
@@ -78,7 +78,7 @@ class BuyController extends AuthController
 
         // $handy_reader_dataとバーコードが一致するデータを参照
         $consumables_buy_data = ConsumablesData::viewBuyConsumablesBarcode($handy_reader_data);
-        
+
         try {
             // $buy_addが1の時はカードの中身だけを増やす
             if ($buy_add == 0) {
@@ -97,7 +97,7 @@ class BuyController extends AuthController
                 ];
                 // htmlを作成
                 $html = view('include.buy.buy_add', $data)->render();
-                
+
                 // htmlとデータをJson形式で返す
                 return self::jsonHtml($request, $html, $data);
             } elseif ($buy_add == 1) {
@@ -110,7 +110,6 @@ class BuyController extends AuthController
                 ];
                 // カードの中だけのhtmlを作成
                 $html = view('include.buy.buy_consumables', $data)->render();
-                
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
@@ -120,7 +119,7 @@ class BuyController extends AuthController
         return self::jsonHtml($request, $html, $data);
     }
 
-        
+
     /**
      * 仕入テーブルに追加。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
@@ -143,11 +142,11 @@ class BuyController extends AuthController
                 $data['buy_number'], //出荷数
                 $staff_code, //職員コード
                 // $data['ship_date'], //出荷日
-            ); 
-        } 
+            );
+        }
 
         // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 消耗品仕入データを参照
         $consumables_buy_all = ConsumablesData::viewConsumablesBuyAll();
 
@@ -155,7 +154,6 @@ class BuyController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
-            // 'consumables_category_code' => 'all'
             'consumables_category_code' => $consumables_category_code
         ];
 
@@ -163,6 +161,4 @@ class BuyController extends AuthController
 
         return self::view($request, 'buy_list_category', $data);
     }
-    
-
 }

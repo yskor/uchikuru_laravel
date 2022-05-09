@@ -25,7 +25,7 @@ class StockController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
 
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
@@ -56,17 +56,13 @@ class StockController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
         // 対象事業所とアシストの消耗品在庫データを取得
         $consumables_stock_list = ConsumablesData::viewFacilityConsumablesStockList($office_code);
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
-
-        // カテゴリデータを全て取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
-        // dd($facility_stock_list, $consumables_stock_all);
 
         $data = [
             'facility_all' => $facility_all, //全ての事業所データ
@@ -93,7 +89,7 @@ class StockController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 対象の消耗品データを取得
         $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code);
 
@@ -125,7 +121,7 @@ class StockController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 対象の消耗品データを取得
         $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code);
 

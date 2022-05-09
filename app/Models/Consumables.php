@@ -236,16 +236,19 @@ class Consumables extends Model
 
             // 消耗品コードから現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code_from);
-            // 在庫テーブルの消耗品を減らす
-            $dec_values = [
-                "消耗品コード" => $consumables_code,
-                "個数在庫数" => $consumables_stock->stock_number - $ship_number,
-                "入数在庫数" => $consumables_stock->quantity,
-                "更新日時" => now(),
-            ];
-            ConsumablesData::getConsumablesStockData($consumables_code, $office_code_from)->update($dec_values);
+            if ($consumables_stock->stock_number - $ship_number >= 0) {
+                // 在庫数が0以上の時在庫テーブルの消耗品を減らす
+                $dec_values = [
+                    "消耗品コード" => $consumables_code,
+                    "個数在庫数" => $consumables_stock->stock_number - $ship_number,
+                    "入数在庫数" => $consumables_stock->quantity,
+                    "更新日時" => now(),
+                ];
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code_from)->update($dec_values);
+            }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
+            // throw new \Exception("本部に在庫がありません");
             throw $e;
         }
     }
@@ -275,7 +278,7 @@ class Consumables extends Model
                     "登録職員コード" => $staff_code,
                     "更新日時" => now(),
                 ];
-                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
+                return ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
             } else {
                 // 在庫テーブルに同じ消耗品が無い場合は消耗品を追加
                 $stock_values = [
@@ -287,7 +290,7 @@ class Consumables extends Model
                     "作成日時" => now(),
                     "更新日時" => now(),
                 ];
-                ConsumablesTable::tableConsumablesStock()->insert($stock_values);
+                return ConsumablesTable::tableConsumablesStock()->insert($stock_values);
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();

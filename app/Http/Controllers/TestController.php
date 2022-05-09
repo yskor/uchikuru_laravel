@@ -24,16 +24,16 @@ class TestController extends AuthController
     public function test(Request $request)
     {
         Log::debug(print_r($this->login, true));
-        $consumables_category_all = ConsumablesData::getConsumablesCategoryAll();
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         $consumables_list = ConsumablesData::viewConsumablesIdAll();
 
-        foreach ( $consumables_list as $consumables) {
+        foreach ($consumables_list as $consumables) {
 
             $len = 8; //指定文字列
             //指定した文字で埋める
             $filename = str_pad($consumables->consumables_code, $len, 0, STR_PAD_LEFT); // => "00123"
             $image_filename = $filename . '.jpg'; //ファイル名取得
-            
+
             $master_values = [
                 "画像ファイル拡張子" => $image_filename,
             ];
@@ -50,5 +50,4 @@ class TestController extends AuthController
 
         return self::view($request, 'master_list', $data);
     }
-
 }
