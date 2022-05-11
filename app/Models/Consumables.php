@@ -196,25 +196,13 @@ class Consumables extends Model
                 ];
                 // 在庫を更新
                 ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
-            } elseif ($consumables_data->use_unit_code == 'N') {
+            } else {
                 // 在庫がなく消費単位が個数の場合
                 $stock_values = [
                     "事業所コード" => 91,
                     "消耗品コード" => $consumables_code,
                     "個数在庫数" => $stock_number,
-                    "入数在庫数" => $consumables_master->quantity,
-                    "作成日時" => now(),
-                    "更新日時" => now(),
-                ];
-                // 在庫に新たに追加
-                ConsumablesTable::tableConsumablesStock()->insert($stock_values);
-            } elseif ($consumables_data->use_unit_code == 'Q') {
-                // 在庫がなく消費単位が入数の場合
-                $stock_values = [
-                    "事業所コード" => 91,
-                    "消耗品コード" => $consumables_code,
-                    "個数在庫数" => $stock_number - 1, //個数を１個減らす
-                    "入数在庫数" => $consumables_master->quantity,
+                    // "入数在庫数" => $consumables_master->quantity,
                     "作成日時" => now(),
                     "更新日時" => now(),
                 ];

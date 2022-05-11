@@ -114,13 +114,12 @@
 						var consumables_buy_data = res.consumables_buy_data;
 						$('#buy-add').html(res.html); //できあがったテンプレートをビューに追加
 						console.log('成功')
-						
+						buy_add = 1;		
 					}).fail((error)=>{
 						//ajax通信がエラーのときの処理
 						console.log('失敗')
 						ajax_fail(error);
 					})
-					buy_add = 1;		
 				}
 				buy_items[handy_reader_data] = handy_reader_data;
 			}

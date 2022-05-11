@@ -44,7 +44,7 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesIdAll()
     {
-        return ConsumablesTable::viewConsumablesIdMaster()->where('unit_code', '=', 'N')->OrderBy('id', 'asc')->get();
+        return ConsumablesTable::viewConsumablesIdMaster()->where('unit_code', '=', 'N')->OrderBy('consumables_code', 'asc')->get();
     }
 
     /**

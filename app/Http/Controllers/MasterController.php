@@ -136,7 +136,7 @@ class MasterController extends AuthController
 
     //
     /**
-     * 消耗品一覧を表示します。
+     * 消耗品QR一覧を表示します。
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function qr_list(Request $request)
