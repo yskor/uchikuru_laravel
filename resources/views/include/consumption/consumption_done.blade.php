@@ -15,7 +15,7 @@
             <p>現在の在庫数は{{$consumables_stock_number}}箱です。</p>
             @endif
         </div> --}}
-        <h5 class="w-100">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumables->use_unit}}消費しました</h5>
+        <h5 class="m-2">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumables->use_unit}}消費しました</h5>
     </div>
     
 </div>

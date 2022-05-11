@@ -149,12 +149,22 @@ class MasterController extends AuthController
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
         $consumables_list = ConsumablesData::viewConsumablesIdAll();
+        // dd($consumables_category_all);
+        $qr_list = array();
+
+        foreach ($consumables_category_all as $category) {
+            $qr_list[$category->consumables_category_name] = ConsumablesData::getCategoryConsumablesList($category->consumables_category_code);
+        }
+
 
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_list' => $consumables_list,
             'login' => $this->login,
+            'qr_list' => $qr_list,
         ];
+
+        // dd($qr_list);
 
         return self::view($request, 'qr_list', $data);
     }

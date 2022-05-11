@@ -39,7 +39,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-footer">
+				<div class="card-footer d-flex justify-content-end">
 					{{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button> --}}
 					<button type="submit" class="btn btn-primary" id="btn-consumption">使用する</button>
 				</div>
