@@ -78,7 +78,6 @@
 			if(buy_items[handy_reader_data]) {
 				console.log('すでに読み込み済みです')
 			} else {
-				console.log('false')
 				if(buy_add == 1) {
 					// モーダルが既にあればモーダルに追加
 					$.ajax({
@@ -101,6 +100,7 @@
 						console.log('失敗');
 						ajax_fail(error);
 					})
+					buy_items[handy_reader_data] = handy_reader_data;
 				} else if (buy_add == 0) {
 					$.ajax({
 						type: 'POST',
@@ -117,12 +117,12 @@
 						$('#buy-add').html(res.html); //できあがったテンプレートをビューに追加
 						console.log('成功')
 						buy_add = 1;		
-						buy_items[handy_reader_data] = handy_reader_data;
 					}).fail((error)=>{
 						//ajax通信がエラーのときの処理
 						console.log('失敗')
 						ajax_fail(error);
 					})
+					buy_items[handy_reader_data] = handy_reader_data;
 				}
 			}
 			console.log(buy_items);

@@ -87,6 +87,7 @@
 	
 					})
 					handy_reader_data = "";
+					ship_items[handy_reader_data] = handy_reader_data;
 				} else if (ship_add == 0) {
 					$.ajax({
 						type: 'POST',
@@ -105,12 +106,12 @@
 						console.log(res)
 						console.log('成功しました')
 						ship_add = 1;
-						ship_items[handy_reader_data] = handy_reader_data;
 					}).fail((error)=>{
 						//ajax通信がエラーのときの処理
 						console.log('失敗');
 						ajax_fail(error);
 					})
+					ship_items[handy_reader_data] = handy_reader_data;
 				}
 			}
 			console.log(ship_items);

@@ -16,4 +16,6 @@
 		</div>
 	</div>
 	@endforeach
+	@foreach($consumables_category_all as $category)
+	@endforeach
 </div>
