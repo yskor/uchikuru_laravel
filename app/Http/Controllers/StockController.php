@@ -104,10 +104,45 @@ class StockController extends AuthController
             'consumables_stock_list' => $consumables_stock_list,
             'office_code' => $office_code, //施設コード
             'office_data' => $office_data, //事業所データ
-            'consumables_category_code' => $consumables_category_code //消耗品コード
+            'consumables_category_code' => $consumables_category_code, //消耗品コード
+            'search_name' => '',
         ];
 
         return self::view($request, 'facility_stock_list_category', $data);
+    }
+
+    //
+    /**
+     * 事業所の消耗品検索結果を表示します。
+     * @param int $consumables_category_code
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function facility_category_stock_list_search($office_code, $consumables_category_code, Request $request)
+    {
+        Log::debug(print_r($this->login, true));
+        $search_name = $request->keyword;
+
+        // 消耗品カテゴリデータを参照
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        // キーワードに一致するの消耗品データを参照
+        $consumables_stock_list = ConsumablesData::viewConsumablesStockSearchData($consumables_category_code, $office_code, $search_name);
+
+        // 事業所マスタから事業所を全て参照
+        $facility_all = OfficeData::viewfacilityAll();
+        // 事業所データ
+        $office_data = OfficeData::getOffice($office_code);
+
+        $data = [
+            'facility_all' => $facility_all, //全ての事業所データ
+            'consumables_category_all' => $consumables_category_all,
+            'consumables_stock_list' => $consumables_stock_list,
+            'office_code' => $office_code, //施設コード
+            'office_data' => $office_data, //事業所データ
+            'consumables_category_code' => $consumables_category_code, //消耗品種別コード
+            'search_name' => $search_name,
+        ];
+
+        return self::view($request, 'facility_stock_list_category_search', $data);
     }
 
     //

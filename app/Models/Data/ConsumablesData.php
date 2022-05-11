@@ -94,6 +94,20 @@ class ConsumablesData extends BaseData
             ->where('unit_code', '=', 'N')
             ->get();
     }
+    
+    /**
+     * キーワードから消耗品の一覧を取得します。
+     * @param string $consumables_category_code
+     * @return unknown
+     */
+    public static function viewCategoryConsumablesSearchList($consumables_category_code, $search_name)
+    {
+        return ConsumablesTable::viewConsumablesIdMaster()
+            ->where('consumables_category_code', '=', $consumables_category_code)
+            ->where('unit_code', '=', 'N')
+            ->where('consumables_name', 'like', '%'.$search_name.'%')
+            ->get();
+    }
 
     /**
      *　最後のから消耗品を取得します。
@@ -244,6 +258,27 @@ class ConsumablesData extends BaseData
     }
 
     /**
+     * 消耗品コードから消耗品を参照します。
+     * @param int $consumables_category_code
+     * @return unknown
+     */
+    public static function viewConsumablesStockSearchData($consumables_category_code, $office_code, $search_name)
+    {
+        return DB::select("SELECT *
+                        FROM dbo.VIEW_消耗品識別マスタ AS m
+                        LEFT JOIN 
+						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
+								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as f_stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS s
+                        ON s.consumables_code = m.consumables_code
+						LEFT JOIN
+						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
+								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
+                        ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.unit_code = 'N' and m.consumables_name LIKE '%$search_name%' ");
+    }
+
+    /**
      * 消耗品コードから消耗品を取得します。
      * @param int $consumables_category_code
      * @return unknown
@@ -269,6 +304,18 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesBuy()
             ->where('consumables_category_code', '=', $consumables_category_code)->orderBy('created_at', 'desc')->get();
+    }
+
+    // 消耗品カテゴリコードから消耗品データを取得
+    /**
+     * @param int $consumables_buy_code
+     */
+    public static function viewConsumablesCategoryBuySearchAll($consumables_category_code, $search_name)
+    {
+        return ConsumablesTable::viewConsumablesBuy()
+            ->where('consumables_category_code', '=', $consumables_category_code)
+            ->where('consumables_name', 'like', '%'.$search_name.'%')
+            ->orderBy('created_at', 'desc')->get();
     }
 
     /**

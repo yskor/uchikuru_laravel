@@ -22,7 +22,7 @@
 
 
 <!-- フラッシュメッセージ -->
-@if (session('error_message'))
+{{-- @if (session('error_message'))
 <div class="alert alert-success">
 	{{ session('message') }}
 </div>
@@ -30,7 +30,7 @@
 <div class="alert alert-success">
 	{{ session('success_message') }}
 </div>
-@endif
+@endif --}}
 
 {{-- <form action="{{route('buy_consumables')}}" method="post">
 	@csrf
@@ -67,7 +67,7 @@
 			setTimeout( function() {
 				console.log("リセット");
 				handy_reader_data = "";
-			}, 3000 );
+			}, 1000 );
 		}
 	
 		if( event.keyCode == 13 && handy_reader_data != "" ) {

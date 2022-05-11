@@ -34,20 +34,4 @@
 @section('script')
 @include('_sample')
 
-<script type="text/javascript">
-	$(function() {
-	
-		var list = $( "#list" );
-		var modal = $( "#modal" );
-		
-		
-		// 納品処理が完了
-		modal.on( "done", function( event, message ) {
-			$(this).modal( "hide" );
-		});
-		
-	});
-	
-</script>
-
 @endsection

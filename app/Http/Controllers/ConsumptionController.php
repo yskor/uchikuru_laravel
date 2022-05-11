@@ -22,23 +22,21 @@ class ConsumptionController extends AuthController
      */
     public function consumption($consumables_code, Request $request)
     {
-        try {
-            $office_code = $this->login->office_code;
-            Log::debug(print_r($this->login, true));
-            
-            // バーコードから消耗品を取得
-            $consumables = ConsumablesData::viewOneConsumables($consumables_code);
-            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
-            
-            // カードの中だけのhtmlを作成
-            $data = [
-                'consumables' => $consumables,
-                'consumables_stock' => $consumables_stock,
-            ];
-        } catch (\Exception $e) {
-            ConsumablesData::rollback();
-            throw new \Exception("読み込みエラーです。もう一度QRコードを読み込んでください");
+        $office_code = $this->login->office_code;
+        Log::debug(print_r($this->login, true));
+        
+        // バーコードから消耗品を取得
+        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+        // dd($consumables_stock);
+        if(!$consumables_stock) {
+            session()->flash('nostock_message', $consumables->consumables_name . 'は在庫がありません');
         }
+        // カードの中だけのhtmlを作成
+        $data = [
+            'consumables' => $consumables,
+            'consumables_stock' => $consumables_stock,
+        ];
         return self::view($request, 'consumption', $data);
     }
 
@@ -48,16 +46,16 @@ class ConsumptionController extends AuthController
      */
     public function consumption_done(Request $request)
     {
+        $consumables_code = $request['consumables_code'];
+        $office_code = $this->login->office_code;
+        $staff_code = $this->login->staff_code;
+        Log::debug(print_r($this->login, true));
+        
+        // バーコードから消耗品を取得
+        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumption_quantity = $consumables->use_quantity;
+        $consumption_unit_code = $consumables->use_unit_code;
         try {
-            $consumables_code = $request['consumables_code'];
-            $office_code = $this->login->office_code;
-            $staff_code = $this->login->staff_code;
-            Log::debug(print_r($this->login, true));
-            
-            // バーコードから消耗品を取得
-            $consumables = ConsumablesData::viewOneConsumables($consumables_code);
-            $consumption_quantity = $consumables->use_quantity;
-            $consumption_unit_code = $consumables->use_unit_code;
 
             // 消費テーブルに追加
             Consumables::insert_consumables_consumption(
@@ -68,26 +66,29 @@ class ConsumptionController extends AuthController
                 $staff_code
             );
     
-            // 消耗品コードから現在の在庫を参照
-            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
-    
-            $data = [
-                'consumables' => $consumables,
-                'consumption_quantity' => $consumption_quantity,
-                'consumables_stock_number' => $consumables_stock->stock_number,
-                'consumables_stock_quantity' => $consumables_stock->stock_quantity,
-                'consumables_stock' => $consumables_stock,
-            ];
-    
             session()->flash('success_message', '在庫数を減らしました');
-
+            
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             session()->flash('miss_message', '処理に失敗しました');
             
         }
-        
+        // 消耗品コードから現在の在庫を参照
+        $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+
+        // dd($office_code,$consumables_code,$consumables_stock);
+        $data = [
+            'consumables' => $consumables,
+            'consumption_quantity' => $consumption_quantity,
+            'consumables_stock_number' => $consumables_stock->stock_number,
+            'consumables_stock_quantity' => $consumables_stock->stock_quantity,
+            'consumables_stock' => $consumables_stock,
+        ];
+
+        // dd($data);
+
         return self::view($request, 'consumption_done', $data);
+        
     }
 
 }

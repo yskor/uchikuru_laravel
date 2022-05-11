@@ -58,10 +58,36 @@ class BuyController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
-            'consumables_category_code' => $consumables_category_code
+            'consumables_category_code' => $consumables_category_code,
+            'search_name' => '',
         ];
 
         return self::view($request, 'buy_list_category', $data);
+    }
+
+    //
+    /**
+     * キーワードに基づくの仕入一覧をを表示します。
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function buy_list_category_search($consumables_category_code, Request $request)
+    {
+        Log::debug(print_r($this->login, true));
+        $search_name = $request->keyword;
+
+        // 消耗品カテゴリデータを取得
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        // 消耗品カテゴリデータと紐づく仕入データを参照
+        $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuySearchAll($consumables_category_code, $search_name);
+
+        $data = [
+            'consumables_category_all' => $consumables_category_all,
+            'consumables_buy_all' => $consumables_buy_all,
+            'consumables_category_code' => $consumables_category_code,
+            'search_name' => $search_name,
+        ];
+
+        return self::view($request, 'buy_list_category_search', $data);
     }
 
     /**
@@ -154,7 +180,8 @@ class BuyController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
-            'consumables_category_code' => $consumables_category_code
+            'consumables_category_code' => $consumables_category_code,
+            'search_name' => '',
         ];
 
         session()->flash('success_message', '消耗品を仕入れました');

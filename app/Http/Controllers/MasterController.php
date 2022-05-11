@@ -58,10 +58,35 @@ class MasterController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_list' => $consumables_list,
-            'consumables_category_code' => $consumables_category_code
+            'consumables_category_code' => $consumables_category_code,
+            'search_name' => '',
         ];
 
         return self::view($request, 'master_list_category', $data);
+    }
+   
+    //
+    /**
+     * カテゴリに絞った消耗品一覧表示
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function master_list_search($consumables_category_code, Request $request)
+    {
+        Log::debug(print_r($this->login, true));
+        $search_name = $request->keyword; //検索キーワード
+        // カテゴリデータを全て取得
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        // 対象の消耗品を取得
+        $consumables_list = ConsumablesData::viewCategoryConsumablesSearchList($consumables_category_code, $search_name);
+
+        $data = [
+            'consumables_category_all' => $consumables_category_all,
+            'consumables_list' => $consumables_list,
+            'consumables_category_code' => $consumables_category_code,
+            'search_name' => $search_name,
+        ];
+
+        return self::view($request, 'master_list_search', $data);
     }
 
 
