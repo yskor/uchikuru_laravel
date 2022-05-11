@@ -9,11 +9,11 @@
             <form action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title">下記消耗品を1{{$consumables_buy_data->number_unit}}仕入れました</h5>
+                    <h5 class="modal-title" id="modal-title">下記消耗品を1{{$consumables_buy_data->number_unit}}仕入ました</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <div id="data" style="">
                         <table class="table">
                             <tbody>
@@ -29,22 +29,25 @@
                                     <th>消耗品</th>
                                     <td>
                                         @if(!empty( $consumables_buy_data->image_file_extension))
-                                        <div><img src="{{ asset('upload/consumables/'.$consumables_buy_data->image_file_extension)}}"
+                                        <div><img
+                                                src="{{ asset('upload/consumables/'.$consumables_buy_data->image_file_extension)}}"
                                                 style="width:100px;height:100px;"></div>
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>入数/個数</th>
-                                    <td>{{$consumables_buy_data->quantity}}{{$consumables_buy_data->quantity_unit}}/{{$consumables_buy_data->number_unit}}</td>
+                                    <td>{{$consumables_buy_data->quantity}}{{$consumables_buy_data->quantity_unit}}/{{$consumables_buy_data->number_unit}}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     {{-- <div class="form-group" id="buy-number-form-group">
-                        <label for="buy-number">仕入れ数 <span class="badge bg-danger">必須</span> </label>
-                        <input type="number" class="form-control" id="buy-number"><span>{{$consumables_buy_data->number_unit}}<span>
+                        <label for="buy-number">仕入数 <span class="badge bg-danger">必須</span> </label>
+                        <input type="number" class="form-control"
+                            id="buy-number"><span>{{$consumables_buy_data->number_unit}}<span>
                     </div> --}}
 
                 </div>
@@ -57,7 +60,7 @@
                             <path fill="currentColor"
                                 d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z">
                             </path>
-                        </svg>仕入れ</button>
+                        </svg>仕入</button>
 
                 </div> --}}
             </form>

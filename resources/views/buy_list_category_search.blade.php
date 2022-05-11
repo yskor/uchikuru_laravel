@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '消耗品仕入れ')
+@section('title', '消耗品仕入')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -69,10 +69,12 @@
 				handy_reader_data = "";
 			}, 1000 );
 		}
-	
+		
 		if( event.keyCode == 13 && handy_reader_data != "" ) {
 			// Enterキーが押された
 			console.log(handy_reader_data);
+			$('#flash-message').prop('hidden', true);
+
 			if(buy_items[handy_reader_data]) {
 				console.log('すでに読み込み済みです')
 			} else {
@@ -114,14 +116,14 @@
 						var consumables_buy_data = res.consumables_buy_data;
 						$('#buy-add').html(res.html); //できあがったテンプレートをビューに追加
 						console.log('成功')
-						buy_add = 1;		
+						buy_add = 1;
+						buy_items[handy_reader_data] = handy_reader_data;
 					}).fail((error)=>{
 						//ajax通信がエラーのときの処理
 						console.log('失敗')
 						ajax_fail(error);
 					})
 				}
-				buy_items[handy_reader_data] = handy_reader_data;
 			}
 			console.log(buy_items);
 			handy_reader_data = "";

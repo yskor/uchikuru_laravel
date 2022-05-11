@@ -161,7 +161,7 @@ class BuyController extends AuthController
 
         foreach ($param['buys'] as $data) {
             // dd($data);
-            // 仕入れテーブルに追加
+            // 仕入テーブルに追加
             Consumables::insert_consumables_buy(
                 $data['consumables_code'], //消耗品コード
                 $office_code, //仕入事業所コード
@@ -184,7 +184,7 @@ class BuyController extends AuthController
             'search_name' => '',
         ];
 
-        session()->flash('success_message', '消耗品を仕入れました');
+        session()->flash('success_message', '消耗品を仕入ました');
 
         return self::view($request, 'buy_list_category', $data);
     }

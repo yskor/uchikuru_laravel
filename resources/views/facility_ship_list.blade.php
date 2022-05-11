@@ -57,6 +57,8 @@
 		if( event.keyCode == 13 && handy_reader_data != "" ) {
 			// Enterキーが押された
 			console.log(handy_reader_data);
+			$('#flash-message').prop('hidden', true);
+
 			if(ship_items[handy_reader_data]) {
 				console.log('すでに読み込み済みです')
 			} else {
@@ -103,13 +105,13 @@
 						console.log(res)
 						console.log('成功しました')
 						ship_add = 1;
+						ship_items[handy_reader_data] = handy_reader_data;
 					}).fail((error)=>{
 						//ajax通信がエラーのときの処理
 						console.log('失敗');
 						ajax_fail(error);
 					})
 				}
-				ship_items[handy_reader_data] = handy_reader_data;
 			}
 			console.log(ship_items);
 			handy_reader_data = "";

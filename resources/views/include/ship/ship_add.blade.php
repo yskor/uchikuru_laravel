@@ -1,4 +1,5 @@
-<form action="{{route('facility_ship_list', ['office_code' => $office_code]) }}" method="POST" enctype="multipart/form-data">
+<form action="{{route('facility_ship_list', ['office_code' => $office_code]) }}" method="POST"
+	enctype="multipart/form-data">
 	@csrf
 	<div class="card mb-3">
 		<div class="card-header">
@@ -10,18 +11,18 @@
 				<label class="input-group-text" for="office_code_to">出荷先</label>
 				<select class="form-control" name="office_code_to" id="office_code_to" required>
 					{{-- office_codeがallの場合は空欄を初期値とする --}}
-					@if ($office_code == 'all') 
+					@if ($office_code == 'all')
 					<option value="" selected=""></option>
 					@endif
 					@foreach ($facility_all as $facility)
-						{{-- office_codeが一致する場合は初期値とする --}}
-						@if ($office_code == $facility->office_code) 
-						<option value="{{$facility->office_code}}" selected="">{{$facility->facility_name}}
-						</option>
-						@else
-						<option value="{{$facility->office_code}}">{{$facility->facility_name}}
-						</option>
-						@endif
+					{{-- office_codeが一致する場合は初期値とする --}}
+					@if ($office_code == $facility->office_code)
+					<option value="{{$facility->office_code}}" selected="">{{$facility->facility_name}}
+					</option>
+					@else
+					<option value="{{$facility->office_code}}">{{$facility->facility_name}}
+					</option>
+					@endif
 					@endforeach
 				</select>
 			</div>
@@ -31,7 +32,7 @@
 		</div>
 
 		{{-- <div class="form-group" id="buy-number-form-group">
-			<label for="buy-number">仕入れ数 <span class="badge bg-danger">必須</span> </label>
+			<label for="buy-number">仕入数 <span class="badge bg-danger">必須</span> </label>
 			<input type="number" class="form-control"
 				id="buy-number"><span>{{$consumables_ship_data->number_unit}}<span>
 		</div> --}}

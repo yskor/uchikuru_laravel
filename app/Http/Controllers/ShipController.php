@@ -167,42 +167,42 @@ class ShipController extends AuthController
      * 消耗品出荷リストの編集
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit_ship(Request $request)
-    {
-        Log::debug(print_r($this->login, true));
-        // POSTの値を全て取得
-        $param = $request->all();
-        // dd($param);
-        $office_code_to = $param['office_code_to']; //納品先事業所コード
-        $office_code_from = 91; //出荷元事業所コード（今はアシスト固定）
-        $staff_code = $param['staff_code'];
-        // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
-        foreach ($param['ships'] as $data) {
-            // dd($data);
-            // 出荷納品テーブルに追加
-            Consumables::insert_consumables_ship(
-                $data['consumables_code'], //消耗品コード
-                $office_code_from, //出荷元事業所コード
-                $data['ship_number'], //出荷数
-                $staff_code, //職員コード
-                // $data['ship_date'], //出荷日
-                $office_code_to, //納品先事業所コード
-            );
-        }
+    // public function edit_ship(Request $request)
+    // {
+    //     Log::debug(print_r($this->login, true));
+    //     // POSTの値を全て取得
+    //     $param = $request->all();
+    //     // dd($param);
+    //     $office_code_to = $param['office_code_to']; //納品先事業所コード
+    //     $office_code_from = 91; //出荷元事業所コード（今はアシスト固定）
+    //     $staff_code = $param['staff_code'];
+    //     // 消耗品カテゴリデータを取得
+    //     $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+    //     // 事業所マスタから事業所を全て参照
+    //     $facility_all = OfficeData::viewfacilityAll();
+    //     foreach ($param['ships'] as $data) {
+    //         // dd($data);
+    //         // 出荷納品テーブルに追加
+    //         Consumables::insert_consumables_ship(
+    //             $data['consumables_code'], //消耗品コード
+    //             $office_code_from, //出荷元事業所コード
+    //             $data['ship_number'], //出荷数
+    //             $staff_code, //職員コード
+    //             // $data['ship_date'], //出荷日
+    //             $office_code_to, //納品先事業所コード
+    //         );
+    //     }
 
-        $data = [
-            'param' => $param, //全ての事業所データ
-            'facility_all' => $facility_all, //全ての事業所データ
-            'consumables_category_all' => $consumables_category_all,
-            'login' => $this->login,
-            'office_code' => 'all',
-        ];
+    //     $data = [
+    //         'param' => $param, //全ての事業所データ
+    //         'facility_all' => $facility_all, //全ての事業所データ
+    //         'consumables_category_all' => $consumables_category_all,
+    //         'login' => $this->login,
+    //         'office_code' => 'all',
+    //     ];
 
-        return self::view($request, 'ship_list', $data);
-    }
+    //     return self::view($request, 'ship_list', $data);
+    // }
 
     //
     /**

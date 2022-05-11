@@ -144,7 +144,7 @@ class ConsumablesData extends BaseData
     }
 
     /**
-     *　消耗品バーコードから消耗品を参照します。
+     *　消耗品バーコード(個数）から消耗品を参照します。
      * @param string $consumables_code
      */
     public static function viewShipConsumablesBarcode($consumables_barcode)
