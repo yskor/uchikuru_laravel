@@ -31,13 +31,13 @@
 								<span class="input-group-text" style="width: 112;">施設在庫数</span>
 								<input type="number" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number"
 									value="{{$data->stock_number}}">
-								<span class="input-group-text" id="stock-number-{{$data->ship_code}}">{{$data->number_unit}}</span>
+								<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
 							</div>
 							@else
 							<div class="input-group mb-1" style="width:220px;">
 								<span class="input-group-text" style="width: 112;">施設在庫数</span>
 								<input type="" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number" value="0">
-								<span class="input-group-text" id="stock-number-{{$data->ship_code}}">{{$data->number_unit}}</span>
+								<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
 							</div>
 							@endif
 							<div class="form-check form-switch">
@@ -49,7 +49,7 @@
 								<span class="input-group-text" style="width: 112;">納品数</span>
 								<input type="number" class="form-control text-center" id="deliver-number-{{$data->ship_code}}" name="deliver_number"
 									value="{{$data->shipped_number}}">
-								<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">{{$data->number_unit}}</span>
+								<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">箱</span>
 							</div>
 							<div class="form-check form-switch">
 								<input class="form-check-input" type="checkbox" id="deliver-check-{{$data->ship_code}}" disabled>

@@ -1,20 +1,21 @@
 <!-- フラッシュメッセージ -->
 @if (session('success_message'))
 <div class="card w-100 mb-3">
-    <div class="card-header">
+    {{-- <div class="card-header">
         <h5 class="w-100">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumables->use_unit}}消費しました</h5>
-    </div>
+    </div> --}}
     <div class="card-body d-flex">
         <div class="">
             <img src="{{ asset('upload/consumables/'.$consumables_stock->image_file_extension)}}" style="width:100px;height:100px;">
         </div>
-        <div class="w-100 px-2">
+        {{-- <div class="w-100 px-2">
             @if($consumables->use_unit_code == 'Q')
             <p>現在の在庫数は{{$consumables_stock_number}}箱と{{$consumables_stock_quantity}}個です</p>
             @elseif($consumables->use_unit_code == "N")
             <p>現在の在庫数は{{$consumables_stock_number}}箱です。</p>
             @endif
-        </div>
+        </div> --}}
+        <h5 class="w-100">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumables->use_unit}}消費しました</h5>
     </div>
     
 </div>

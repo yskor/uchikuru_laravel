@@ -15,7 +15,7 @@
 				<div class="card-header">
 					<h5 class="card-title" id="">使用数量の確認</h5>
 				</div>
-				<div class="modal-body">
+				<div class="card-body">
 					<h5 class="card-title">{{$consumables->consumables_name}}</h5>
 					<div class="d-flex">
 						<div>
@@ -32,18 +32,18 @@
 									value="{{$consumables->use_quantity}}" disabled>
 								<span class="input-group-text" id="consumption-number">{{$consumables->use_unit}}</span>
 							</div>
-							<div class="form-check form-switch">
+							{{-- <div class="form-check form-switch">
 								<input class="form-check-input" type="checkbox" id="consumption-check">
 								<label class="form-check-label" for="consumption-check">使用数量の確認<span class="badge bg-danger">必須</span></label>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class="card-footer">
 					{{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button> --}}
-					<button type="submit" class="btn btn-primary" id="btn-consumption" disabled>使用する</button>
+					<button type="submit" class="btn btn-primary" id="btn-consumption">使用する</button>
 				</div>
-				<script>
+				{{-- <script>
 					$(function() {
 						
 						var parent = $( "#confirm" );
@@ -59,7 +59,7 @@
 						});
 
 					});
-				</script>
+				</script> --}}
 			</div>
 		</form>
 	</div>

@@ -282,31 +282,16 @@ class Consumables extends Model
                 return ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
             } else {
                 // 在庫テーブルに同じ消耗品がない場合
-                if ($consumables_data->use_unit_code == 'N') {
-                    // 消費単位が個数の場合
-                    $stock_values = [
-                        "事業所コード" => $office_code,
-                        "消耗品コード" => $consumables_code,
-                        "個数在庫数" => $stock_number + $deliver_number,
-                        "入数在庫数" => 0,
-                        "登録職員コード" => $staff_code,
-                        "作成日時" => now(),
-                        "更新日時" => now(),
-                    ];
-                    return ConsumablesTable::tableConsumablesStock()->insert($stock_values);
-                } elseif ($consumables_data->use_unit_code == 'Q') {
-                    // 消費単位が入数の場合
-                    $stock_values = [
-                        "事業所コード" => $office_code,
-                        "消耗品コード" => $consumables_code,
-                        "個数在庫数" => $stock_number + $deliver_number - 1,
-                        "入数在庫数" => $consumables_data->quantity,
-                        "登録職員コード" => $staff_code,
-                        "作成日時" => now(),
-                        "更新日時" => now(),
-                    ];
-                    return ConsumablesTable::tableConsumablesStock()->insert($stock_values);
-                }
+                $stock_values = [
+                    "事業所コード" => $office_code,
+                    "消耗品コード" => $consumables_code,
+                    "個数在庫数" => $stock_number + $deliver_number,
+                    "入数在庫数" => 0,
+                    "登録職員コード" => $staff_code,
+                    "作成日時" => now(),
+                    "更新日時" => now(),
+                ];
+                return ConsumablesTable::tableConsumablesStock()->insert($stock_values);
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();

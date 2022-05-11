@@ -112,7 +112,7 @@
 			</a>
 		</div>
 		<div class="col-6 col-md-3 user_menu text-center mb-5">
-			<a href="{{route('facility_qr_list')}}">
+			<a href="{{route('facility_qr_list')}}" target="_blank" rel="noopener noreferrer">
 				<div class="user_menu_icon d-flex align-items-center justify-content-center">
 					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-qr-code text-white" viewBox="0 0 16 16">
 						<path d="M2 2h2v2H2V2Z"/>

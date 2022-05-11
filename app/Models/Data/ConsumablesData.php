@@ -78,7 +78,6 @@ class ConsumablesData extends BaseData
         return ConsumablesTable::viewConsumablesIdMasterOnly()
             ->where('consumables_code', '=', $consumables_code)
             ->where('unit_code', '=', $unit_code)
-            ->OrderBy('id', 'asc')
             ->first();
     }
 

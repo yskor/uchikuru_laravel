@@ -105,6 +105,7 @@ class MasterController extends AuthController
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_category_code' => $consumables_category_code,
+            'search_name' => '',
         ];
 
         return self::view($request, 'master_consumables_add', $data);
@@ -129,6 +130,7 @@ class MasterController extends AuthController
             'consumables_category_all' => $consumables_category_all,
             'consumables' => $consumables,
             'consumables_barcode_list' => $consumables_barcode_list,
+            'search_name' => '',
         ];
 
         return self::view($request, 'master_consumables_update', $data);
@@ -183,7 +185,8 @@ class MasterController extends AuthController
                 'consumables_category_all' => $consumables_category_all,
                 'consumables_list' => $consumables_list,
                 'login' => $this->login,
-                'consumables_category_code' => $consumables_category_code
+                'consumables_category_code' => $consumables_category_code,
+                'search_name' => '',
             ];
 
             session()->flash('add_message', '消耗品を登録しました');
@@ -219,7 +222,8 @@ class MasterController extends AuthController
                 'consumables_category_all' => $consumables_category_all,
                 'consumables_list' => $consumables_list,
                 'login' => $this->login,
-                'consumables_category_code' => $consumables_category_code
+                'consumables_category_code' => $consumables_category_code,
+                'search_name' => '',
             ];
 
             session()->flash('delete_message', '消耗品を削除しました');

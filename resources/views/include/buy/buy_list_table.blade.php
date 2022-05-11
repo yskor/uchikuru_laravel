@@ -1,3 +1,4 @@
+<h5>仕入履歴</h5>
 <div class="input-group" style="width: 400px;">
 	<div class="input-group-prepend">
 		<label class="input-group-text" for="office-code-to">仕入先</label>
