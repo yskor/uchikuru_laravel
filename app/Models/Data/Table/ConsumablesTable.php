@@ -19,6 +19,7 @@ class ConsumablesTable extends BaseTable
     const TABLE_CONSUMABLE_STOCK = "消耗品在庫テーブル";
     const TABLE_CONSUMABLE_BUY = '消耗品仕入テーブル';
     const TABLE_CONSUMABLE_SHIP_DELIVER = "消耗品出荷納品テーブル";
+    const TABLE_CONSUMABLE_DELIVER_STATUS = "消耗品納品状況テーブル";
     const TABLE_CONSUMABLE_CONSUMPTION = "消耗品消費テーブル";
 
     const VIEW_STAFF_MASTER = "VIEW_" . self::TABLE_STAFF_MASTER;
@@ -29,6 +30,7 @@ class ConsumablesTable extends BaseTable
     const VIEW_CONSUMABLE_STOCK = "VIEW_" . self::TABLE_CONSUMABLE_STOCK;
     const VIEW_CONSUMABLE_BUY = "VIEW_" . self::TABLE_CONSUMABLE_BUY;
     const VIEW_CONSUMABLE_SHIP_DELIVER = "VIEW_" . self::TABLE_CONSUMABLE_SHIP_DELIVER;
+    const VIEW_CONSUMABLE_DELIVER_STATUS = "VIEW_" . self::TABLE_CONSUMABLE_DELIVER_STATUS;
     const VIEW_CONSUMABLE_CONSUMPTION = "VIEW_" . self::TABLE_CONSUMABLE_CONSUMPTION;
 
     // DB更新用
@@ -119,10 +121,16 @@ class ConsumablesTable extends BaseTable
         return DB::table(self::VIEW_CONSUMABLE_BUY);
     }
 
-    // 出荷テーブル
+    // 出荷納品テーブル
     public static function viewConsumablesShip()
     {
         return DB::table(self::VIEW_CONSUMABLE_SHIP_DELIVER);
+    }
+
+    // 出荷状況テーブル
+    public static function viewConsumablesDeliverStatus()
+    {
+        return DB::table(self::VIEW_CONSUMABLE_DELIVER_STATUS);
     }
 
     // 消耗品消費テーブル

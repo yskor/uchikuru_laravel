@@ -77,7 +77,7 @@ class BuyController extends AuthController
 
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 消耗品カテゴリデータと紐づく仕入データを参照
+        // カテゴリ内のキーワードと一致するデータ参照
         $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuySearchAll($consumables_category_code, $search_name);
 
         $data = [

@@ -18,7 +18,7 @@
 	@endforeach
 </div> --}}
 @foreach($qr_list as $key => $value)
-	<h6 class="m-2">{{$key}}</h6>
+	<h6 class="p-2 mt-2 mb-0 bg-light">{{$key}}</h6>
 	<div class="row mx-2">
 		@foreach($value as $data)
 		<div class="col-auto pb-2 border">

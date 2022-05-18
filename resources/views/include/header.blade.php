@@ -61,7 +61,7 @@
 				</li>
 				<li class="nav-item border">
 					<a class="nav-link" href="{{route('ship_list')}}">
-						<svg class="svg-inline--fa fa-truck fa-w-20 menu-icon-size fa-fw" aria-hidden="true"
+						<svg class="svg-inline--fa fa-truck fa-fw" aria-hidden="true"
 							focusable="false" data-prefix="fas" data-icon="truck" role="img"
 							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">
 							<path fill="currentColor"
@@ -73,7 +73,7 @@
 				</li>
 				<li class="nav-item border">
 					<a class="nav-link" href="{{route('deliver')}}">
-						<svg class="svg-inline--fa fa-hand-holding fa-w-18 menu-icon-size fa-fw" aria-hidden="true"
+						<svg class="svg-inline--fa fa-hand-holding fa-fw" aria-hidden="true"
 							focusable="false" data-prefix="fas" data-icon="hand-holding" role="img"
 							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
 							<path fill="currentColor"
@@ -81,6 +81,14 @@
 							</path>
 						</svg>
 						施設納品
+					</a>
+				</li>
+				<li class="nav-item border">
+					<a class="nav-link" href="{{route('deliver_status', ['consumables_category_code' => 1])}}">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bar-chart-fill fa-fw" viewBox="0 0 16 16">
+							<path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+						</svg>
+						納品状況
 					</a>
 				</li>
 				<li class="nav-item border">
@@ -131,7 +139,7 @@
 				</li>
 				<li class="nav-item border">
 					<a class="nav-link" href="{{route('ship_list')}}" style="font-size: 5px;">
-						<svg class="svg-inline--fa fa-truck fa-w-20 menu-icon-size fa-fw" style="font-size: 16px"
+						<svg class="svg-inline--fa fa-truck fa-fw" style="font-size: 16px"
 							aria-hidden="true" focusable="false" data-prefix="fas" data-icon="truck" role="img"
 							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">
 							<path fill="currentColor"
@@ -143,7 +151,7 @@
 				</li>
 				<li class="nav-item border">
 					<a class="nav-link" href="{{route('deliver')}}" style="font-size: 5px;">
-						<svg class="svg-inline--fa fa-truck fa-w-20 menu-icon-size fa-fw" style="font-size: 14px"
+						<svg class="svg-inline--fa fa-truck fa-fw" style="font-size: 14px"
 							aria-hidden="true" focusable="false" data-prefix="fas" data-icon="hand-holding" role="img"
 							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
 							<path fill="currentColor"
@@ -154,8 +162,16 @@
 					</a>
 				</li>
 				<li class="nav-item border">
+					<a class="nav-link" href="{{route('deliver_status', ['consumables_category_code' => 1])}}" style="font-size: 5px;">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bar-chart-fill fa-fw" style="font-size: 13px" viewBox="0 0 16 16">
+							<path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+						</svg>
+						<br>納品状況
+					</a>
+				</li>
+				<li class="nav-item border">
 					<a class="nav-link" href="{{route('master_list_category', ['consumables_category_code' => 1])}}"
-						style="font-size: 14px">
+						width="16" height="16">
 						<i class="fas fa-database "></i>
 						<br><span style="font-size: 5px">マスタ一覧</span>
 					</a>

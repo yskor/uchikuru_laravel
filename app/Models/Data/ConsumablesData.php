@@ -2,15 +2,10 @@
 
 namespace App\Models\Data;
 
-use App\Models\Consumables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Data\Table\ConsumablesTable;
-use App\Models\Data\Table\OfficeTable;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
-use PDO;
-use phpDocumentor\Reflection\Types\This;
+use Carbon\Carbon;
 
 /**
  * 入居者データクラス
@@ -27,6 +22,15 @@ class ConsumablesData extends BaseData
     public static function getConsumables()
     {
         return ConsumablesTable::viewConsumablesMaster()->get();
+    }
+
+    /**
+     *　消耗品カテゴリごとの消耗品の一覧を取得します。
+     * @param string $consumables_code
+     */
+    public static function viewConsumablesAll($consumables_code)
+    {
+        return ConsumablesTable::viewConsumablesMaster($consumables_code)->get();
     }
 
     /**
@@ -93,7 +97,7 @@ class ConsumablesData extends BaseData
             ->where('unit_code', '=', 'N')
             ->get();
     }
-    
+
     /**
      * キーワードから消耗品の一覧を取得します。
      * @param string $consumables_category_code
@@ -101,10 +105,32 @@ class ConsumablesData extends BaseData
      */
     public static function viewCategoryConsumablesSearchList($consumables_category_code, $search_name)
     {
+        if ($consumables_category_code) {
+            return ConsumablesTable::viewConsumablesIdMaster()
+                ->where('consumables_category_code', '=', $consumables_category_code)
+                ->where('unit_code', '=', 'N')
+                ->where('consumables_name', 'like', '%' . $search_name . '%')
+                ->get();
+        } else {
+            return ConsumablesTable::viewConsumablesIdMaster()
+                ->where('unit_code', '=', 'N')
+                ->where('consumables_name', 'like', '%' . $search_name . '%')
+                ->orderBy('consumables_code')
+                ->get();
+        }
+        
+    }
+
+    /**
+     * キーワードから消耗品の一覧を取得します。
+     * @param string $consumables_category_code
+     * @return unknown
+     */
+    public static function viewDeliverStatusSearchList($search_name)
+    {
         return ConsumablesTable::viewConsumablesIdMaster()
-            ->where('consumables_category_code', '=', $consumables_category_code)
             ->where('unit_code', '=', 'N')
-            ->where('consumables_name', 'like', '%'.$search_name.'%')
+            ->where('consumables_name', 'like', '%' . $search_name . '%')
             ->get();
     }
 
@@ -313,7 +339,7 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesBuy()
             ->where('consumables_category_code', '=', $consumables_category_code)
-            ->where('consumables_name', 'like', '%'.$search_name.'%')
+            ->where('consumables_name', 'like', '%' . $search_name . '%')
             ->orderBy('created_at', 'desc')->get();
     }
 
@@ -385,4 +411,118 @@ class ConsumablesData extends BaseData
         return ConsumablesTable::tableConsumablesShip()
             ->where('出荷納品コード', '=', $ship_code);
     }
+
+    /**
+     * 事業所コードから指定した期間の出荷数量合計を取得します。
+     * @param int $consumables_code
+     * @param date $start_at
+     * @param date $end_at
+     * @return unknown
+     */
+    public static function viewConsumablesShipStatus($consumables_code)
+    {
+        return ConsumablesTable::viewConsumablesShipStatus()->where('consumables_code', '=', $consumables_code);
+    }
+
+    /**
+     * 今日から前8週までの週ごとの集計を取得します。
+     * @param int $consumables_code
+     * @param date $start_at
+     * @param date $end_at
+     * @return unknown
+     */
+    public static function viewConsumablesDeliverStatusWeek($facility_all, $consumables_code)
+    {
+        $status_list = array(); // 施設ごとのデータを格納する変数
+        foreach($facility_all as $facility) {
+            $status = array(); // 各週のデータを格納する変数
+            $total_deliver = 0; //総合計値
+            // 集計する機関の日付を繰り返す
+            for($i = 8; $i > 0; $i--) {
+                $dt = Carbon::today(); //今日
+                $dt->startOfWeek()->subDay(1); // 週始め
+                $start_at = $dt->subWeeks($i-1); //各週始め
+                $dt = Carbon::today(); //今日
+                $dt->endOfWeek()->subDay(1); // 週末
+                $end_at = $dt->subWeeks($i-1); //各週末
+                
+                //　週ごとの集計値を取得
+                $week_status = ConsumablesTable::viewConsumablesDeliverStatus()
+                            ->where('consumables_code', '=', $consumables_code)
+                            ->where('office_code', '=', $facility->office_code)
+                            ->whereBetween('delivered_at', [$start_at, $end_at])
+                            ->selectRaw('SUM(delivered_number) AS week_delivered')
+                            ->groupBy(
+                                'office_code',
+                                'consumables_code',
+                                'office_code_from',
+                            )->first();
+                //値がない時は0
+                if($week_status) {
+                    $status[] = $week_status->week_delivered; //配列に各週の合計値
+                    $total_deliver += $week_status->week_delivered;
+                } else {
+                    $status[] = 0;
+                }
+            };
+            $status[] = $total_deliver; //配列の最後に総合計値
+            $status_list[$facility->facility_name] = $status; //施設名をキーにデータを格納
+        }
+        return $status_list;
+    }
+
+    /**
+     * 過去1年間の集計を取得します。
+     * @param int $consumables_code
+     * @param date $start_at
+     * @param date $end_at
+     * @return unknown
+     */
+    public static function viewConsumablesDeliverStatusMonth($facility_all, $consumables_code)
+    {
+        $status_list = array(); // 施設ごとのデータを格納する変数
+        foreach($facility_all as $facility) {
+            $status = array(); // 各月のデータを格納する変数
+            $total_deliver = 0; //総合計値
+            for($i = 12; $i > 0; $i--) {
+                $now = Carbon::now(); //現在時刻
+                $month = $now->subMonths($i-1); //各月
+                $start_at = $month->startOfMonth()->toDateString(); // 月初
+                $end_at = $month->endOfMonth()->toDateString(); // 月初
+                // 　月ごとの集計値を取得
+                $month_status = ConsumablesTable::viewConsumablesDeliverStatus()
+                            ->where('consumables_code', '=', $consumables_code)
+                            ->where('office_code', '=', $facility->office_code)
+                            ->whereBetween('delivered_at', [$start_at, $end_at])
+                            ->selectRaw('SUM(delivered_number) AS month_delivered')
+                            ->groupBy(
+                                'office_code',
+                                'consumables_code',
+                                'office_code_from',
+                            )->first();
+                // 値がない時は0
+                if($month_status) {
+                    $status[] = $month_status->month_delivered; //配列に各週の合計値
+                    $total_deliver += $month_status->month_delivered;
+                } else {
+                    $status[] = 0;
+                }
+            };
+            $status[] = $total_deliver; //配列の最後に総合計値
+            $status_list[$facility->facility_name] = $status; //施設名をキーにデータを格納
+        }
+        return $status_list;
+    }
+
+    /**
+     * 出荷納品コードからデータを参照します。
+     * @param int $consumables_code, 
+     * @return unknown
+     */
+    public static function viewConsumablesShipAll($consumables_code)
+    {
+        return ConsumablesTable::viewConsumablesShip()
+            ->where('consumables_code', '=', $consumables_code);
+    }
+
 }

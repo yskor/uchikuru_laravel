@@ -18,17 +18,6 @@ use function PHPSTORM_META\type;
 class Consumables extends Model
 {
 
-    // テーブル (INSERT、UPDATE、DELETE 時に使う)
-    const consumables_code = "VIEW_職員マスタ";
-
-    const consumables_name = "VIEW_消耗品マスタ";
-    const TABLE_CONSUMABLE_CATEGORY_MASTER = "VIEW_消耗品カテゴリマスタ";
-    const TABLE_CONSUMABLE_STOCK = "VIEW_消耗品在庫テーブル";
-    const TABLE_CONSUMABLE_MOVEMENT = "VIEW_消耗品変動テーブル";
-    const TABLE_CONSUMABLE_MOVEMENT_STATUS_HISTORY = "VIEW_消耗品変動状態履歴テーブル";
-    const TABLE_CONSUMABLE_DELIVER = "VIEW_消耗品配送中件数";
-
-
     use HasFactory;
 
 
@@ -227,7 +216,7 @@ class Consumables extends Model
                 "出荷数" => $ship_number,
                 "出荷職員コード" => $staff_code,
                 "消耗品変動状態コード" => 'S',
-                // "出荷日時" => $ship_date,
+                "出荷日時" => now(),
                 "納品先事業所コード" => $office_code_to,
             ];
             ConsumablesTable::tableConsumablesShip()->insert($ship_values);

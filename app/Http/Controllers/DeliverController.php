@@ -10,7 +10,8 @@ use App\Models\Consumables;
 use App\Models\Data\OfficeData;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Log;
-
+use phpDocumentor\Reflection\Types\Null_;
+use PhpOption\None;
 
 class DeliverController extends AuthController
 {
@@ -149,4 +150,123 @@ class DeliverController extends AuthController
         ];
         return self::view($request, 'deliver_list', $data);
     }
+
+    
+    //
+    /**
+     * 納品状況を確認する消耗品選択画面（消耗品一覧）
+     * @param int $consumables_category_code
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function deliver_status($consumables_category_code, Request $request)
+    {
+        // 消耗品カテゴリデータを参照
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        // カテゴリごとの消耗品識別データ参照
+        $consumables_all = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
+
+        $data = [
+            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
+            'consumables_all' => $consumables_all, //消耗品の全施設出荷データ
+            'consumables_category_code' => $consumables_category_code, //消耗品の全施設出荷データ
+            'search_name' => '', //検索キーワード
+            'login' => $this->login,
+        ];
+
+        return self::view($request, 'deliver_status', $data);
+    }
+
+    //
+    /**
+     * 納品状況を確認する消耗品選択画面（消耗品一覧）
+     * @param int $consumables_category_code
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function deliver_status_search(Request $request)
+    {
+        $search_name = $request->keyword;
+        // 消耗品カテゴリデータを参照
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        // カテゴリ内のキーワードと一致するデータ参照
+        $consumables_category_code = Null;
+        $consumables_all = ConsumablesData::viewCategoryConsumablesSearchList($consumables_category_code, $search_name);
+
+        $data = [
+            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
+            'consumables_all' => $consumables_all, //消耗品の全施設出荷データ
+            'consumables_category_code' => $consumables_category_code,
+            'search_name' => $search_name, //検索キーワード
+            'login' => $this->login,
+        ];
+
+        return self::view($request, 'deliver_status', $data);
+    }
+
+    //
+    /**
+     * 消耗品別の納品状況を表示します。
+     * @param int $consumables_category_code
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function week_deliver_status($consumables_category_code, $consumables_code, Request $request)
+    {
+        // 事業所マスタから事業所を全て参照
+        $facility_all = OfficeData::viewfacilityAll();
+
+        // 消耗品カテゴリデータを取得
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+
+        // 対象の消耗品を取得
+        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+
+        // 対象消耗品の全施設出荷データを取得
+        $deliver_status = ConsumablesData::viewConsumablesDeliverStatusWeek($facility_all, $consumables_code);
+
+        $data = [
+            'facility_all' => $facility_all, //全ての事業所データ
+            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
+            'deliver_status' => $deliver_status, //消耗品の全施設出荷データ
+            'consumables_category_code' => $consumables_category_code, //消耗品の全施設出荷データ
+            'consumables_code' => $consumables_code, //消耗品コード
+            'consumables' => $consumables, //消耗品データ
+            'search_name' => '', //検索キーワード
+            'login' => $this->login,
+        ];
+        return self::view($request, 'week_deliver_status', $data);
+    }
+
+    //
+    /**
+     * 消耗品別の納品状況を表示します。
+     * @param int $consumables_category_code
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function month_deliver_status($consumables_category_code, $consumables_code, Request $request)
+    {
+        // 事業所マスタから事業所を全て参照
+        $facility_all = OfficeData::viewfacilityAll();
+
+        // 消耗品カテゴリデータを取得
+        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+
+        // 対象の消耗品を取得
+        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+
+        // 対象消耗品の全施設出荷データを取得
+        $deliver_status = ConsumablesData::viewConsumablesDeliverStatusMonth($facility_all, $consumables_code);
+
+        $data = [
+            'facility_all' => $facility_all, //全ての事業所データ
+            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
+            'deliver_status' => $deliver_status, //消耗品の全施設出荷データ
+            'consumables_category_code' => $consumables_category_code, //消耗品の全施設出荷データ
+            'consumables_code' => $consumables_code, //消耗品コード
+            'consumables' => $consumables, //消耗品データ
+            'search_name' => '', //検索キーワード
+            'login' => $this->login,
+        ];
+
+        return self::view($request, 'month_deliver_status', $data);
+    }
+
 }
