@@ -63,7 +63,7 @@
 						<input type="number" class="form-control" name="barcode[B]" id="consumables-code-1" value="{{$consumables_barcode_list['barcode_B']}}" placeholder="段ボールのバーコードを入力してください">
 						<div id="" class="invalid-feedback">バーコードを読み込んでください</div>
 					</div>
-					<div class="" style="width: 170px">
+					<div class="" style="width: 180px">
 						<label for="">単位数量</label>
 						<div class="input-group">
 							<input type="number" class="form-control text-end" id="number" name="number" value="1"
@@ -78,7 +78,7 @@
 						<input type="number" class="form-control" name="barcode[N]" id="consumables-code-2" value="{{$consumables_barcode_list['barcode_N']}}" placeholder="箱のバーコードを入力してください">
 						<div id="consumables-code-2-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 					</div>
-					<div class="" style="width: 170px">
+					<div class="" style="width: 180px">
 						<label for="">
 							単位数量
 							<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="段ボールに入っている箱数を入力して下さい">
@@ -101,7 +101,7 @@
 						<input type="number" class="form-control" name="barcode[Q]" id="consumables-code-3" value="{{$consumables_barcode_list['barcode_Q']}}" placeholder="個のバーコードを入力してください" required>
 						<div id="consumables-code-3-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 					</div>
-					<div class="" style="width: 170px">
+					<div class="" style="width: 180px">
 						<label for="">単位数量 <span class="badge bg-danger">必須</span> 
 							<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="1箱に入っている個数を入力して下さい">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
@@ -122,14 +122,14 @@
 			</div>
 
 			<div class="d-flex row mb-2">
-				<div class="mb-1" style="width: 230px">
+				<div class="mb-1" style="width: 240px">
 					<label for="number-unit-price">仕入単価（税込） <span class="badge bg-danger">必須</span></label>
 					<div class="input-group" id="number-unit-price-form-group">
 						<input type="number" class="form-control text-end" name="number_unit_price" id="number-unit-price"
-							value="{{$consumables->number_unit_price}}" placeholder="箱の仕入単価（税込）を入力してください" required>
+							value="{{$consumables->number_unit_price}}" placeholder="箱の仕入単価を入力" required>
 						<span class="input-group-text">円</span>
 					</div>
-					<div id="number-unit-price-feedback" class="invalid-feedback">箱の仕入単価（税込）を入力してください</div>
+					<div id="number-unit-price-feedback" class="invalid-feedback">箱の仕入単価を入力してください</div>
 				</div>
 				<div class="form-group" id="last-negotiation-date-form-group" style="width: 250px">
 					<label for="last-negotiation-date">最終価格交渉日 </label>
@@ -141,10 +141,17 @@
 
 			<div class="d-flex row mb-2">
 				<div class="mb-1" style="width: 240px">
-					<label for="">消費数量 <span class="badge bg-danger">必須</span> </label>
+					<label for="">消費数量 <span class="badge bg-danger">必須</span> 
+						<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="施設職員がＱＲコードを読み取った際に減らす在庫数を入力して下さい">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+								<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+							</svg>
+						</a>
+					</label>
 					<div class="d-flex">
 						<input type="number" class="form-control text-end" id="use-quantity" name="use_quantity"
-							value="{{$consumables->use_quantity}}" aria-label="quantity_unit" placeholder="1回あたりの消費数量を入力してください" required>
+							value="{{$consumables->use_quantity}}" aria-label="quantity_unit" placeholder="数量を入力" required>
 						<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 							@if($consumables->use_unit_code == 'Q')
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"

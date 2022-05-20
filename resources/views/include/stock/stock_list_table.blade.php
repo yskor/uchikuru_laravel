@@ -12,11 +12,10 @@
 				<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
 					style="width:100px;height:100px;">
 			</div>
-			<div class="w-100 px-2">
+			<div class="w-100" style="margin-left: 15px">
 				{{-- 消費数量 --}}
 					<div class="mb-3">
 						<div class="fs-4">
-							{{$office_data->facility_name}}:
 							@if ($data->f_stock_number)
 							{{ $data->f_stock_number }}
 							@else

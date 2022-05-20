@@ -32,6 +32,16 @@
                         for="consumables_unit">個数:</label></span>{{$consumables_buy_data->number}}箱/段
             </p> --}}
             <label for="buy-number-form-group">仕入数 <span class="badge bg-danger">必須</span> </label>
+            @if($consumables_buy_data->unit_code == 'B')
+                {{-- unit-codeがBの時は単位を段 --}}
+                <p class="text-danger mb-0">※段数を入力して下さい。</p>
+            @elseif($consumables_buy_data->unit_code == 'N')
+                {{-- unit-codeがNの時は単位を箱 --}}
+                <p class="text-danger mb-0">※箱数を入力して下さい。</p>
+            @elseif($consumables_buy_data->unit_code == 'Q')
+                {{-- unit-codeがQの時は単位を個 --}}
+                <p class="text-danger mb-0">※個数を入力して下さい。</p>
+            @endif
             <div class="input-group" id="buy-quatity-form-group" style="width:100px;">
                 {{-- 仕入数を入力する --}}
                 <input type="buy_quantity" class="form-control"

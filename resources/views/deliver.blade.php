@@ -27,10 +27,10 @@
     <header>
         {{-- @include('layout.mobile_header') --}}
         <div class="container">
-            <a href="{{$common_system_top_page_url}}">
+            {{-- <a href="{{$common_system_top_page_url}}">
                 <img src="{{url('images/uchipo.png')}}">
-            </a>
-            <div class="">
+            </a> --}}
+            <div class="mt-2">
                 <svg class="svg-inline--fa fa-user fa-w-14 fa-fw" aria-hidden="true" focusable="false" data-prefix="fas"
                     data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
                     data-fa-i2svg="">

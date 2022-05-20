@@ -51,7 +51,7 @@
 							<input type="number" class="form-control" name="barcode[B]" id="consumables-code-1" placeholder="段ボールのバーコードを入力してください">
 							<div id="" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
-						<div class="" style="width: 170px">
+						<div class="" style="width: 180px">
 							<label for="">単位数量</label>
 							<div class="input-group">
 								<input type="number" class="form-control text-end" id="number" name="number" value="1"
@@ -66,7 +66,7 @@
 							<input type="number" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="箱のバーコードを入力してください">
 							<div id="consumables-code-2-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
-						<div class="" style="width: 170px">
+						<div class="" style="width: 180px">
 							<label for="">
 								単位数量
 								<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="段ボールに入っている箱数を入力して下さい">
@@ -89,7 +89,7 @@
 							<input type="number" class="form-control" name="barcode[Q]" id="consumables-code-3" placeholder="個のバーコードを入力してください" required>
 							<div id="consumables-code-3-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
-						<div class="" style="width: 170px">
+						<div class="" style="width: 180px">
 							<label for="">単位数量 <span class="badge bg-danger">必須</span> 
 								<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="1箱に入っている個数を入力して下さい">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
@@ -110,7 +110,7 @@
 				</div>
 	
 				<div class="d-flex row mb-2">
-					<div class="" style="width: 230px">
+					<div class="" style="width: 240px">
 						<label for="number-unit-price">仕入単価（税込） <span class="badge bg-danger">必須</span></label>
 						<div class="input-group" id="number-unit-price-form-group">
 							<input type="number" class="form-control text-end" name="number_unit_price" id="number-unit-price"
@@ -128,7 +128,7 @@
 				</div>
 	
 				<div class="d-flex row mb-2">
-					<div class="" style="width: 230px">
+					<div class="" style="width: 240px">
 						<label for="">消費数量 <span class="badge bg-danger">必須</span> 
 							<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="施設職員がＱＲコードを読み取った際に減らす在庫数を入力して下さい">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
