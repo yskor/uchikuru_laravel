@@ -21,8 +21,6 @@
 <!-- テーブル -->
 @include("include/master/add_master")
 
-
-
 @endsection
 
 {{-- フッター --}}

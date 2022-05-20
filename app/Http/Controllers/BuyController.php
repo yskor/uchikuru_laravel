@@ -11,7 +11,7 @@ use App\Models\Data\OfficeData;
 use App\Models\Data\Table\ConsumablesTable;
 use App\Models\Data\Table\OfficeTable;
 use Illuminate\Support\Facades\Log;
-
+use PhpOption\None;
 
 class BuyController extends AuthController
 {
@@ -50,14 +50,17 @@ class BuyController extends AuthController
     {
         Log::debug(print_r($this->login, true));
 
-        // 消耗品カテゴリデータを取得
+        // 消耗品カテゴリデータを参照
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 消耗品カテゴリデータと紐づく仕入データを参照
         $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuyAll($consumables_category_code);
+        // 消耗品の仕入先施設を参照
+        $buy_facility_all = ConsumablesData::viewConsumablesBuyFacility($office_code=Null);
 
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
+            'buy_facility_all' => $buy_facility_all,
             'consumables_category_code' => $consumables_category_code,
             'search_name' => '',
         ];
@@ -79,11 +82,14 @@ class BuyController extends AuthController
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // カテゴリ内のキーワードと一致するデータ参照
         $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuySearchAll($consumables_category_code, $search_name);
+        // 消耗品の仕入先施設を参照
+        $buy_facility_all = ConsumablesData::viewConsumablesBuyFacility($office_code=Null);
 
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
             'consumables_category_code' => $consumables_category_code,
+            'buy_facility_all' => $buy_facility_all,
             'search_name' => $search_name,
         ];
 
@@ -91,7 +97,7 @@ class BuyController extends AuthController
     }
 
     /**
-     * 読み込んだバーコードに紐づく消耗品の在庫を増やす。
+     * 読み込んだバーコードに紐づく消耗品の仕入画面を表示する
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function buy_consumables(Request $request)
@@ -104,6 +110,8 @@ class BuyController extends AuthController
 
         // $handy_reader_dataとバーコードが一致するデータを参照
         $consumables_buy_data = ConsumablesData::viewBuyConsumablesBarcode($handy_reader_data);
+        // 消耗品の仕入先施設を参照
+        $buy_facility_all = ConsumablesData::viewConsumablesBuyFacility($office_code=Null);
 
         try {
             // $buy_addが1の時はカードの中身だけを増やす
@@ -119,6 +127,7 @@ class BuyController extends AuthController
                     'handy_reader_data' => $handy_reader_data,
                     'login' => $this->login,
                     'consumables_category_code' => $consumables_category_code,
+                    'buy_facility_all' => $buy_facility_all,
                     'consumables_buy_data' => $consumables_buy_data,
                 ];
                 // htmlを作成
@@ -132,6 +141,7 @@ class BuyController extends AuthController
                     'handy_reader_data' => $handy_reader_data,
                     'login' => $this->login,
                     'consumables_category_code' => $consumables_category_code,
+                    'buy_facility_all' => $buy_facility_all,
                     'consumables_buy_data' => $consumables_buy_data,
                 ];
                 // カードの中だけのhtmlを作成
@@ -139,7 +149,7 @@ class BuyController extends AuthController
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
-            throw new \Exception("読み込みエラーです。段ボール以外のバーコードが読み込まれているか、バーコードが登録されていません。");
+            throw new \Exception("読み込みエラーです。バーコードが登録されていません。");
         }
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);
@@ -156,30 +166,33 @@ class BuyController extends AuthController
         // POSTの値を全て取得
         $param = $request->all();
         // dd($param);
-        $office_code = 91; //仕入事業所コード（今はアシスト固定）
-        $staff_code = $param['staff_code'];
-
+        // 消耗品の仕入先施設を参照
+        $buy_facility_all = ConsumablesData::viewConsumablesBuyFacility($office_code=Null);
+        $staff_code = $this->login->staff_code;
+        $office_code = $param['office_code_to']; //仕入事業所コード（今はアシスト固定）
+        
+        // dd($buy_facility_all, $staff_code, $office_code, $consumables_data);
         foreach ($param['buys'] as $data) {
-            // dd($data);
             // 仕入テーブルに追加
             Consumables::insert_consumables_buy(
-                $data['consumables_code'], //消耗品コード
+                $data, //仕入れデータ
                 $office_code, //仕入事業所コード
-                $data['buy_number'], //出荷数
                 $staff_code, //職員コード
-                // $data['ship_date'], //出荷日
             );
         }
 
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 消耗品仕入データを参照
-        $consumables_buy_all = ConsumablesData::viewConsumablesBuyAll();
+        $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuyAll($consumables_category_code);
+        // 消耗品の仕入先施設を参照
+        $buy_facility_all = ConsumablesData::viewConsumablesBuyFacility(Null);
 
         // データに渡したいデータを格納
         $data = [
             'consumables_category_all' => $consumables_category_all,
             'consumables_buy_all' => $consumables_buy_all,
+            'buy_facility_all' => $buy_facility_all,
             'consumables_category_code' => $consumables_category_code,
             'search_name' => '',
         ];

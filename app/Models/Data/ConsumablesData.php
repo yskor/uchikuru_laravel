@@ -181,14 +181,14 @@ class ConsumablesData extends BaseData
     }
 
     /**
-     *　消耗品バーコード（段ボール）から消耗品を参照します。
+     *　消耗品バーコードから消耗品を参照します。
      * @param string $consumables_code
      */
     public static function viewBuyConsumablesBarcode($consumables_barcode)
     {
         return ConsumablesTable::viewConsumablesIdMaster()
             ->where('consumables_barcode', '=', $consumables_barcode)
-            ->where('unit_code', '=', 'B')
+            // ->where('unit_code', '=', 'B')
             ->first();
     }
 
@@ -319,6 +319,17 @@ class ConsumablesData extends BaseData
     public static function viewConsumablesBuyAll()
     {
         return ConsumablesTable::viewConsumablesBuy()->orderBy('created_at', 'desc')->get();
+    }
+
+    // 消耗品仕入先マスタ参照
+    public static function viewConsumablesBuyFacility($office_code)
+    {   
+        if($office_code) {
+            return ConsumablesTable::viewConsumablesBuyFacility($office_code)
+                    ->where('office_code', '=', $office_code)->get();
+        } else {
+            return ConsumablesTable::viewConsumablesBuyFacility($office_code)->get();
+        }
     }
 
     // 消耗品カテゴリコードから消耗品データを取得

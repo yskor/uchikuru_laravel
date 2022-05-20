@@ -2,7 +2,7 @@
 <head>
 	<title>@yield('title')</title>
 	@include('layout.head')
-	<script type="text/javascript" src="{{url('js/jquery.qrcode.min.js')}}"></script>
+	{{-- <script type="text/javascript" src="{{url('js/jquery.qrcode.min.js')}}"></script>
 	<script>
 		$(function() {
 		
@@ -16,7 +16,7 @@
 
 	});
 
-	</script>
+	</script> --}}
 	@include('layout.style')
 	@include('layout.script')
 </head>

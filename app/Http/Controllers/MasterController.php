@@ -164,6 +164,7 @@ class MasterController extends AuthController
             'qr_list' => $qr_list,
         ];
 
+        // dd($consumables_category_all);
         // dd($qr_list);
 
         return self::view($request, 'qr_list', $data);

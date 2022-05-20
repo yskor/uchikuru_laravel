@@ -15,45 +15,47 @@
 				</div>
 				<div class="modal-body">
 					<h5 class="card-title">{{$data->consumables_name}}</h5>
-					<div class="d-flex">
-						<div>
-							<img class="mb-2" id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
-									style="width:100px;height:100px;">
+					<div class="d-flex justify-content-center">
+						<img class="mb-2" id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
+								style="width:200px;height:200px;">
+					</div>
+					<div class="w-100" >
+						{{-- データ受け渡し用 --}}
+						<input type="hidden" name="office_code" value="{{$office_code}}">
+						<input type="hidden" name="ship_code" value="{{$data->ship_code}}">
+						<input type="hidden" name="consumables_code" value="{{$data->consumables_code}}">
+						{{-- 現施設在庫数の入力 --}}
+						@if (isset($data->stock_number))
+						<div class="input-group mb-2" style="width:220px;">
+							<span class="input-group-text" style="width: 112;">施設在庫数</span>
+							<input type="number" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number"
+								value="{{$data->stock_number}}">
+							<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
 						</div>
-						<div class="w-100 px-3" >
-							{{-- データ受け渡し用 --}}
-							<input type="hidden" name="office_code" value="{{$office_code}}">
-							<input type="hidden" name="ship_code" value="{{$data->ship_code}}">
-							<input type="hidden" name="consumables_code" value="{{$data->consumables_code}}">
-							{{-- 現施設在庫数の入力 --}}
-							@if (isset($data->stock_number))
-							<div class="input-group mb-1" style="width:220px;">
-								<span class="input-group-text" style="width: 112;">施設在庫数</span>
-								<input type="number" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number"
-									value="{{$data->stock_number}}">
-								<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
-							</div>
-							@else
-							<div class="input-group mb-1" style="width:220px;">
-								<span class="input-group-text" style="width: 112;">施設在庫数</span>
-								<input type="" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number" value="0">
-								<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
-							</div>
-							@endif
+						@else
+						<div class="input-group mb-2" style="width:220px;">
+							<span class="input-group-text" style="width: 112;">施設在庫数</span>
+							<input type="" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number" value="0">
+							<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
+						</div>
+						@endif
+						<div class="d-flex mb-2 justify-content-end">
+							<p class="form-check-label mx-3" for="stock-check-{{$data->ship_code}}">在庫数の確認<span class="badge bg-danger">必須</span></p>
 							<div class="form-check form-switch">
-								<input class="form-check-input" type="checkbox" id="stock-check-{{$data->ship_code}}">
-								<label class="form-check-label" for="stock-check-{{$data->ship_code}}">在庫数の確認<span class="badge bg-danger">必須</span></label>
+								<input class="form-check-input" type="checkbox" id="stock-check-{{$data->ship_code}}" style="transform: scale(1.5);">
 							</div>
-							<div class="input-group mb-1"style="width:220px;">
-								{{-- <label for="deliver-number">納品数：</label> --}}
-								<span class="input-group-text" style="width: 112;">納品数</span>
-								<input type="number" class="form-control text-center" id="deliver-number-{{$data->ship_code}}" name="deliver_number"
-									value="{{$data->shipped_number}}">
-								<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">箱</span>
-							</div>
+						</div>
+						<div class="input-group mb-2"style="width:220px;">
+							{{-- <label for="deliver-number">納品数：</label> --}}
+							<span class="input-group-text" style="width: 112;">納品数</span>
+							<input type="number" class="form-control text-center" id="deliver-number-{{$data->ship_code}}" name="deliver_number"
+								value="{{$data->shipped_number}}">
+							<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">箱</span>
+						</div>
+						<div class="d-flex justify-content-end">
+							<p class="form-check-label mx-3" for="deliver-check-{{$data->ship_code}}">納品数の確認<span class="badge bg-danger">必須</span></p>
 							<div class="form-check form-switch">
-								<input class="form-check-input" type="checkbox" id="deliver-check-{{$data->ship_code}}" disabled>
-								<label class="form-check-label" for="deliver-check-{{$data->ship_code}}">納品数の確認<span class="badge bg-danger">必須</span></label>
+								<input class="form-check-input" type="checkbox" id="deliver-check-{{$data->ship_code}}" disabled style="transform: scale(1.5);">
 							</div>
 						</div>
 					</div>

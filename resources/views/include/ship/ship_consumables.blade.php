@@ -25,13 +25,33 @@
             <input type="hidden" name="staff_code" value="{{$login->staff_code}}">
             
             <label for="ship-number-form-group">出荷数 <span class="badge bg-danger">必須</span> </label>
-            <div class="input-group" id="ship-number-form-group" style="width:100px;">
+            <p class="text-danger mb-0">※箱数を入力して下さい。</p>
+            {{-- <p>出荷単位:箱</p> --}}
+            <div class="input-group mb-2" id="ship-number-form-group" style="width:100px;">
                 {{-- 出荷数を入力する --}}
                 <input type="number" class="form-control" name="ships[{{$consumables_ship_data->consumables_code}}][ship_number]"
                     id="ship_number_{{$consumables_ship_data->consumables_code}}" aria-describedby="number-unit" required>
                 <span class="input-group-text"
                     id="number_unit">箱</span>
             </div>
+            <div id="ship_number_{{$consumables_ship_data->consumables_code}}_result">
+                <p>出荷数内訳：</p>
+            </div>
+            <script>
+                var quantity = Number({{$consumables_ship_data->quantity}})
+                $(function() {
+                    //テキストボックスに変更を加えたら発動
+                    $('input#ship_number_{{$consumables_ship_data->consumables_code}}').change(function() {
+                        //入力したvalue値を変数に格納
+                        var val = $(this).val();
+                        var ship_quantity = val * quantity;
+                        var html = `<p>出荷数内訳：${val}箱（${ship_quantity}個）</p>`
+
+                        //選択したvalue値をp要素に出力
+                        $('#ship_number_{{$consumables_ship_data->consumables_code}}_result').html(html);
+                    });
+                });
+            </script>
         </div>
     </div>
     

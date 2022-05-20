@@ -3,8 +3,14 @@
 	<div class="input-group-prepend">
 		<label class="input-group-text" for="office-code-to">仕入先</label>
 	</div>
-	<select class="form-select" id="office-code-to">
-		<option value="91">アシスト</option>
+	<select class="form-select" id="office-code-to" name="office_code_to">
+		@foreach($buy_facility_all as $data)
+			@if($data->office_code == 91)
+			<option value="{{$data->office_code}}" selected>{{$data->facility_name}}</option>
+			@else
+			<option value="{{$data->office_code}}">{{$data->facility_name}}</option>
+			@endif
+		@endforeach
 	</select>
 </div>
 <div id="list" class="mt-3">
@@ -27,7 +33,7 @@
 					<table>
 						<tr>
 							<th>仕入数：</th>
-							<td>{{ $data->buy_quantity }} 段</td>
+							<td>{{ $data->buy_quantity }} {{$data->buy_unit}}</td>
 						</tr>
 						<tr>
 							<th>仕入単価：</th>

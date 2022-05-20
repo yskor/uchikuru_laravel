@@ -10,9 +10,14 @@
 			<div class="card-body">
 				<div class="input-group mb-2" id="buy-office-form-group">
 					<label class="input-group-text" for="office_code_to">仕入先</label>
-					<select class="form-control" name="office_code_to" id="office_code_to" required>
-						{{--今はアシスト固定 --}}
-						<option value="アシスト" selected="">アシスト</option>
+					<select class="form-select" id="office_code_to" name="office_code_to">
+						@foreach($buy_facility_all as $data)
+							@if($data->office_code == 91)
+							<option value="{{$data->office_code}}" selected>{{$data->facility_name}}</option>
+							@else
+							<option value="{{$data->office_code}}">{{$data->facility_name}}</option>
+							@endif
+						@endforeach
 					</select>
 				</div>
 				<div class="row" id="buys">
