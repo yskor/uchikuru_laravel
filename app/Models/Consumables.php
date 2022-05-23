@@ -159,6 +159,23 @@ class Consumables extends Model
         }
     }
 
+    // 在庫調整
+    public static function stock_consumables_adjustment($office_code, $consumables_code, $stock_number, $stock_quantity)
+    {
+        try {
+            $stock_values = [
+                "個数在庫数" => $stock_number,
+                "入数在庫数" => $stock_quantity,
+                "更新日時" => now()
+            ];
+            // 在庫を更新
+            ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
+        } catch (\Exception $e) {
+            ConsumablesData::rollback();
+            throw $e;
+        }
+    }
+
     // 仕入追加
     public static function insert_consumables_buy($data, $office_code, $staff_code)
     {
@@ -263,6 +280,33 @@ class Consumables extends Model
                 ];
                 ConsumablesData::getConsumablesStockData($consumables_code, $office_code_from)->update($dec_values);
             }
+        } catch (\Exception $e) {
+            ConsumablesData::rollback();
+            // throw new \Exception("本部に在庫がありません");
+            throw $e;
+        }
+    }
+
+    // 出荷キャンセル
+    public static function cancel_consumables_ship($ship_code, $office_code)
+    {
+        try {
+
+            // 出荷情報を参照
+            $ship_data = ConsumablesData::viewConsumablesShipData($ship_code);
+            $consumables_code = $ship_data->consumables_code; //消耗品コード
+            $ship_number = $ship_data->shipped_number; //出荷数量
+            // 消耗品コードから現在の在庫を参照
+            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+            $cancel_values = [
+                "個数在庫数" => $consumables_stock->stock_number + $ship_number,
+                "更新日時" => now(),
+            ];
+            ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($cancel_values);
+
+            // 出荷コードが一致する出荷データを削除
+            ConsumablesTable::tableConsumablesShip()->where('出荷納品コード', $ship_code)->delete();
+
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             // throw new \Exception("本部に在庫がありません");

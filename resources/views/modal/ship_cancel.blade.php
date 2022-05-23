@@ -1,0 +1,34 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#shipcancelModal">
+    取消
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="shipcancelModal" tabindex="-1" aria-labelledby="shipcancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{route('ship_cancel', ['office_code' => $office_code, 'ship_code' => $data->ship_code])}}" method="POST">
+        @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="shipcancelModalLabel">出荷を取り消しますか？</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center">{{$data->consumables_name}}</h4>
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" style="width:100px;height:100px;">
+                        <div class="px-4">
+                            <div id="ship_number_result">
+                                <h5>出荷数：<br>{{$data->shipped_number}}箱（{{$data->shipped_number*$data->quantity}}個）</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    <button type="submit" class="btn btn-danger">取り消す</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

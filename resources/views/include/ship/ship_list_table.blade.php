@@ -24,6 +24,9 @@
 					<div class="input-group" id="ship-number-form-group">
 						<h5><span>出荷数：</span>{{$data->shipped_number}}箱（{{$data->shipped_number*$data->quantity}}個）</h5>
 					</div>
+					<div class="d-flex justify-content-end align-items-end">
+						@include("modal/ship_cancel")
+					</div>
 				</div>
 			</div>
 			

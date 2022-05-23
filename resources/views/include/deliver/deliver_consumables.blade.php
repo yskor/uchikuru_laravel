@@ -16,10 +16,10 @@
 				<div class="modal-body">
 					<h5 class="card-title">{{$data->consumables_name}}</h5>
 					<div class="d-flex justify-content-center">
-						<img class="mb-2" id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
+						<img class="my-3" id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
 								style="width:200px;height:200px;">
 					</div>
-					<div class="w-100" >
+					<div class="w-100">
 						{{-- データ受け渡し用 --}}
 						<input type="hidden" name="office_code" value="{{$office_code}}">
 						<input type="hidden" name="ship_code" value="{{$data->ship_code}}">

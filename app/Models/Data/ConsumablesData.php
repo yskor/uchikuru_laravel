@@ -251,22 +251,38 @@ class ConsumablesData extends BaseData
      * 指定された消耗品カテゴリコードから消耗品の一覧を取得します。
      * @param int $office_code
      * @param int $consumables_category_code
+     * @param int $consumables_code
      * @return unknown
      */
-    public static function viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code)
+    public static function viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code)
     {
-        return DB::select("SELECT *
-                        FROM dbo.VIEW_消耗品識別マスタ AS m
-                        LEFT JOIN 
-						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
-						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
-								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as f_stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS s
-                        ON s.consumables_code = m.consumables_code
-						LEFT JOIN
-						(SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
-						        dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
-								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
-                        ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.unit_code = 'N' ");
+        if($consumables_code) {
+            return DB::select("SELECT *
+                            FROM dbo.VIEW_消耗品識別マスタ AS m
+                            LEFT JOIN 
+                            (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as f_stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS s
+                            ON s.consumables_code = m.consumables_code
+                            LEFT JOIN
+                            (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
+                            ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.unit_code = 'N' and m.consumables_code = $consumables_code");
+        } else {
+            return DB::select("SELECT *
+                            FROM dbo.VIEW_消耗品識別マスタ AS m
+                            LEFT JOIN 
+                            (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as f_stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $office_code) AS s
+                            ON s.consumables_code = m.consumables_code
+                            LEFT JOIN
+                            (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
+                            ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.unit_code = 'N'");
+        }
     }
 
 
@@ -534,6 +550,17 @@ class ConsumablesData extends BaseData
     {
         return ConsumablesTable::viewConsumablesShip()
             ->where('consumables_code', '=', $consumables_code);
+    }
+
+    /**
+     * 在庫不足テーブルのデータを全て参照します。
+     * @return unknown
+     */
+    public static function viewConsumablesStockShortageAll()
+    {
+        return ConsumablesTable::viewConsumablesStockShortage()
+                ->where('office_code','!=', 91) //アシスト以外の施設
+                ->get();
     }
 
 }

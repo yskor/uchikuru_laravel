@@ -77,7 +77,7 @@
 								</a>
 							</label>
 							<div class="input-group">
-								<input type="number" class="form-control text-end" id="number" name="number" placeholder="箱数を入力"
+								<input type="number" class="form-control text-end" id="number" name="number" placeholder="箱数を入力　　"
 									aria-label="number_unit">
 								<span class="input-group-text">箱</span>
 							</div>
@@ -101,7 +101,7 @@
 							<span>
 							</span>
 							<div class="input-group">
-								<input type="number" class="form-control text-end" id="quantity" name="quantity" placeholder="個数を入力"
+								<input type="number" class="form-control text-end" id="quantity" name="quantity" placeholder="個数を入力　　"
 									aria-label="quantity_unit" required>
 								<span class="input-group-text">個</span>
 							</div>
@@ -114,7 +114,7 @@
 						<label for="number-unit-price">仕入単価（税込） <span class="badge bg-danger">必須</span></label>
 						<div class="input-group" id="number-unit-price-form-group">
 							<input type="number" class="form-control text-end" name="number_unit_price" id="number-unit-price"
-								placeholder="箱の仕入単価を入力" required>
+								placeholder="箱の仕入単価を入力　　" required>
 							<span class="input-group-text">円</span>
 						</div>
 						<div id="number-unit-price-feedback" class="invalid-feedback">箱の仕入単価（税込）を入力してください</div>
@@ -139,7 +139,7 @@
 						</label>
 						<div class="d-flex">
 							<input type="number" class="form-control text-end" id="use-quantity" name="use_quantity"
-								placeholder="数量を入力　" aria-label="quantity_unit" required>
+								placeholder="数量を入力　　" aria-label="quantity_unit" required>
 							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"
 									autocomplete="off" checked>

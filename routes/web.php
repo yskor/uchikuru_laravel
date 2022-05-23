@@ -11,6 +11,7 @@ use App\Http\Controllers\ShipController;
 use App\Http\Controllers\ConsumptionController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\QrController;
+use App\Http\Controllers\NoticeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,8 @@ Route::get('/stock_list/{office_code}', [StockController::class, 'facility_stock
 Route::get('/stock_list/{office_code}/{consumables_category_code}', [StockController::class, 'facility_category_stock_list'])->name('facility_category_stock_list');
 Route::get('/stock_list/search/{office_code}/{consumables_category_code}', [StockController::class, 'facility_category_stock_list_search'])->name('facility_category_stock_list_search');
 Route::get('/stock_list_mobile/{office_code}/{consumables_category_code}', [StockController::class, 'stock_list_mobile'])->name('stock_list_mobile');
+// 在庫調整
+Route::post('/stock_adjustment/{office_code}/{consumables_category_code}/{consumables_code}', [StockController::class, 'stock_adjustment'])->name('stock_adjustment');
 
 // 仕入一覧
 Route::get('/buy_list', [BuyController::class, 'buy_list'])->name('buy_list');
@@ -64,6 +67,7 @@ Route::get('/ship_list', [ShipController::class, 'ship_list'])->name('ship_list'
 Route::post('/ship_list', [ShipController::class, 'edit_ship'])->name('edit_ship');
 Route::post('/ship_consumables', [ShipController::class, 'ship_consumables'])->name('ship_consumables');
 Route::get('/ship_add', [ShipController::class, 'ship_add'])->name('ship_add');
+Route::post('/ship_cancel/{office_code}/{ship_code}', [ShipController::class, 'ship_cancel'])->name('ship_cancel');
 // 事業所別出荷一覧
 Route::get('/ship_list/{office_code}', [ShipController::class, 'facility_ship_list'])->name('facility_ship_list');
 Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_ship'])->name('facility_edit_ship');
@@ -90,3 +94,10 @@ Route::post('/consumption_done', [ConsumptionController::class, 'consumption_don
 
 // 施設QR一覧
 Route::get('/facility_qr_list', [QrController::class, 'facility_qr_list'])->name('facility_qr_list');
+
+// 在庫不足通知
+Route::post('/api/notice/shortage_list', [NoticeController::class, 'notice_shortage_list'])->name('notice_shortage_list');
+// Route::get('/api/notice/shortage_list', [NoticeController::class, 'shortage_list'])->name('shortage_list');
+
+// 在庫不足消耗品画面
+Route::get('/shortage/{office_code}/{consumables_category_code}/{consumables_code}', [StockController::class, 'shortage_consumables'])->name('shortage_consumables');

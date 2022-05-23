@@ -33,6 +33,7 @@ class ConsumablesTable extends BaseTable
     const VIEW_CONSUMABLE_DELIVER_STATUS = "VIEW_" . self::TABLE_CONSUMABLE_DELIVER_STATUS;
     const VIEW_CONSUMABLE_CONSUMPTION = "VIEW_" . self::TABLE_CONSUMABLE_CONSUMPTION;
     const VIEW_CONSUMABLE_BUY_FACILITY = "VIEW_消耗品仕入先マスタ";
+    const VIEW_CONSUMABLE_STOCK_SHORTAGE = "VIEW_消耗品在庫不足テーブル";
 
     // DB更新用
     // 消耗品マスタ
@@ -140,10 +141,10 @@ class ConsumablesTable extends BaseTable
         return DB::table(self::VIEW_CONSUMABLE_DELIVER_STATUS);
     }
 
-    // 消耗品消費テーブル
-    public static function viewConsumablesConsumption()
+    // 消耗品在庫不足テーブル
+    public static function viewConsumablesStockShortage()
     {
-        return DB::table(self::TABLE_CONSUMABLE_CONSUMPTION);
+        return DB::table(self::VIEW_CONSUMABLE_STOCK_SHORTAGE);
     }
 
 }
