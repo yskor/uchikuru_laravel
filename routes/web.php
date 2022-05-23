@@ -67,7 +67,7 @@ Route::get('/ship_list', [ShipController::class, 'ship_list'])->name('ship_list'
 Route::post('/ship_list', [ShipController::class, 'edit_ship'])->name('edit_ship');
 Route::post('/ship_consumables', [ShipController::class, 'ship_consumables'])->name('ship_consumables');
 Route::get('/ship_add', [ShipController::class, 'ship_add'])->name('ship_add');
-Route::post('/ship_cancel/{office_code}/{ship_code}', [ShipController::class, 'ship_cancel'])->name('ship_cancel');
+Route::post('/ship_cancel/{office_code}/{ship_code}/{consumables_code}', [ShipController::class, 'ship_cancel'])->name('ship_cancel');
 // 事業所別出荷一覧
 Route::get('/ship_list/{office_code}', [ShipController::class, 'facility_ship_list'])->name('facility_ship_list');
 Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_ship'])->name('facility_edit_ship');

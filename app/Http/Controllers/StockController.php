@@ -91,7 +91,7 @@ class StockController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 対象の消耗品データを取得
-        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code=Null);
+        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, Null);
 
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
@@ -158,7 +158,7 @@ class StockController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 対象の消耗品データを取得
-        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code=Null);
+        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, Null);
 
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
@@ -227,7 +227,7 @@ class StockController extends AuthController
         // 在庫調整（施設）
         Consumables::stock_consumables_adjustment(
             $office_code, //事業所コード
-            $consumables_code, //事業所コード
+            $consumables_code, //消耗品コード
             $facility_stock_number,
             $facility_stock_quantity,
         );
@@ -243,7 +243,7 @@ class StockController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 対象の消耗品データを取得
-        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code=Null);
+        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, Null);
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
         // 事業所データ
@@ -259,6 +259,9 @@ class StockController extends AuthController
             'consumables_code' => $consumables_code, //消耗品コード
             'search_name' => '',
         ];
+
+        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        session()->flash('message', $consumables->consumables_name . 'の在庫を調整しました');
 
         return self::view($request, 'facility_stock_list_category', $data);
     }

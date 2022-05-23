@@ -294,15 +294,17 @@ class Consumables extends Model
 
             // 出荷情報を参照
             $ship_data = ConsumablesData::viewConsumablesShipData($ship_code);
+            // dd($ship_data);
             $consumables_code = $ship_data->consumables_code; //消耗品コード
             $ship_number = $ship_data->shipped_number; //出荷数量
+            $head_office_code = 91; //本部
             // 消耗品コードから現在の在庫を参照
-            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+            $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $head_office_code);
             $cancel_values = [
                 "個数在庫数" => $consumables_stock->stock_number + $ship_number,
                 "更新日時" => now(),
             ];
-            ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($cancel_values);
+            ConsumablesData::getConsumablesStockData($consumables_code, $head_office_code)->update($cancel_values);
 
             // 出荷コードが一致する出荷データを削除
             ConsumablesTable::tableConsumablesShip()->where('出荷納品コード', $ship_code)->delete();

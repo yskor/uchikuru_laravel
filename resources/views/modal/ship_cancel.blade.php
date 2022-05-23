@@ -1,16 +1,16 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#shipcancelModal">
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#shipcancelModal{{$data->consumables_code}}">
     取消
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="shipcancelModal" tabindex="-1" aria-labelledby="shipcancelModalLabel" aria-hidden="true">
+<div class="modal fade" id="shipcancelModal{{$data->consumables_code}}" tabindex="-1" aria-labelledby="shipcancelModal{{$data->consumables_code}}Label" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="{{route('ship_cancel', ['office_code' => $office_code, 'ship_code' => $data->ship_code])}}" method="POST">
+        <form action="{{route('ship_cancel', ['office_code' => $office_code, 'ship_code' => $data->ship_code, 'consumables_code' => $data->consumables_code])}}" method="POST">
         @csrf
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="shipcancelModalLabel">出荷を取り消しますか？</h5>
+                    <h5 class="modal-title" id="shipcancelModal{{$data->consumables_code}}Label">出荷を取り消しますか？</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

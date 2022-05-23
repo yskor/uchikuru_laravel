@@ -258,7 +258,7 @@ class ShipController extends AuthController
      * 消耗品出荷の取消
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function ship_cancel($office_code, $ship_code, Request $request)
+    public function ship_cancel($office_code, $ship_code, $consumables_code, Request $request)
     {
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
@@ -285,6 +285,8 @@ class ShipController extends AuthController
             'office_data' => $office_data,
         ];
 
+        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        session()->flash('message', $consumables->consumables_name . 'の出荷を取り消しました');
         return self::view($request, 'facility_ship_list', $data);
     }
 }

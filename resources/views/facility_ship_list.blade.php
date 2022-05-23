@@ -20,6 +20,12 @@
 <!-- カテゴリセレクタ -->
 @include("include/ship/ship_list_facility_category")
 
+<!-- フラッシュメッセージ -->
+@if (session('message'))
+<div class="alert alert-success">
+    {{ session('message') }}
+</div>
+@endif
 
 {{-- 一覧表テーブル --}}
 <div id="ship-add"></div>
