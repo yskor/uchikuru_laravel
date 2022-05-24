@@ -14,12 +14,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h4 class="text-center">{{$data->consumables_name}}</h4>
-                    <div class="d-flex justify-content-center">
-                        <img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" style="width:100px;height:100px;">
-                        <div class="px-4">
-                            <div id="ship_number_result">
-                                <h5>出荷数：<br>{{$data->shipped_number}}箱（{{$data->shipped_number*$data->quantity}}個）</h5>
+                    <div class="card">
+                        <h4 class="card-header text-center">{{$data->consumables_name}}</h4>
+                        <div class="d-flex justify-content-center card-body">
+                            <img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" style="width:100px;height:100px;">
+                            <div class="px-4 mt-2">
+                                <div id="ship_number_result">
+                                    <h5>出荷数：{{$data->shipped_number}}箱（{{$data->shipped_number*$data->quantity}}個）</h5>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -97,7 +97,7 @@ Route::get('/facility_qr_list', [QrController::class, 'facility_qr_list'])->name
 
 // 在庫不足通知
 Route::post('/api/notice/shortage_list', [NoticeController::class, 'notice_shortage_list'])->name('notice_shortage_list');
-// Route::get('/api/notice/shortage_list', [NoticeController::class, 'shortage_list'])->name('shortage_list');
+// Route::get('/api/notice/shortage_list', [NoticeController::class, 'notice_shortage_list'])->name('notice_shortage_list');
 
 // 在庫不足消耗品画面
-Route::get('/shortage/{office_code}/{consumables_category_code}/{consumables_code}', [StockController::class, 'shortage_consumables'])->name('shortage_consumables');
+Route::get('/shortage_consumables/{office_code}/{consumables_category_code}/{consumables_code}', [StockController::class, 'shortage_consumables'])->name('shortage_consumables');

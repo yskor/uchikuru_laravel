@@ -185,7 +185,7 @@ class StockController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 対象の消耗品データを取得
-        $shortage_consumables = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_code, $consumables_code);
+        $shortage_consumables = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code);
 
         // 事業所マスタから事業所を全て参照
         $facility_all = OfficeData::viewfacilityAll();
@@ -200,6 +200,7 @@ class StockController extends AuthController
             'office_data' => $office_data, //事業所データ
             'consumables_category_code' => $consumables_category_code, //消耗品カテゴリコード
             'consumables_code' => $consumables_code, //消耗品コード
+            'search_name' => '',
         ];
 
         return self::view($request, 'shortage_consumables', $data);

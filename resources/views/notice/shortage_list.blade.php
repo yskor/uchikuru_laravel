@@ -11,7 +11,7 @@
             <div class="card-body">
                 @foreach($shortage_list as $data)
                 <div class="mb-3">
-                    <a class="btn btn-outline-danger text-left w-100" href="{{route('stock_list'). '/'. $data->office_code .'/'. $data->consumables_category_code}}" target="_blank">
+                    <a class="btn btn-outline-danger text-left w-100" href="{{route('shortage_consumables', ['office_code' => $data->office_code, 'consumables_category_code' => $data->consumables_category_code, 'consumables_code' => $data->consumables_code])}}" target="_blank">
                         【{{$data->facility_name}}】{{$data->consumables_name}}(在庫数:{{$data->stock_number}}箱+{{$data->stock_quantity}}個)
                     </a>
                 </div>
