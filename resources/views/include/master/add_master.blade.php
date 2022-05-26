@@ -19,7 +19,7 @@
 						<div class="mb-1" id="consumables-name-form-group" style="width: 350px">
 							<label for="consumables-name">消耗品名 <span class="badge bg-danger">必須</span> </label>
 							<input type="text" class="form-control" name="consumables_name" id="consumables-name"
-								placeholder="消耗品名を入力してください" required>
+								placeholder="" required>
 							<div id="consumables-name-feedback" class="invalid-feedback"></div>
 						</div>
 						<div id="consumables-category" style="width: 250px">
@@ -47,8 +47,8 @@
 				<div class="row mb-2">
 					<div class="form-group row mb-2" id="consumables-code-form-group">
 						<div id="barcode-group-1" style="width: 350px">
-							<label for="consumables-code">消耗品バーコード（段）</label>
-							<input type="number" class="form-control" name="barcode[B]" id="consumables-code-1" placeholder="段ボールのバーコードを入力してください">
+							<label for="consumables-code">段ボールのバーコード</label>
+							<input type="number" class="form-control" name="barcode[B]" id="consumables-code-1" placeholder="">
 							<div id="" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
 						<div class="" style="width: 180px">
@@ -62,8 +62,8 @@
 					</div>
 					<div class="form-group row mb-2" id="consumables-code-form-group">
 						<div id="barcode-group-2" style="width: 350px">
-							<label for="consumables-code">消耗品バーコード（箱）</label>
-							<input type="number" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="箱のバーコードを入力してください">
+							<label for="consumables-code">箱のバーコード</label>
+							<input type="number" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="">
 							<div id="consumables-code-2-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
 						<div class="" style="width: 180px">
@@ -77,7 +77,7 @@
 								</a>
 							</label>
 							<div class="input-group">
-								<input type="number" class="form-control text-end" id="number" name="number" placeholder="箱数を入力　　"
+								<input type="number" class="form-control text-end" id="number" name="number" placeholder=""
 									aria-label="number_unit">
 								<span class="input-group-text">箱</span>
 							</div>
@@ -85,8 +85,8 @@
 					</div>
 					<div class="form-group row mb-2" id="consumables-code-form-group">
 						<div id="barcode-group-3" style="width: 350px">
-							<label for="consumables-code">消耗品バーコード（個）<span class="badge bg-danger">必須</span> </label>
-							<input type="number" class="form-control" name="barcode[Q]" id="consumables-code-3" placeholder="個のバーコードを入力してください" required>
+							<label for="consumables-code">個のバーコード<span class="badge bg-danger">必須</span> </label>
+							<input type="number" class="form-control" name="barcode[Q]" id="consumables-code-3" placeholder="" required>
 							<div id="consumables-code-3-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
 						<div class="" style="width: 180px">
@@ -101,7 +101,7 @@
 							<span>
 							</span>
 							<div class="input-group">
-								<input type="number" class="form-control text-end" id="quantity" name="quantity" placeholder="個数を入力　　"
+								<input type="number" class="form-control text-end" id="quantity" name="quantity" placeholder=""
 									aria-label="quantity_unit" required>
 								<span class="input-group-text">個</span>
 							</div>
@@ -111,10 +111,10 @@
 	
 				<div class="d-flex row mb-2">
 					<div class="" style="width: 240px">
-						<label for="number-unit-price">仕入単価（税込） <span class="badge bg-danger">必須</span></label>
+						<label for="number-unit-price">箱の仕入単価（税込） <span class="badge bg-danger">必須</span></label>
 						<div class="input-group" id="number-unit-price-form-group">
 							<input type="number" class="form-control text-end" name="number_unit_price" id="number-unit-price"
-								placeholder="箱の仕入単価を入力　　" required>
+								placeholder="" required>
 							<span class="input-group-text">円</span>
 						</div>
 						<div id="number-unit-price-feedback" class="invalid-feedback">箱の仕入単価（税込）を入力してください</div>
@@ -128,7 +128,68 @@
 				</div>
 	
 				<div class="d-flex row mb-2">
-					<div class="" style="width: 240px">
+					<div class="" style="width: 180px">
+						<label for="">在庫定数 <span class="badge bg-danger">必須</span> 
+							<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="在庫として常に確保しておく数量を入力して下さい。">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+									<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+								</svg>
+							</a></label>
+						<div class="d-flex">
+							<input type="number" class="form-control text-end" id="stock_constant_quantity" name="stock_constant_quantity"
+								placeholder="" aria-label="" value="">
+							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
+								<input type="radio" class="btn-check" name="stock_constant_quantity_code" id="stock_constant_quantity_code_number" value="N"
+									autocomplete="off" checked>
+								<label class="btn btn-outline-primary" for="stock_constant_quantity_code_number">箱</label>
+								{{-- <input type="radio" class="btn-check" name="stock_constant_quantity_code" id="stock_constant_quantity_code_quantity" value="Q"
+								autocomplete="off">
+								<label class="btn btn-outline-primary" for="stock_constant_quantity_code_quantity">個</label> --}}
+							</span>
+						</div>
+					</div>
+					<div class="" style="width: 180px">
+						<label for="">在庫補充点 <span class="badge bg-danger">必須</span> 
+							<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="在庫補充通知を行う基準となる在庫数を入力して下さい">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+									<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+								</svg>
+							</a></label>
+						<div class="d-flex">
+							<input type="number" class="form-control text-end" id="stock_replenishment_point" name="stock_replenishment_point"
+								placeholder="" aria-label="" value="">
+							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
+								<input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_number" value="N"
+									autocomplete="off">
+								<label class="btn btn-primary" for="stock_replenishment_point_code_number">箱</label>
+								{{-- <input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_quantity" value="Q"
+								autocomplete="off">
+								<label class="btn btn-outline-primary" for="stock_replenishment_point_code_quantity">個</label> --}}
+							</span>
+							<script>
+								// 在庫定数と在庫補充点の単位を連動させる処理
+								$("input[name='stock_constant_quantity_code']").change(function () {
+									var val = $(this).val();
+									if (val == 'N') {
+										$('#stock_replenishment_point_code_number').prop("checked", true);
+									} else if (val == 'Q') {
+										$('#stock_replenishment_point_code_quantity').prop("checked", true);
+									}
+								});
+								$("input[name='stock_replenishment_point_code']").change(function () {
+									var val = $(this).val();
+									if (val == 'N') {
+										$('#stock_constant_quantity_code_number').prop("checked", true);
+									} else if (val == 'Q') {
+										$('#stock_constant_quantity_code_quantity').prop("checked", true);
+									}
+								});
+							</script>
+						</div>
+					</div>
+					<div class="" style="width: 180px">
 						<label for="">消費数量 <span class="badge bg-danger">必須</span> 
 							<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="施設職員がＱＲコードを読み取った際に減らす在庫数を入力して下さい">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
@@ -139,7 +200,7 @@
 						</label>
 						<div class="d-flex">
 							<input type="number" class="form-control text-end" id="use-quantity" name="use_quantity"
-								placeholder="数量を入力　　" aria-label="quantity_unit" required>
+								placeholder="" aria-label="quantity_unit" required>
 							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-number" value="N"
 									autocomplete="off" checked>
@@ -147,27 +208,6 @@
 								<input type="radio" class="btn-check" name="use_unit" id="use-unit-quantity" value="Q"
 									autocomplete="off">
 								<label class="btn btn-outline-primary" for="use-unit-quantity">個</label>
-							</span>
-						</div>
-					</div>
-					<div class="" style="width: 230px">
-						<label for="">在庫補充点 <span class="badge bg-danger">必須</span> 
-							<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="在庫補充通知を行う基準となる在庫数を入力して下さい">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-									<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-								</svg>
-							</a></label>
-						<div class="d-flex">
-							<input type="number" class="form-control text-end" id="use-quantity" name="use_quantity"
-								placeholder="数量を入力　　" aria-label="quantity_unit" required>
-							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
-								<input type="radio" class="btn-check" name="stock_replenishment_point" id="use-unit-number" value="N"
-									autocomplete="off" checked>
-								<label class="btn btn-outline-primary" for="stock_replenishment_point-number">箱</label>
-								<input type="radio" class="btn-check" name="stock_replenishment_point" id="stock_replenishment_point-quantity" value="Q"
-									autocomplete="off">
-								<label class="btn btn-outline-primary" for="stock_replenishment_point-quantity">個</label>
 							</span>
 						</div>
 					</div>

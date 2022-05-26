@@ -70,7 +70,7 @@ class StockController extends AuthController
             'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
             'office_code' => $office_code, //事業所コード
             'office_data' => $office_data, //事業所データ
-            'consumables_category_code' => 'all' //消耗品コード
+            'consumables_category_code' => 1 //消耗品コード
 
         ];
         // dd($data);
@@ -180,27 +180,14 @@ class StockController extends AuthController
      * @param int $consumables_category_code
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function shortage_consumables($office_code, $consumables_category_code, $consumables_code, Request $request)
+    public function shortage_consumables(Request $request)
     {
-        // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 対象の消耗品データを取得
-        $shortage_consumables = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code);
-
-        // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
-        // 事業所データ
-        $office_data = OfficeData::getOffice($office_code);
-
+        // 在庫不足の消耗品データを取得
+        $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
+        // dd($shortage_list);
         $data = [
-            'consumables_category_all' => $consumables_category_all,
-            'facility_all' => $facility_all,
-            'shortage_consumables' => $shortage_consumables,
-            'office_code' => $office_code, //施設コード
-            'office_data' => $office_data, //事業所データ
-            'consumables_category_code' => $consumables_category_code, //消耗品カテゴリコード
-            'consumables_code' => $consumables_code, //消耗品コード
-            'search_name' => '',
+            'shortage_list' => $shortage_list,
+            'login' => $this->login,
         ];
 
         return self::view($request, 'shortage_consumables', $data);

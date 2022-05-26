@@ -164,49 +164,7 @@ class ShipController extends AuthController
 
     //
     /**
-     * 消耗品出荷リストの編集
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    // public function edit_ship(Request $request)
-    // {
-    //     Log::debug(print_r($this->login, true));
-    //     // POSTの値を全て取得
-    //     $param = $request->all();
-    //     // dd($param);
-    //     $office_code_to = $param['office_code_to']; //納品先事業所コード
-    //     $office_code_from = 91; //出荷元事業所コード（今はアシスト固定）
-    //     $staff_code = $param['staff_code'];
-    //     // 消耗品カテゴリデータを取得
-    //     $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-    //     // 事業所マスタから事業所を全て参照
-    //     $facility_all = OfficeData::viewfacilityAll();
-    //     foreach ($param['ships'] as $data) {
-    //         // dd($data);
-    //         // 出荷納品テーブルに追加
-    //         Consumables::insert_consumables_ship(
-    //             $data['consumables_code'], //消耗品コード
-    //             $office_code_from, //出荷元事業所コード
-    //             $data['ship_number'], //出荷数
-    //             $staff_code, //職員コード
-    //             // $data['ship_date'], //出荷日
-    //             $office_code_to, //納品先事業所コード
-    //         );
-    //     }
-
-    //     $data = [
-    //         'param' => $param, //全ての事業所データ
-    //         'facility_all' => $facility_all, //全ての事業所データ
-    //         'consumables_category_all' => $consumables_category_all,
-    //         'login' => $this->login,
-    //         'office_code' => 'all',
-    //     ];
-
-    //     return self::view($request, 'ship_list', $data);
-    // }
-
-    //
-    /**
-     * 消耗品出荷リストの編集
+     * 消耗品出荷
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function facility_edit_ship($office_code, Request $request)
@@ -217,7 +175,6 @@ class ShipController extends AuthController
         // dd($param);
         $office_code_to = $param['office_code_to']; //納品先事業所コード
         $office_code_from = 91; //出荷元事業所コード（今はアシスト固定）
-        $staff_code = $param['staff_code'];
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
@@ -227,15 +184,16 @@ class ShipController extends AuthController
 
         foreach ($param['ships'] as $data) {
             // dd($data);
+            $value = [
+                'consumables_code' => $data['consumables_code'],
+                'office_code_from' => $office_code_from,//出荷元事業所コード
+                'ship_quantity' => $data['ship_number'],
+                'staff_code' => $this->login->staff_code,
+                'replenishment_status_code' => NULL,
+                'office_code_to' => $office_code_to,//納品先事業所コード
+            ];
             // 出荷納品テーブルに追加
-            Consumables::insert_consumables_ship(
-                $data['consumables_code'], //消耗品コード
-                $office_code_from, //出荷元事業所コード
-                $data['ship_number'], //出荷数
-                $staff_code, //職員コード
-                // $data['ship_date'], //出荷日
-                $office_code_to, //納品先事業所コード
-            );
+            Consumables::insert_consumables_ship($value);
         }
 
         // 対象事業所とアシストの消耗品在庫データを取得
@@ -251,6 +209,30 @@ class ShipController extends AuthController
         ];
 
         return self::view($request, 'facility_ship_list', $data);
+    }
+
+    //
+    /**
+     * 在庫不足消耗品の出荷
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function ship_shortage_consumables($office_code_to, $consumables_code, Request $request)
+    {
+        $ship_quantity = $request->get('ship_quantity');//出荷数量
+        $office_code_from = 91; //出荷元事業所コード（今はアシスト固定）
+
+        $value = [
+            'consumables_code' => $consumables_code,
+            'office_code_from' => $office_code_from,//出荷元事業所コード
+            'ship_quantity' => $ship_quantity,
+            'staff_code' => $this->login->staff_code,
+            'replenishment_status_code' => "S",//在庫補充状況コード
+            'office_code_to' => $office_code_to,//納品先事業所コード
+        ];
+        // 出荷納品テーブルに追加
+        Consumables::insert_consumables_ship($value);
+
+        return redirect()->route('shortage_consumables');
     }
 
     //

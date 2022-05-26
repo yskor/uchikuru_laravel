@@ -553,13 +553,25 @@ class ConsumablesData extends BaseData
     }
 
     /**
-     * 在庫不足テーブルのデータを全て参照します。
+     * 補充出荷していない在庫不足のデータを全て参照します。
      * @return unknown
      */
     public static function viewConsumablesStockShortageAll()
     {
         return ConsumablesTable::viewConsumablesStockShortage()
-                ->where('office_code','!=', 91) //アシスト以外の施設
+                ->whereRaw("replenishment_status_code <> 'S' OR replenishment_status_code IS NULL")
+                // ->where('replenishment_status_code', '!=', 'S')
+                ->get();
+    }
+
+    /**
+     * 在庫不足のデータを全て参照します。
+     * @return unknown
+     */
+    public static function viewConsumablesStockShortageFlagAll()
+    {
+        return ConsumablesTable::viewConsumablesStockShortage()
+                ->where("shortage_flag" ,"=" ,True)
                 ->get();
     }
 

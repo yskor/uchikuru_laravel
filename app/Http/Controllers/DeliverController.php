@@ -120,20 +120,19 @@ class DeliverController extends AuthController
     {
 
         // dd($request->all());
-        $staff_code = $this->login->staff_code;
-        $office_code = $request->office_code;
-        $ship_code = $request->ship_code;
-        $consumables_code = $request->consumables_code;
-        $deliver_number = $request->deliver_number;
-        $stock_number = $request->stock_number;
-        $status_code = "S";
-        Consumables::insert_consumables_deliver($ship_code, $consumables_code, $office_code, $deliver_number, $stock_number, $staff_code);
-
-        // 消耗品コードから消耗品を取得
-        Log::debug(print_r($this->login, true));
+        $value = [
+            'staff_code' => $this->login->staff_code,
+            'office_code' => $request->office_code,
+            'ship_code' => $request->ship_code,
+            'consumables_code' => $request->consumables_code,
+            'deliver_number' => $request->deliver_number,
+            'stock_number' => $request->stock_number,
+            'status_code' => "S",
+        ];
+        Consumables::insert_consumables_deliver($value);
 
         // 対象事業所の消耗品出荷データを取得
-        $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($office_code, $status_code);
+        $deliver_consumables_list = ConsumablesData::viewFacilityCategoryConsumablesDeliverList($value['office_code'], $value['status_code']);
 
         foreach ($deliver_consumables_list as $data) {
             if ($data->stock_number == null) {
@@ -141,12 +140,12 @@ class DeliverController extends AuthController
             }
         }
 
-        $consumables = ConsumablesData::viewConsumablesShipData($ship_code);
-        session()->flash('message', $consumables->consumables_name . 'を' .$deliver_number. '箱納品しました');
+        $consumables = ConsumablesData::viewConsumablesShipData($value['ship_code']);
+        session()->flash('message', $consumables->consumables_name . 'を' .$value['deliver_number']. '箱納品しました');
 
         $data = [
             'deliver_consumables_list' => $deliver_consumables_list, //対象の事業所出荷一覧
-            'office_code' => $office_code,
+            'office_code' => $value['office_code'],
         ];
         return self::view($request, 'deliver_list', $data);
     }

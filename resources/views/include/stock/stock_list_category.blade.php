@@ -37,6 +37,11 @@
     </div>
     <div id="facilitys">
         <div class="input-group w-100 mb-1" id="toyama-area">
+            @if($office_code == 91)
+            <a class="btn btn-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
+            @else
+            <a class="btn btn-outline-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
+            @endif
             @foreach ($facility_all as $facility)
                 @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
                 <a class="btn btn-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
@@ -46,6 +51,11 @@
             @endforeach
         </div>
         <div class="input-group w-100" id="ishikawa-area" style="display: none">
+            @if($office_code == 91)
+            <a class="btn btn-danger" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
+            @else
+            <a class="btn btn-outline-danger" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
+            @endif
             @foreach ($facility_all as $facility)
                 @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
                 <a class="btn btn-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>

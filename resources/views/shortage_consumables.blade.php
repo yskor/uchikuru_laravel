@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', '消耗品在庫一覧')
+@section('title', '在庫不足消耗品一覧')
 
 {{-- headタグ内 --}}
 @section('head')
@@ -17,8 +17,6 @@
 
 {{-- メインコンテンツ --}}
 @section('main')
-<!-- カテゴリセレクタ -->
-@include("include/stock/stock_list_category_facility")
 
 
 {{-- 一覧表テーブル --}}

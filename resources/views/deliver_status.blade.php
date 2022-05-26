@@ -23,7 +23,7 @@
 
 {{-- 一覧表テーブル --}}
 <div class="alert alert-info">
-    <h5>出荷状況を確認する消耗品を選択して下さい。</h5>
+    <h5>納品状況を確認する消耗品を選択して下さい。</h5>
 </div>
 @include('include/deliver/deliver_status')
 

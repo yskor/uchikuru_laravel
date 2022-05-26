@@ -66,6 +66,7 @@ Route::get('/buy_list/search/{consumables_category_code}', [BuyController::class
 Route::get('/ship_list', [ShipController::class, 'ship_list'])->name('ship_list');
 Route::post('/ship_list', [ShipController::class, 'edit_ship'])->name('edit_ship');
 Route::post('/ship_consumables', [ShipController::class, 'ship_consumables'])->name('ship_consumables');
+Route::post('/ship_shortage_consumables/{office_code}/{consumables_code}', [ShipController::class, 'ship_shortage_consumables'])->name('ship_shortage_consumables');
 Route::get('/ship_add', [ShipController::class, 'ship_add'])->name('ship_add');
 Route::post('/ship_cancel/{office_code}/{ship_code}/{consumables_code}', [ShipController::class, 'ship_cancel'])->name('ship_cancel');
 // 事業所別出荷一覧
@@ -96,8 +97,8 @@ Route::post('/consumption_done', [ConsumptionController::class, 'consumption_don
 Route::get('/facility_qr_list', [QrController::class, 'facility_qr_list'])->name('facility_qr_list');
 
 // 在庫不足通知
-Route::post('/api/notice/shortage_list', [NoticeController::class, 'notice_shortage_list'])->name('notice_shortage_list');
-// Route::get('/api/notice/shortage_list', [NoticeController::class, 'notice_shortage_list'])->name('notice_shortage_list');
+// Route::post('/api/notice/shortage_list', [NoticeController::class, 'notice_shortage_list'])->name('notice_shortage_list');
+Route::get('/api/notice/shortage_list', [NoticeController::class, 'notice_shortage_list'])->name('notice_shortage_list');
 
 // 在庫不足消耗品画面
-Route::get('/shortage_consumables/{office_code}/{consumables_category_code}/{consumables_code}', [StockController::class, 'shortage_consumables'])->name('shortage_consumables');
+Route::get('/shortage_consumables', [StockController::class, 'shortage_consumables'])->name('shortage_consumables');

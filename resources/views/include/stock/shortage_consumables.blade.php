@@ -1,5 +1,6 @@
+@if($shortage_list)
 <div class="row g-2">
-	@foreach($shortage_consumables as $data)
+	@foreach($shortage_list as $data)
 	<div class="col-6 card p-0 mx-1" style="width:400px;">
 		<div class="card-header">
 			{{-- 消耗品名 --}}
@@ -15,34 +16,32 @@
 			<div class="w-100" style="margin-left: 15px">
 				{{-- 消費数量 --}}
 					<div class="mb-3">
-						<div class="fs-4">
-							@if ($data->f_stock_number)
-							{{ $data->f_stock_number }}
-							@else
-							0
-							@endif
+						<div>【{{$data->facility_name}}】</div>
+						<div class="fs-6">
+							現在庫数：
+							{{ $data->stock_number }}
 							箱
-							@if($data->use_unit_code == 'Q' and $data->f_stock_quantity > 0)
+							@if($data->use_unit_code == 'Q' and $data->stock_quantity > 0)
 								{{-- 消費単位が個数かつ1以上の時 --}}
 								+
-								{{ $data->f_stock_quantity }}
+								{{ $data->stock_quantity }}
 								個
 							@endif
 						</div>
-					</div>
-					<div>
 						<div class="fs-6">
-							本 部:
-							@if ($data->stock_number)
-							{{ $data->stock_number }}
-							@else
-							0
-							@endif
+							不足数　：
+							{{ $data->shortage_quantity }}
 							箱
 						</div>
+					</div>
+					<div class="d-flex justify-content-end">
+						@include("modal/shortage_consumables_ship")
 					</div>
 			</div>
 		</div>
 	</div>
 	@endforeach
 </div>
+@else
+<div class="alert alert-dark" role="alert">出荷中の消耗品はありません</div>
+@endif

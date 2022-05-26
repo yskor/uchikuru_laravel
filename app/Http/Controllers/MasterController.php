@@ -181,6 +181,7 @@ class MasterController extends AuthController
         Log::debug(print_r($this->login, true));
 
         $param = $request->all();
+        // dd($param);
         $staff_code = $this->login->staff_code;
 
         if ($request->post == '登録する') {

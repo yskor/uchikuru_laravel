@@ -16,7 +16,7 @@
 				<div class="modal-body">
 					<h5 class="card-title">{{$data->consumables_name}}</h5>
 					<div class="d-flex justify-content-center">
-						<img class="my-3" id="add_preview" src="{{ asset('upload/consumables/00000000.png')}}"
+						<img class="my-3" id="add_preview" src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
 								style="width:200px;height:200px;">
 					</div>
 					<div class="w-100">
@@ -32,12 +32,14 @@
 								value="{{$data->stock_number}}">
 							<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
 						</div>
+						<p>在庫数内訳：{{$data->stock_number}}箱（{{$data->stock_number * $data->quantity}}個）</p>
 						@else
 						<div class="input-group mb-2" style="width:220px;">
 							<span class="input-group-text" style="width: 112;">施設在庫数</span>
 							<input type="" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number" value="0">
 							<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
 						</div>
+						<p>出荷数内訳：{{$data->stock_number}}箱（{{$data->stock_number * $data->quantity}}個）</p>
 						@endif
 						<div class="d-flex mb-2 justify-content-end">
 							<p class="form-check-label mx-3" for="stock-check-{{$data->ship_code}}">在庫数の確認<span class="badge bg-danger">必須</span></p>
@@ -52,6 +54,7 @@
 								value="{{$data->shipped_number}}">
 							<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">箱</span>
 						</div>
+						<p>出荷数内訳：{{$data->shipped_number}}箱（{{$data->shipped_number * $data->quantity}}個）</p>
 						<div class="d-flex justify-content-end">
 							<p class="form-check-label mx-3" for="deliver-check-{{$data->ship_code}}">納品数の確認<span class="badge bg-danger">必須</span></p>
 							<div class="form-check form-switch">

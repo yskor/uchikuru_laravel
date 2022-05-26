@@ -12,7 +12,7 @@
 				<img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}"
 					style="width:100px;height:100px;">
 			</div>
-			<div class="w-100" style="margin-left: 15px">
+			<div class="w-100" style="margin-left: 20px">
 				{{-- 消費数量 --}}
 					<div class="mb-3">
 						<div class="fs-4">
@@ -30,7 +30,7 @@
 							@endif
 						</div>
 					</div>
-					<div>
+					{{-- <div>
 						<div class="fs-6">
 							本 部:
 							@if ($data->stock_number)
@@ -40,12 +40,14 @@
 							@endif
 							箱
 						</div>
-					</div>
+					</div> --}}
+					@if($office_code == 91)
 					<div class="d-flex justify-content-end">
-						@if(!empty($data->f_stock_number))
+						@if(!empty($data->f_stock_number) or !empty($data->f_stock_quantity))
 						@include("modal/stock_adjustment")
 						@endif
 					</div>
+					@endif
 			</div>
 		</div>
 	</div>

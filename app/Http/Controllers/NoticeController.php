@@ -16,7 +16,7 @@ class NoticeController extends ApiController
 {
 
     /**
-     * テスト
+     * 在庫不足通知
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
@@ -24,16 +24,16 @@ class NoticeController extends ApiController
     {
         
         $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
-        
-        // dd($shortage_list);
+
         $data = [
             'shortage_list' => $shortage_list,
+            'login' => $this->login,
         ];
         // カードの中だけのhtmlを作成
-        $html = view('notice.shortage_list', $data)->render();
+        // $html = view('notice.shortage', $data)->render();
 
-        return self::jsonHtml($request, $html, $data); //← 共通システム側で res.html で取得できるようになります。
-        // return self::view($request, 'notice.shortage_list', $data);
+        // return self::jsonHtml($request, $html, $data); //← 共通システム側で res.html で取得できるようになります。
+        return self::view($request, 'notice.shortage', $data);
 
     }
 }
