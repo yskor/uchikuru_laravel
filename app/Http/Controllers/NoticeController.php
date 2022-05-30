@@ -30,10 +30,10 @@ class NoticeController extends ApiController
             'login' => $this->login,
         ];
         // カードの中だけのhtmlを作成
-        // $html = view('notice.shortage', $data)->render();
+        $html = view('notice.shortage', $data)->render();
 
-        // return self::jsonHtml($request, $html, $data); //← 共通システム側で res.html で取得できるようになります。
-        return self::view($request, 'notice.shortage', $data);
+        return self::jsonHtml($request, $html, $data); //← 共通システム側で res.html で取得できるようになります。
+        // return self::view($request, 'notice.shortage', $data);
 
     }
 }

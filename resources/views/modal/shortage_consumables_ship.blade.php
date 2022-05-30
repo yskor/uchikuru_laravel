@@ -14,20 +14,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h4 class="text-center">{{$data->consumables_name}}</h4>
-                    <div class="d-flex justify-content-center py-3">
-                        <img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" style="width:200px;height:200px;">
-                    </div>
-                    <div class="mx-auto" style="width:250px;">
-                        <div>施設在庫数：{{$data->stock_number}}箱</div>
-                        <div>在庫定数　：{{$data->stock_constant_quantity}}箱</div>
-                        <p class="mb-0" for="head-stock-form-group">出荷数</p>
-                        <div class="input-group mb-2" id="head-stock-form-group">
-                            {{-- 定数に対して不足する数出荷 --}}
-                            <input type="number" class="form-control text-end" name="ship_quantity"
-                                id="ship_quantity" aria-describedby="number-unit" value="{{ $data->shortage_quantity}}">
-                            <span class="input-group-text"
-                                id="number_unit">箱</span>
+                    <div class="card">
+                        <h4 class="card-header">【{{$data->facility_name}}】{{$data->consumables_name}}</h4>
+                        <div class="card-body d-flex py-2">
+                            <img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" style="width:100px;height:100px;">
+                            <div class="mx-auto fs-5" style="width:250px;">
+                                <div class="mb-1">施設在庫数：{{$data->stock_number}}箱</div>
+                                <div class="mb-1">在庫定数　：{{$data->stock_constant_quantity}}箱</div>
+                                <div class="input-group mt-2 fs-5" id="head-stock-form-group">
+                                    {{-- 定数に対して不足する数出荷 --}}
+                                    <span class="input-group-text"
+                                        id="number_unit">出荷数：</span>
+                                    <input type="number" class="form-control text-end" name="ship_quantity"
+                                        id="ship_quantity" aria-describedby="number-unit" value="{{ $data->shortage_quantity}}">
+                                    <span class="input-group-text"
+                                        id="number_unit">箱</span>
+                                </div>
+                                <p class="fs-6 text-end">内訳：{{ $data->shortage_quantity}}箱（{{ $data->shortage_quantity * $data->quantity}}個）</p>
+                            </div>
                         </div>
                     </div>
                 </div>

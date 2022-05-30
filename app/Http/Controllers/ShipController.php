@@ -175,12 +175,6 @@ class ShipController extends AuthController
         // dd($param);
         $office_code_to = $param['office_code_to']; //納品先事業所コード
         $office_code_from = 91; //出荷元事業所コード（今はアシスト固定）
-        // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
-        // 事業所データ
-        $office_data = OfficeData::getOffice($office_code);
 
         foreach ($param['ships'] as $data) {
             // dd($data);
@@ -196,19 +190,7 @@ class ShipController extends AuthController
             Consumables::insert_consumables_ship($value);
         }
 
-        // 対象事業所とアシストの消耗品在庫データを取得
-        $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
-
-        $data = [
-            'facility_all' => $facility_all, //全ての事業所データ
-            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
-            'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
-            'login' => $this->login,
-            'office_code' => $office_code, //事業所コード
-            'office_data' => $office_data,
-        ];
-
-        return self::view($request, 'facility_ship_list', $data);
+        return redirect()->route('facility_ship_list', ['office_code' => $office_code]);
     }
 
     //
@@ -242,33 +224,14 @@ class ShipController extends AuthController
      */
     public function ship_cancel($office_code, $ship_code, $consumables_code, Request $request)
     {
-        // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
-        // 事業所データ
-        $office_data = OfficeData::getOffice($office_code);
-        // dd($office_data);
         // 出荷キャンセル
         Consumables::cancel_consumables_ship(
             $ship_code, //出荷コード
             $office_code, //事業所コード
         );
-
-        // 対象事業所とアシストの消耗品在庫データを取得
-        $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
-
-        $data = [
-            'facility_all' => $facility_all, //全ての事業所データ
-            'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
-            'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
-            'login' => $this->login,
-            'office_code' => $office_code, //事業所コード
-            'office_data' => $office_data,
-        ];
-
         $consumables = ConsumablesData::viewOneConsumables($consumables_code);
-        session()->flash('message', $consumables->consumables_name . 'の出荷を取り消しました');
-        return self::view($request, 'facility_ship_list', $data);
+        session()->flash('success_message', $consumables->consumables_name . 'の出荷を取り消しました');
+        return redirect()->route('facility_ship_list', ['office_code' => $office_code]);
+
     }
 }

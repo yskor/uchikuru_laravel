@@ -5,7 +5,7 @@
 		<div class="card-header">
 			{{-- 消耗品名 --}}
 			<h5 class="w-100" id="ship_consumables_name">
-				{{$data->consumables_name}}</h5>
+				【{{$data->facility_name}}】{{$data->consumables_name}}</h5>
 		</div>
 		<div class="card-body d-flex">
 			<div class="">
@@ -15,9 +15,8 @@
 			</div>
 			<div class="w-100" style="margin-left: 15px">
 				{{-- 消費数量 --}}
-					<div class="mb-3">
-						<div>【{{$data->facility_name}}】</div>
-						<div class="fs-6">
+					<div class="mb-3 fs-5">
+						<div class="">
 							現在庫数：
 							{{ $data->stock_number }}
 							箱
@@ -28,7 +27,7 @@
 								個
 							@endif
 						</div>
-						<div class="fs-6">
+						<div class="">
 							不足数　：
 							{{ $data->shortage_quantity }}
 							箱

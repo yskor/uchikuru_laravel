@@ -201,25 +201,26 @@ class StockController extends AuthController
      */
     public function stock_adjustment($office_code, $consumables_category_code, $consumables_code, Request $request)
     {
-        $facility_stock_number = $request->get('facility_stock_number'); //施設在庫個数
-        if($request->filled('facility_stock_quantity')) {
-            $facility_stock_quantity = $request->get('facility_stock_quantity'); //施設在庫入数
-        } else {
-            // 'facility_stock_quantity'が無ければ0個
-            $facility_stock_quantity = 0; //施設在庫入数
-        }
+        // $facility_stock_number = $request->get('facility_stock_number'); //施設在庫個数
+        // if($request->filled('facility_stock_quantity')) {
+        //     $facility_stock_quantity = $request->get('facility_stock_quantity'); //施設在庫入数
+        // } else {
+        //     // 'facility_stock_quantity'が無ければ0個
+        //     $facility_stock_quantity = 0; //施設在庫入数
+        // }
         $stock_number = $request->get('stock_number'); //本部在庫個数
         $stock_quantity = 0; //施設在庫入数は0
         $head_office_code = 91; //当面はアシスト固定
 
         // 在庫調整（施設）
-        Consumables::stock_consumables_adjustment(
-            $office_code, //事業所コード
-            $consumables_code, //消耗品コード
-            $facility_stock_number,
-            $facility_stock_quantity,
-        );
+        // Consumables::stock_consumables_adjustment(
+        //     $office_code, //事業所コード
+        //     $consumables_code, //消耗品コード
+        //     $facility_stock_number,
+        //     $facility_stock_quantity,
+        // );
         
+        // dd($stock_number, $stock_quantity);
         // 本部（施設）
         Consumables::stock_consumables_adjustment(
             $head_office_code, //アシスト事業所コード
@@ -228,29 +229,9 @@ class StockController extends AuthController
             $stock_quantity,
         );
 
-        // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 対象の消耗品データを取得
-        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, Null);
-        // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
-        // 事業所データ
-        $office_data = OfficeData::getOffice($office_code);
-
-        $data = [
-            'consumables_category_all' => $consumables_category_all,
-            'facility_all' => $facility_all,
-            'consumables_stock_list' => $consumables_stock_list,
-            'office_code' => $office_code, //施設コード
-            'office_data' => $office_data, //事業所データ
-            'consumables_category_code' => $consumables_category_code, //消耗品カテゴリコード
-            'consumables_code' => $consumables_code, //消耗品コード
-            'search_name' => '',
-        ];
-
         $consumables = ConsumablesData::viewOneConsumables($consumables_code);
-        session()->flash('message', $consumables->consumables_name . 'の在庫を調整しました');
+        session()->flash('success_message', $consumables->consumables_name . 'の在庫を調整しました');
 
-        return self::view($request, 'facility_stock_list_category', $data);
+        return redirect()->route('facility_category_stock_list', ['office_code' => $office_code, 'consumables_category_code' => $consumables_category_code]);
     }
 }

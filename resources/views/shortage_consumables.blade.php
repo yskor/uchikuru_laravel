@@ -18,6 +18,7 @@
 {{-- メインコンテンツ --}}
 @section('main')
 
+@include('include/flash_message')
 
 {{-- 一覧表テーブル --}}
 @include("include/stock/shortage_consumables")

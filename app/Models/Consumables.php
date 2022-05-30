@@ -258,22 +258,24 @@ class Consumables extends Model
     {
         try {
             // dd($data);
-            // 出荷テーブルを追加
-            $ship_values = [
-                "消耗品コード" => $data['consumables_code'],
-                "出荷元事業所コード" => $data['office_code_from'],
-                "出荷数" => $data['ship_quantity'],
-                "出荷職員コード" => $data['staff_code'],
-                "消耗品変動状態コード" => 'S',
-                "出荷日時" => now(),
-                "納品先事業所コード" => $data['office_code_to'],
-            ];
-            ConsumablesTable::tableConsumablesShip()->insert($ship_values);
-
+            
             // 消耗品コードから出荷元の在庫を参照
             $ship_from_stock = ConsumablesData::viewConsumablesStockData($data['consumables_code'], $data['office_code_from']);
             if ($ship_from_stock->stock_number >= $data['ship_quantity']) {
-                // 在庫数が出荷数より多い時在庫テーブルの消耗品を減らす
+                // 在庫数が出荷数より多い時
+
+                // 出荷テーブルを追加
+                $ship_values = [
+                    "消耗品コード" => $data['consumables_code'],
+                    "出荷元事業所コード" => $data['office_code_from'],
+                    "出荷数" => $data['ship_quantity'],
+                    "出荷職員コード" => $data['staff_code'],
+                    "消耗品変動状態コード" => 'S',
+                    "出荷日時" => now(),
+                    "納品先事業所コード" => $data['office_code_to'],
+                ];
+                ConsumablesTable::tableConsumablesShip()->insert($ship_values);
+                // 在庫テーブルの消耗品を減らす
                 $dec_values = [
                     "消耗品コード" => $data['consumables_code'],
                     "個数在庫数" => $ship_from_stock->stock_number - $data['ship_quantity'],
@@ -287,6 +289,11 @@ class Consumables extends Model
                     ConsumablesData::getConsumablesStockData($data['consumables_code'], $data['office_code_to'])
                     ->update(["在庫補充状況コード" => $data['replenishment_status_code']]);
                 }
+                session()->flash('success_message', $ship_from_stock->consumables_name .'（' . $data['ship_quantity']. '箱）'. 'を出荷一覧に追加しました');
+            } else {
+                // 本部の在庫が不足している場合
+                $shortage_quantity = $data['ship_quantity'] - $ship_from_stock->stock_number;
+                session()->flash('error_message', $ship_from_stock->consumables_name . 'の本部在庫が'. $shortage_quantity . '箱不足しています。');
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
@@ -306,14 +313,16 @@ class Consumables extends Model
             $consumables_code = $ship_data->consumables_code; //消耗品コード
             $ship_number = $ship_data->shipped_number; //出荷数量
             $head_office_code = 91; //本部
-            // 消耗品コードから現在の在庫を参照
+            // 消耗品コードから本部の現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $head_office_code);
             $cancel_values = [
                 "個数在庫数" => $consumables_stock->stock_number + $ship_number,
                 "更新日時" => now(),
             ];
+            // 本部の在庫をキャンセル分増やす
             ConsumablesData::getConsumablesStockData($consumables_code, $head_office_code)->update($cancel_values);
-
+            // 消耗品コードと事業所コードから施設の在庫補充状況コードをNにする
+            ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update(['在庫補充状況コード' => "N"]);
             // 出荷コードが一致する出荷データを削除
             ConsumablesTable::tableConsumablesShip()->where('出荷納品コード', $ship_code)->delete();
 

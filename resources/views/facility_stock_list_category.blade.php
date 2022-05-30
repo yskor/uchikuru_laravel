@@ -21,11 +21,7 @@
 @include("include/stock/stock_list_category_facility")
 
 <!-- フラッシュメッセージ -->
-@if (session('message'))
-<div class="alert alert-success">
-    {{ session('message') }}
-</div>
-@endif
+@include('include/flash_message')
 
 {{-- 一覧表テーブル --}}
 @include("include/stock/stock_list_table")
