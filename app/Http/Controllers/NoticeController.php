@@ -23,17 +23,24 @@ class NoticeController extends ApiController
     public function notice_shortage_list(Request $request)
     {
         
-        $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
-
-        $data = [
-            'shortage_list' => $shortage_list,
-            'login' => $this->login,
-        ];
-        // カードの中だけのhtmlを作成
-        $html = view('notice.shortage', $data)->render();
-
-        return self::jsonHtml($request, $html, $data); //← 共通システム側で res.html で取得できるようになります。
-        // return self::view($request, 'notice.shortage', $data);
+        $office_code = $this->login->office_code;
+        if($office_code == 91 or $office_code == 99) {
+            $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
+    
+            $data = [
+                'shortage_list' => $shortage_list,
+                'login' => $this->login,
+            ];
+            // カードの中だけのhtmlを作成
+            $html = view('notice.shortage', $data)->render();
+    
+            return self::jsonHtml($request, $html, $data);
+        } else {
+            // カードの中だけのhtmlを作成
+            $html = '';
+    
+            return self::jsonHtml($request, $html);
+        }
 
     }
 }

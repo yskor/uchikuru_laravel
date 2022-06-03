@@ -32,8 +32,9 @@
                 <input type="number" class="form-control" name="ships[{{$consumables_ship_data->consumables_code}}][ship_number]"
                     id="ship_number_{{$consumables_ship_data->consumables_code}}" aria-describedby="number-unit" required>
                 <span class="input-group-text"
-                    id="number_unit">箱</span>
+                id="number_unit">箱</span>
             </div>
+            <input type="hidden" name="ship_quantity_{{$consumables_ship_data->consumables_code}}" id="ship_quantity_{{$consumables_ship_data->consumables_code}}" value="{{$consumables_ship_data->quantity}}">
             <div id="ship_number_{{$consumables_ship_data->consumables_code}}_result">
                 <p>出荷数内訳：</p>
             </div>
@@ -44,8 +45,8 @@
                     $('input#ship_number_{{$consumables_ship_data->consumables_code}}').change(function() {
                         //入力したvalue値を変数に格納
                         var val = $(this).val();
-                        var ship_quantity = val * quantity;
-                        var html = `<p>出荷数内訳：${val}箱（${ship_quantity}個）</p>`
+                        var quantity = $(this).parent().parent().find("input#ship_quantity_{{$consumables_ship_data->consumables_code}}").val();
+                        var html = `<p>出荷数内訳：${val}箱（${val * quantity}個）</p>`
 
                         //選択したvalue値をp要素に出力
                         $('#ship_number_{{$consumables_ship_data->consumables_code}}_result').html(html);

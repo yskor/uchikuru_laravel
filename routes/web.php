@@ -75,7 +75,7 @@ Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_s
 
 // 納品画面
 Route::get('/deliver', [DeliverController::class, 'deliver'])->name('deliver');
-Route::get('/deliver_list', [DeliverController::class, 'deliver_list'])->name('deliver_list');
+Route::get('/deliver_list/{office_code}', [DeliverController::class, 'deliver_list'])->name('deliver_list');
 Route::post('/deliver', [DeliverController::class, 'deliver_consumables'])->name('deliver_consumables');
 Route::get('/deliver_status/{consumables_category_code}', [DeliverController::class, 'deliver_status'])->name('deliver_status');
 Route::get('/deliver_status_search', [DeliverController::class, 'deliver_status_search'])->name('deliver_status_search');

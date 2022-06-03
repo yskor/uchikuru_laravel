@@ -50,12 +50,15 @@
                 @if($consumables_buy_data->unit_code == 'B')
                     {{-- unit-codeがBの時は単位を段 --}}
                     <span class="input-group-text" id="buy_unit">段</span>
+                    <input type="hidden" name="buys[{{$consumables_buy_data->consumables_barcode}}][buy_unit_code]" value="B">
                 @elseif($consumables_buy_data->unit_code == 'N')
                     {{-- unit-codeがNの時は単位を箱 --}}
                     <span class="input-group-text" id="buy_unit">箱</span>
+                    <input type="hidden" name="buys[{{$consumables_buy_data->consumables_barcode}}][buy_unit_code]" value="N">
                 @elseif($consumables_buy_data->unit_code == 'Q')
                     {{-- unit-codeがQの時は単位を個 --}}
                     <span class="input-group-text" id="buy_unit">個</span>
+                    <input type="hidden" name="buys[{{$consumables_buy_data->consumables_barcode}}][buy_unit_code]" value="Q">
                 @endif
             </div>
         </div>

@@ -165,13 +165,9 @@ class BuyController extends AuthController
         Log::debug(print_r($this->login, true));
         // POSTの値を全て取得
         $param = $request->all();
-        // dd($param);
-        // 消耗品の仕入先施設を参照
-        $buy_facility_all = ConsumablesData::viewConsumablesBuyFacility($office_code=Null);
         $staff_code = $this->login->staff_code;
         $office_code = $param['office_code_to']; //仕入事業所コード（今はアシスト固定）
         
-        // dd($buy_facility_all, $staff_code, $office_code, $consumables_data);
         foreach ($param['buys'] as $data) {
             // 仕入テーブルに追加
             Consumables::insert_consumables_buy(
@@ -181,24 +177,8 @@ class BuyController extends AuthController
             );
         }
 
-        // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 消耗品仕入データを参照
-        $consumables_buy_all = ConsumablesData::viewConsumablesCategoryBuyAll($consumables_category_code);
-        // 消耗品の仕入先施設を参照
-        $buy_facility_all = ConsumablesData::viewConsumablesBuyFacility(Null);
-
-        // データに渡したいデータを格納
-        $data = [
-            'consumables_category_all' => $consumables_category_all,
-            'consumables_buy_all' => $consumables_buy_all,
-            'buy_facility_all' => $buy_facility_all,
-            'consumables_category_code' => $consumables_category_code,
-            'search_name' => '',
-        ];
-
         session()->flash('success_message', '消耗品を仕入ました');
 
-        return self::view($request, 'buy_list_category', $data);
+        return redirect()->route('buy_list_category', ['consumables_category_code' => $consumables_category_code]);
     }
 }

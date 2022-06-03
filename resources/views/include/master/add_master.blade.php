@@ -162,7 +162,7 @@
 								placeholder="" aria-label="" value="">
 							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 								<input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_number" value="N"
-									autocomplete="off">
+									autocomplete="off" checked>
 								<label class="btn btn-primary" for="stock_replenishment_point_code_number">箱</label>
 								{{-- <input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_quantity" value="Q"
 								autocomplete="off">
