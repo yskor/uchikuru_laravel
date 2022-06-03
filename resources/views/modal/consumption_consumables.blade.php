@@ -2,7 +2,7 @@
 @if (session('message'))
 <div class="card w-100 mb-3">
     <div class="card-header">
-        <h5 class="w-100" id="ship_consumables_name">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumption_use_unit}}消費しました</h5>
+        <h5 class="w-100" id="ship_consumables_name">{{$consumables_stock->consumables_name}}を{{$consumption_quantity}}{{$consumption_use_unit}}持ち出し処理しました</h5>
     </div>
     <div class="card-body d-flex">
         <div class="">

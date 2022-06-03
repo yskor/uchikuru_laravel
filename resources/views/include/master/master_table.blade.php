@@ -26,7 +26,7 @@
 					<th class="text-center table-w text-nowrap">消耗品バーコード</th>
 					<th class="text-center text-nowrap" style="width:200px;">消耗品名</th>
 					<th class="text-center table-w text-nowrap">仕入単価（税込）</th>
-					<th class="text-center table-w text-nowrap">消費単位</th>
+					<th class="text-center table-w text-nowrap">持ち出し単位</th>
 					<th class="text-center table-w text-nowrap">最終価格交渉日</th>
 					<th class="text-center"></th>
 				</tr>

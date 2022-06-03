@@ -187,8 +187,9 @@
 
         </div>
     </main>
-    <footer>
+    <footer class="fixed-bottom">
         {{-- @include('layout.footer') --}}
+        @include('include.deliver.footer')
     </footer>
 </body>
 

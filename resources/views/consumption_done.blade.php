@@ -1,5 +1,5 @@
 @extends('layout.mobile_base')
-@section('title', '消耗品を使用する')
+@section('title', '消耗品持ち出し処理')
 
 {{-- headタグ内 --}}
 @section('head')

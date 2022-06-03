@@ -409,13 +409,20 @@ class Consumables extends Model
     }
 
     // 消費
-    public static function insert_consumables_consumption($consumables_code, $office_code, $consumption_quantity, $consumption_unit_code, $staff_code)
+    public static function insert_consumables_consumption($wheres)
     {
         try {
+            $consumables_code = $wheres['consumables_code'];
+            $office_code = $wheres['office_code'];
+            $consumption_quantity = $wheres['consumption_quantity']; //消費数量
+            $consumption_unit_code = $wheres['consumption_unit_code']; //消費単位
+            $staff_code = $wheres['staff_code'];
+
             // 消耗品コードから現在の在庫を参照
             $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
             // dd($consumables);
             if ($consumption_unit_code == "Q") {
+                // 消費テーブルの追加データ
                 $consumption_values = [
                     "消耗品コード" => $consumables_code,
                     "消費事業所コード" => $office_code,
@@ -424,6 +431,7 @@ class Consumables extends Model
                     "消費日時" => now(),
                     "消費職員コード" => $staff_code,
                 ];
+                // 在庫数量算出
                 $total_stock_quantity = $consumables_stock->stock_number * $consumables_stock->quantity + $consumables_stock->stock_quantity;
                 $total_stock_quantity = $total_stock_quantity - $consumption_quantity;
                 $stock_number = floor($total_stock_quantity / $consumables_stock->quantity);
@@ -441,10 +449,8 @@ class Consumables extends Model
                 $stock_number = $consumables_stock->stock_number - $consumption_quantity;
                 $stock_quantity = $consumables_stock->stock_quantity;
             }
-
+            // 消費テーブルに追加
             ConsumablesTable::tableConsumablesConsumption()->insert($consumption_values);
-
-
 
             // 在庫テーブルの消耗品を減らす
             $stock_values = [

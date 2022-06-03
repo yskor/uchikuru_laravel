@@ -76,7 +76,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th>消費数量：</th>
+						<th>持ち出し数量：</th>
 						<td>{{ $data->use_quantity }}{{ $data->use_unit }}/回</td>
 					</tr>
 				</table>
