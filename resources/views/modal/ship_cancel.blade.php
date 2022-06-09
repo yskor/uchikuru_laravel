@@ -20,7 +20,11 @@
                             <img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" style="width:100px;height:100px;">
                             <div class="px-4 mt-2">
                                 <div id="ship_number_result">
+                                    @if($data->quantity == 1)
+                                    <h5>出荷数：{{$data->shipped_number}}個</h5>
+                                    @else
                                     <h5>出荷数：{{$data->shipped_number}}箱（{{$data->shipped_number*$data->quantity}}個）</h5>
+                                    @endif
                                 </div>
                             </div>
                         </div>

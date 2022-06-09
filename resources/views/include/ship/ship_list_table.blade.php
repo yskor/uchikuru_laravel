@@ -22,7 +22,14 @@
 					<input type="hidden" name="staff_code" value="{{$login->staff_code}}">
 					
 					<div class="input-group" id="ship-number-form-group">
-						<h5><span>出荷数：</span>{{$data->shipped_number}}箱（{{$data->shipped_number*$data->quantity}}個）</h5>
+						<h5>
+							<span>出荷数：</span>
+							@if($data->quantity == 1)
+							{{$data->shipped_number*$data->quantity}}個
+							@else
+							{{$data->shipped_number}}箱（{{$data->shipped_number*$data->quantity}}個）
+							@endif
+						</h5>
 					</div>
 					<div class="d-flex justify-content-end align-items-end">
 						@include("modal/ship_cancel")

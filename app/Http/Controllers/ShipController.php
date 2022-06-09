@@ -46,7 +46,7 @@ class ShipController extends AuthController
             'facility_all' => $facility_all, //全ての事業所データ
             'consumables_category_all' => $consumables_category_all,
             'login' => $this->login,
-            'office_code' => 'all', //事業所コード
+            'office_code' => 'all', //事業所コードfa
         ];
         // dd($data);
         return self::view($request, 'ship_list', $data);

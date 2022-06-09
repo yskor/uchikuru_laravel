@@ -218,10 +218,12 @@ class MasterController extends AuthController
                 'consumables' => $consumables,
                 'consumables_barcode_list' => $consumables_barcode_list,
             ];
+            // dd($data);
 
             session()->flash('update_message', '消耗品情報を更新しました');
 
-            return self::view($request, 'master_consumables_update', $data);
+            // return self::view($request, 'master_consumables_update', $data);
+            return redirect()->route('update_master', ['consumables_code' => $param['consumables_code']]);
         } elseif ($request->post == '削除する') {
             // データ追加
             Consumables::delete_consumables($param);

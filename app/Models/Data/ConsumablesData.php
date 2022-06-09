@@ -558,21 +558,20 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesStockShortageAll()
     {
-        return ConsumablesTable::viewConsumablesStockShortage()
-                ->whereRaw("replenishment_status_code <> 'S' OR replenishment_status_code IS NULL")
-                // ->where('replenishment_status_code', '!=', 'S')
-                ->get();
-    }
-
-    /**
-     * 在庫不足のデータを全て参照します。
-     * @return unknown
-     */
-    public static function viewConsumablesStockShortageFlagAll()
-    {
-        return ConsumablesTable::viewConsumablesStockShortage()
-                ->where("shortage_flag" ,"=" ,True)
-                ->get();
+        $facility_list = OfficeData::viewFacilityAll();
+        // dd($facility_list);
+        // dd($stock_shortage_all->where('office_code', 2)->get(), $facility_list);
+        $stock_shortage_list = [];
+        foreach($facility_list as $facility) {
+            $stock_shortage_all = ConsumablesTable::viewConsumablesStockShortage()
+            ->whereNull('replenishment_status_code');
+            $shortage_list = $stock_shortage_all->where('office_code', $facility->office_code)->get();
+            if($shortage_list != '[]') {
+                $stock_shortage_list[$facility->facility_name] = $shortage_list;
+            }
+        };
+        // dd($stock_shortage_list);
+        return $stock_shortage_list;
     }
 
 }

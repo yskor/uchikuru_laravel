@@ -33,7 +33,13 @@
 					<table>
 						<tr>
 							<th>仕入数：</th>
-							<td>{{ $data->buy_quantity }} {{$data->buy_unit}}</td>
+							<td>{{ $data->buy_quantity }} 
+								@if($data->buy_unit_code == 'N' and $data->quantity == 1)
+								個
+								@else
+								{{$data->buy_unit}}
+								@endif
+							</td>
 						</tr>
 						<tr>
 							<th>仕入単価：</th>

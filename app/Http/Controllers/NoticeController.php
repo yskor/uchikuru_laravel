@@ -25,16 +25,25 @@ class NoticeController extends ApiController
         
         $office_code = $this->login->office_code;
         if($office_code == 91 or $office_code == 99) {
-            $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
+
+            // 不足在庫を全て取得
+            $stock_shortage_all = ConsumablesTable::viewConsumablesStockShortage()
+            ->whereNull('replenishment_status_code')
+            ->whereNotIn('office_code', [91])
+            ->get();
+            // 施設ごとに在庫不足の消耗品データを取得
+            // $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
     
             $data = [
-                'shortage_list' => $shortage_list,
+                'stock_shortage_all' => $stock_shortage_all,
+                // 'shortage_list' => $shortage_list,
                 'login' => $this->login,
             ];
             // カードの中だけのhtmlを作成
             $html = view('notice.shortage', $data)->render();
     
             return self::jsonHtml($request, $html, $data);
+            // return self::view($request, 'notice.shortage', $data);
         } else {
             // カードの中だけのhtmlを作成
             $html = '';

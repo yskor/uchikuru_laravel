@@ -25,21 +25,20 @@
 						<input type="hidden" name="ship_code" value="{{$data->ship_code}}">
 						<input type="hidden" name="consumables_code" value="{{$data->consumables_code}}">
 						{{-- 現施設在庫数の入力 --}}
-						@if (isset($data->stock_number))
 						<div class="input-group mb-2" style="width:220px;">
 							<span class="input-group-text" style="width: 112;">施設在庫数</span>
-							<input type="number" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number"
-								value="{{$data->stock_number}}">
-							<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
-						</div>
-						<p>在庫数内訳：{{$data->stock_number}}箱（{{$data->stock_number * $data->quantity}}個）</p>
-						@else
-						<div class="input-group mb-2" style="width:220px;">
-							<span class="input-group-text" style="width: 112;">施設在庫数</span>
+							@if (isset($data->stock_number))
+								<input type="number" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number"
+							value="{{$data->stock_number}}">
+							@else
 							<input type="" class="form-control text-center" id="stock-number-{{$data->ship_code}}" name="stock_number" value="0">
-							<span class="input-group-text" id="stock-number-{{$data->ship_code}}">箱</span>
+							@endif
+							<span class="input-group-text" id="stock-number-{{$data->ship_code}}">
+								@if($data->quantity == 1) 個 @else 箱 @endif
+							</span>
 						</div>
-						<p>出荷数内訳：{{$data->stock_number}}箱（{{$data->stock_number * $data->quantity}}個）</p>
+						@if($data->quantity != 1)
+						<p>在庫数内訳：{{$data->stock_number}}箱（{{$data->stock_number * $data->quantity}}個）</p>
 						@endif
 						<div class="d-flex mb-2 justify-content-end">
 							<p class="form-check-label mx-3" for="stock-check-{{$data->ship_code}}">在庫数の確認<span class="badge bg-danger">必須</span></p>
@@ -52,9 +51,13 @@
 							<span class="input-group-text" style="width: 112;">納品数</span>
 							<input type="number" class="form-control text-center" id="deliver-number-{{$data->ship_code}}" name="deliver_number"
 								value="{{$data->shipped_number}}">
-							<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">箱</span>
+							<span class="input-group-text" id="deliver-number-{{$data->ship_code}}">
+								@if($data->quantity == 1) 個 @else 箱 @endif
+							</span>
 						</div>
+						@if($data->quantity != 1)
 						<p>出荷数内訳：{{$data->shipped_number}}箱（{{$data->shipped_number * $data->quantity}}個）</p>
+						@endif
 						<div class="d-flex justify-content-end">
 							<p class="form-check-label mx-3" for="deliver-check-{{$data->ship_code}}">納品数の確認<span class="badge bg-danger">必須</span></p>
 							<div class="form-check form-switch">

@@ -62,14 +62,21 @@
 					</div>
 					<div class="form-group row mb-2" id="consumables-code-form-group">
 						<div id="barcode-group-2" style="width: 350px">
-							<label for="consumables-code">箱のバーコード</label>
-							<input type="number" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="">
+							<label for="consumables-code">箱のバーコード<span class="badge bg-danger">必須</span>
+								<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="箱がない場合は個のバーコードを入力してください。">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+										<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+									</svg>
+								</a>
+							</label>
+							<input type="number" class="form-control" name="barcode[N]" id="consumables-code-2" placeholder="" required>
 							<div id="consumables-code-2-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
 						<div class="" style="width: 180px">
 							<label for="">
-								単位数量
-								<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="段ボールに入っている箱数を入力して下さい">
+								単位数量<span class="badge bg-danger">必須</span>
+								<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="段ボールに入っている箱数を入力して下さい。箱がない場合は個数を入力して下さい。">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
 										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 										<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -78,7 +85,7 @@
 							</label>
 							<div class="input-group">
 								<input type="number" class="form-control text-end" id="number" name="number" placeholder=""
-									aria-label="number_unit">
+									aria-label="number_unit" required>
 								<span class="input-group-text">箱</span>
 							</div>
 						</div>
@@ -90,8 +97,8 @@
 							<div id="consumables-code-3-feedback" class="invalid-feedback">バーコードを読み込んでください</div>
 						</div>
 						<div class="" style="width: 180px">
-							<label for="">単位数量 <span class="badge bg-danger">必須</span> 
-								<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="1箱に入っている個数を入力して下さい">
+							<label for="">単位数量<span class="badge bg-danger">必須</span> 
+								<a tabindex="0" class="text-danger w-100" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="1箱に入っている個数を入力して下さい。箱に個数を入力した場合は1を入力して下さい。">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
 										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 										<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -143,9 +150,9 @@
 								<input type="radio" class="btn-check" name="stock_constant_quantity_code" id="stock_constant_quantity_code_number" value="N"
 									autocomplete="off" checked>
 								<label class="btn btn-outline-primary" for="stock_constant_quantity_code_number">箱</label>
-								{{-- <input type="radio" class="btn-check" name="stock_constant_quantity_code" id="stock_constant_quantity_code_quantity" value="Q"
+								<input type="radio" class="btn-check" name="stock_constant_quantity_code" id="stock_constant_quantity_code_quantity" value="Q"
 								autocomplete="off">
-								<label class="btn btn-outline-primary" for="stock_constant_quantity_code_quantity">個</label> --}}
+								<label class="btn btn-outline-primary" for="stock_constant_quantity_code_quantity">個</label>
 							</span>
 						</div>
 					</div>
@@ -164,9 +171,9 @@
 								<input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_number" value="N"
 									autocomplete="off" checked>
 								<label class="btn btn-primary" for="stock_replenishment_point_code_number">箱</label>
-								{{-- <input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_quantity" value="Q"
+								<input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_quantity" value="Q"
 								autocomplete="off">
-								<label class="btn btn-outline-primary" for="stock_replenishment_point_code_quantity">個</label> --}}
+								<label class="btn btn-outline-primary" for="stock_replenishment_point_code_quantity">個</label>
 							</span>
 							<script>
 								// 在庫定数と在庫補充点の単位を連動させる処理

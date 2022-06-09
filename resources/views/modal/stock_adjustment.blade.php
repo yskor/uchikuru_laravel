@@ -24,13 +24,25 @@
                             {{-- 在庫数を入力する --}}
                             @if($data->stock_number > 0)
                             <input type="number" class="form-control text-end" name="stock_number"
-                                id="stock_number" aria-describedby="number-unit" value="{{$data->stock_number}}">
+                            id="stock_number" aria-describedby="number-unit" value="{{$data->stock_number}}">
                             @else
                             <input type="number" class="form-control text-end" name="stock_number"
                                 id="stock_number" aria-describedby="number-unit" value="0">
                             @endif
                             <span class="input-group-text"
-                                id="number_unit">箱</span>
+                            id="unit">@if($data->quantity == 1) 個 @else 箱 @endif</span>
+                        </div>
+                        
+                        <div class="input-group mb-2" id="head-stock-form-group">
+                            @if($data->quantity != 0 and $data->stock_quantity > 0 and $data->use_unit_code == 'Q')
+                            <input type="quantity" class="form-control text-end" name="stock_quantity"
+                                id="stock_quantity" aria-describedby="quantity-unit" value="{{$data->stock_quantity}}">
+                            {{-- @else
+                            <input type="quantity" class="form-control text-end" name="stock_quantity"
+                                id="stock_quantity" aria-describedby="quantity-unit" value="0"> --}}
+                                <span class="input-group-text"
+                                    id="unit">個</span>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -118,7 +118,11 @@ class DeliverController extends AuthController
         }
 
         $consumables = ConsumablesData::viewConsumablesShipData($value['ship_code']);
-        session()->flash('message', $consumables->consumables_name . 'を' .$value['deliver_number']. '箱納品しました');
+        if($consumables->quantity == 1) {
+            session()->flash('message', $consumables->consumables_name . 'を' .$value['deliver_number']. '個納品しました');
+        } else {
+            session()->flash('message', $consumables->consumables_name . 'を' .$value['deliver_number']. '箱納品しました');
+        }
 
         return redirect()->route('deliver_list', ['office_code' => $request->office_code]);
     }

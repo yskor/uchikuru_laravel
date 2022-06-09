@@ -64,7 +64,6 @@ class BuyController extends AuthController
             'consumables_category_code' => $consumables_category_code,
             'search_name' => '',
         ];
-
         return self::view($request, 'buy_list_category', $data);
     }
 
@@ -149,7 +148,8 @@ class BuyController extends AuthController
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
-            throw new \Exception("読み込みエラーです。バーコードが登録されていません。");
+            // throw new \Exception("読み込みエラーです。バーコードが登録されていません。");
+            throw $e;
         }
         // htmlとデータをJson形式で返す
         return self::jsonHtml($request, $html, $data);
@@ -167,7 +167,6 @@ class BuyController extends AuthController
         $param = $request->all();
         $staff_code = $this->login->staff_code;
         $office_code = $param['office_code_to']; //仕入事業所コード（今はアシスト固定）
-        
         foreach ($param['buys'] as $data) {
             // 仕入テーブルに追加
             Consumables::insert_consumables_buy(

@@ -16,17 +16,11 @@
 				{{-- 消費数量 --}}
 					<div class="mb-3">
 						<div class="fs-4">
-							@if ($data->f_stock_number)
-							{{ $data->f_stock_number }}
-							@else
-							0
-							@endif
-							箱
+							@if ($data->f_stock_number)	{{ $data->f_stock_number }} @else 0	@endif
+							@if($data->quantity == 1) 個 @else 箱 @endif
 							@if($data->use_unit_code == 'Q' and $data->f_stock_quantity > 0)
 								{{-- 消費単位が個数かつ1以上の時 --}}
-								+
-								{{ $data->f_stock_quantity }}
-								個
+								+{{ $data->f_stock_quantity }}個
 							@endif
 						</div>
 					</div>

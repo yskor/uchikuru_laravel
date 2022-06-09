@@ -25,21 +25,29 @@
             <input type="hidden" name="staff_code" value="{{$login->staff_code}}">
             
             <label for="ship-number-form-group">出荷数 <span class="badge bg-danger">必須</span> </label>
+            @if($consumables_ship_data->quantity == 1)
+            <p class="text-danger mb-0">※個数を入力して下さい。</p>
+            @else
             <p class="text-danger mb-0">※箱数を入力して下さい。</p>
+            @endif
             {{-- <p>出荷単位:箱</p> --}}
             <div class="input-group mb-2" id="ship-number-form-group" style="width:100px;">
                 {{-- 出荷数を入力する --}}
                 <input type="number" class="form-control" name="ships[{{$consumables_ship_data->consumables_code}}][ship_number]"
                     id="ship_number_{{$consumables_ship_data->consumables_code}}" aria-describedby="number-unit" required>
                 <span class="input-group-text"
-                id="number_unit">箱</span>
+                id="unit">
+                @if($consumables_ship_data->quantity == 1)個 @else 箱 @endif
+                </span>
             </div>
             <input type="hidden" name="ship_quantity_{{$consumables_ship_data->consumables_code}}" id="ship_quantity_{{$consumables_ship_data->consumables_code}}" value="{{$consumables_ship_data->quantity}}">
+            @if($consumables_ship_data->quantity != 1)
+            {{-- 個数が1この場合は非表示 --}}
             <div id="ship_number_{{$consumables_ship_data->consumables_code}}_result">
                 <p>出荷数内訳：</p>
             </div>
             <script>
-                var quantity = Number({{$consumables_ship_data->quantity}})
+                // var quantity = Number({{$consumables_ship_data->quantity}})
                 $(function() {
                     //テキストボックスに変更を加えたら発動
                     $('input#ship_number_{{$consumables_ship_data->consumables_code}}').change(function() {
@@ -53,6 +61,7 @@
                     });
                 });
             </script>
+            @endif
         </div>
     </div>
     
