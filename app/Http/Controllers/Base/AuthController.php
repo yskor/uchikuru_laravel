@@ -18,6 +18,8 @@ abstract class AuthController extends ActionController
 {
     // ログイン情報
     public $login;
+    // 運営種別コード
+    public $operation_type_code;
     
     /**
      * コンストラクタ―
@@ -33,6 +35,12 @@ abstract class AuthController extends ActionController
         }
         // ログイン情報をセット
         $this->login = StaffLoginManager::getLogin($request);
+        // 運営種別コードを追加
+        if($this->login->office_code == 90) {
+            $this->login->operation_type_code = 'LABO';
+        } else {
+            $this->login->operation_type_code = 'CARE';
+        }
     }
     
     /**
@@ -46,7 +54,13 @@ abstract class AuthController extends ActionController
     protected static function view(Request $request, string $view, $data = [], $mergeData = [])
     {
         // ログイン情報
-        $data['login'] = StaffLoginManager::getLogin($request);
+        $login = StaffLoginManager::getLogin($request);
+        if($login->office_code == 90) {
+            $login->operation_type_code = 'LABO';
+        } else {
+            $login->operation_type_code = 'CARE';
+        }
+        $data['login'] = $login;
         // 二重送信防止
         $request->session()->regenerateToken();
         return parent::view($request, $view, $data, $mergeData);

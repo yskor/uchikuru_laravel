@@ -27,7 +27,7 @@
 							<select name="consumables_category_code" id="consumables-category-code" class="form-select"
 								required>
 								<option value='' disabled selected style='display:none;'>カテゴリを選択してください</option>
-								@foreach($consumables_category_all as $data)
+								@foreach($consumables_category_list as $data)
 								{{-- カテゴリごとに作成 --}}
 									@if($data->consumables_category_code == 8 or $data->consumables_category_code == 9 or
 									$data->consumables_category_code == 10 or $data->consumables_category_code == 12)
@@ -145,7 +145,7 @@
 							</a></label>
 						<div class="d-flex">
 							<input type="number" class="form-control text-end" id="stock_constant_quantity" name="stock_constant_quantity"
-								placeholder="" aria-label="" value="">
+								placeholder="" aria-label="" value="" required>
 							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 								<input type="radio" class="btn-check" name="stock_constant_quantity_code" id="stock_constant_quantity_code_number" value="N"
 									autocomplete="off" checked>
@@ -166,11 +166,11 @@
 							</a></label>
 						<div class="d-flex">
 							<input type="number" class="form-control text-end" id="stock_replenishment_point" name="stock_replenishment_point"
-								placeholder="" aria-label="" value="">
+								placeholder="" aria-label="" value="" required>
 							<span class="btn-group" role="group" aria-label="Basic radio toggle button group">
 								<input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_number" value="N"
 									autocomplete="off" checked>
-								<label class="btn btn-primary" for="stock_replenishment_point_code_number">箱</label>
+								<label class="btn btn-outline-primary" for="stock_replenishment_point_code_number">箱</label>
 								<input type="radio" class="btn-check" name="stock_replenishment_point_code" id="stock_replenishment_point_code_quantity" value="Q"
 								autocomplete="off">
 								<label class="btn btn-outline-primary" for="stock_replenishment_point_code_quantity">個</label>

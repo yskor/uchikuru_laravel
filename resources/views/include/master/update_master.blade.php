@@ -35,19 +35,14 @@
 							<label class="" for="consumables-category-code">カテゴリ<span class="badge bg-danger">必須</span></label>
 							<select name="consumables_category_code" id="consumables-category-code" class="form-select"
 								required>
-								@foreach($consumables_category_all as $data)
+								@foreach($consumables_category_list as $data)
 								{{-- カテゴリごとに作成 --}}
-									@if($data->consumables_category_code == 8 or $data->consumables_category_code == 9 or
-										$data->consumables_category_code == 10 or $data->consumables_category_code == 12)
-									{{-- LABO関係は非表示 --}}
+									@if ($data->consumables_category_code == $consumables->consumables_category_code)
+									<option value="{{ $data->consumables_category_code }}" selected>{{
+										$data->consumables_category_name }}</option>
 									@else
-										@if ($data->consumables_category_code == $consumables->consumables_category_code)
-										<option value="{{ $data->consumables_category_code }}" selected>{{
-											$data->consumables_category_name }}</option>
-										@else
-										<option value="{{ $data->consumables_category_code }}">{{
-											$data->consumables_category_name }}</option>
-										@endif
+									<option value="{{ $data->consumables_category_code }}">{{
+										$data->consumables_category_name }}</option>
 									@endif
 								@endforeach
 							</select>

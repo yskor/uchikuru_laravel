@@ -39,7 +39,7 @@ class ShipController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
+        $facility_all = OfficeData::getfacilityAll();
 
         $data = [
             'param' => $param,
@@ -65,7 +65,7 @@ class ShipController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
+        $facility_all = OfficeData::getfacilityAll();
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
         // 対象事業所の消耗品出荷データを取得
@@ -99,7 +99,7 @@ class ShipController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
+        $facility_all = OfficeData::getfacilityAll();
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
         // $handy_reader_dataとバーコードが一致するデータを参照
@@ -112,7 +112,7 @@ class ShipController extends AuthController
                 // 在庫があるか確認
                 $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code_from);
                 if ($consumables_stock) {
-                    if($consumables_stock->stock_number > 0) {
+                    if ($consumables_stock->stock_number > 0) {
                         // $ship_addが1の時はカードの中身だけを増やす
                         if ($ship_add == 0) {
                             // データに渡したいデータを格納
@@ -127,7 +127,7 @@ class ShipController extends AuthController
                             ];
                             // htmlを作成
                             $html = view('include.ship.ship_add', $data)->render();
-    
+
                             // htmlとデータをJson形式で返す
                             return self::jsonHtml($request, $html, $data);
                         } elseif ($ship_add == 1) {
@@ -143,7 +143,7 @@ class ShipController extends AuthController
                             ];
                             // カードの中だけのhtmlを作成
                             $html = view('include.ship.ship_consumables', $data)->render();
-    
+
                             // htmlとデータをJson形式で返す
                             return self::jsonHtml($request, $html, $data);
                         }
@@ -180,11 +180,11 @@ class ShipController extends AuthController
             // dd($data);
             $value = [
                 'consumables_code' => $data['consumables_code'],
-                'office_code_from' => $office_code_from,//出荷元事業所コード
+                'office_code_from' => $office_code_from, //出荷元事業所コード
                 'ship_quantity' => $data['ship_number'],
                 'staff_code' => $this->login->staff_code,
                 'replenishment_status_code' => NULL,
-                'office_code_to' => $office_code_to,//納品先事業所コード
+                'office_code_to' => $office_code_to, //納品先事業所コード
             ];
             // 出荷納品テーブルに追加
             Consumables::insert_consumables_ship($value);
@@ -200,16 +200,16 @@ class ShipController extends AuthController
      */
     public function ship_shortage_consumables($office_code_to, $consumables_code, Request $request)
     {
-        $ship_quantity = $request->get('ship_quantity');//出荷数量
+        $ship_quantity = $request->get('ship_quantity'); //出荷数量
         $office_code_from = 91; //出荷元事業所コード（今はアシスト固定）
 
         $value = [
             'consumables_code' => $consumables_code,
-            'office_code_from' => $office_code_from,//出荷元事業所コード
+            'office_code_from' => $office_code_from, //出荷元事業所コード
             'ship_quantity' => $ship_quantity,
             'staff_code' => $this->login->staff_code,
-            'replenishment_status_code' => "S",//在庫補充状況コード
-            'office_code_to' => $office_code_to,//納品先事業所コード
+            'replenishment_status_code' => "S", //在庫補充状況コード
+            'office_code_to' => $office_code_to, //納品先事業所コード
         ];
         // 出荷納品テーブルに追加
         Consumables::insert_consumables_ship($value);
@@ -229,9 +229,8 @@ class ShipController extends AuthController
             $ship_code, //出荷コード
             $office_code, //事業所コード
         );
-        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables = ConsumablesData::getConsumables($consumables_code);
         session()->flash('success_message', $consumables->consumables_name . 'の出荷を取り消しました');
         return redirect()->route('facility_ship_list', ['office_code' => $office_code]);
-
     }
 }

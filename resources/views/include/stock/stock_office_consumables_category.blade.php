@@ -7,7 +7,7 @@
             @else
             <a class="btn btn-outline-success" href="{{ route('office_stock_list') }}" name="category_code_all" id="category_code_all">全て</a>
             @endif
-            @foreach($consumables_category_all as $data)
+            @foreach($consumables_category_list as $data)
                 @if ($consumables_category_code == $data->consumables_category_code)
                 <a class="btn btn-success" href="{{ route('office_stock_list') }}/{{ $data->consumables_category_code }}" name="category_code_{{$data->consumables_category_code}}" id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
                 @else

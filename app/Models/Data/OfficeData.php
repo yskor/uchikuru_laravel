@@ -15,7 +15,7 @@ use App\Models\Data\Table\OfficeTable;
 class OfficeData extends Model
 {
     use HasFactory;
-    
+
     /**
      * 指定された事業所コードから事業所情報の一覧を取得します。
      * @param int $office_code
@@ -30,7 +30,7 @@ class OfficeData extends Model
      *　事業所マスタから対象施設のデータを参照します。
      * @param string $facility_code
      */
-    public static function viewFacilityAll()
+    public static function getfacilityAll()
     {
         return OfficeTable::viewOfficeMaster()->where('office_type_code', '=', "C")->get();
     }

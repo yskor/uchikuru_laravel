@@ -37,35 +37,50 @@
     </div>
     <div id="facilitys">
         <div class="d-flex">
-            @if($office_code == 91)
-            <a class="btn btn-secondary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
-            @else
-            <a class="btn btn-outline-secondary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
-            @endif
+            <a class="btn btn-outline-secondary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{$login->operation_type_code}}">
+                @if($login->operation_type_code == 'LABO')LABO @else 本部 @endif
+            </a>
             <div class="input-group w-100" id="toyama-area">
-                @foreach ($facility_all as $facility)
-                    @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
-                    <a class="btn btn-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
-                    @elseif ($facility->prefecture_code == 16)
-                    <a class="btn btn-outline-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
-                    @endif
-                @endforeach
+                @if($login->operation_type_code == 'LABO')
+                    @foreach ($facility_all as $facility)
+                        @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
+                        <a class="btn btn-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @elseif ($facility->prefecture_code == 16)
+                        <a class="btn btn-outline-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @endif
+                    @endforeach
+                @else
+                    @foreach ($facility_all as $facility)
+                        @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
+                        <a class="btn btn-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @elseif ($facility->prefecture_code == 16)
+                        <a class="btn btn-outline-primary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}">{{ $facility->facility_name }}</a>
+                        @endif
+                    @endforeach
+                @endif
             </div>
             <div class="input-group w-100" id="ishikawa-area" style="display: none">
-                @if($office_code == 91)
-                <a class="btn btn-danger" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
+                @if($login->operation_type_code == 'LABO')
+                    @foreach ($facility_all as $facility)
+                        @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
+                        <a class="btn btn-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
+                        @elseif ($facility->prefecture_code == 17 and $facility->office_code == 50)
+                        @elseif ($facility->prefecture_code == 17 and $facility->office_code == 51)
+                        @elseif ($facility->prefecture_code == 17)
+                        <a class="btn btn-outline-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
+                        @endif
+                    @endforeach
                 @else
-                <a class="btn btn-outline-danger" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-本部">本部</a>
+                    @foreach ($facility_all as $facility)
+                        @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
+                        <a class="btn btn-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
+                        @elseif ($facility->prefecture_code == 17 and $facility->office_code == 50)
+                        @elseif ($facility->prefecture_code == 17 and $facility->office_code == 51)
+                        @elseif ($facility->prefecture_code == 17)
+                        <a class="btn btn-outline-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
+                        @endif
+                    @endforeach
                 @endif
-                @foreach ($facility_all as $facility)
-                    @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
-                    <a class="btn btn-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
-                    @elseif ($facility->prefecture_code == 17 and $facility->office_code == 50)
-                    @elseif ($facility->prefecture_code == 17 and $facility->office_code == 51)
-                    @elseif ($facility->prefecture_code == 17)
-                    <a class="btn btn-outline-danger" href="{{route('facility_category_stock_list', ['office_code'=>$facility->office_code, 'consumables_category_code'=>1])}}" id="search-carehome-facility-code-{{ $facility->facility_name }}" style="width: 80px">{{ $facility->facility_name }}</a>
-                    @endif
-                @endforeach
             </div>
         </div>
     </div>

@@ -38,11 +38,18 @@
 @include("include/master/master_consumables_category")
 
 <!-- フラッシュメッセージ -->
-@if (session('message'))
-<div class="alert alert-success">
-	{{ session('message') }}
+@if (session('delete_message'))
+<div class="alert alert-danger">
+	{{ session('delete_message') }}
 </div>
 @endif
+<!-- フラッシュメッセージ -->
+@if (session('add_message'))
+<div class="alert alert-success">
+	{{ session('add_message') }}
+</div>
+@endif
+
 <!-- テーブル -->
 @include("include/master/master_table")
 

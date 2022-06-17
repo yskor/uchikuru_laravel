@@ -15,32 +15,6 @@ use Exception;
 class MasterController extends AuthController
 {
 
-    // //
-    // /**
-    //  * 消耗品一覧を表示します。
-    //  * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-    //  */
-    // public function master_list(Request $request)
-    // {
-    //     Log::debug(print_r($this->login, true));
-
-    //     // 消耗品識別データを取得
-    //     $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-    //     // 消耗品一覧用データを取得
-    //     $consumables_list = ConsumablesData::viewConsumablesIdAll();
-    //     // dd($consumables_list);
-
-    //     $data = [
-    //         'consumables_category_all' => $consumables_category_all,
-    //         'consumables_list' => $consumables_list,
-    //         'login' => $this->login,
-    //         // 'category' => '全て',
-    //         'consumables_category_code' => 'all'
-    //     ];
-
-    //     return self::view($request, 'master_list', $data);
-    // }
-
     //
     /**
      * カテゴリに絞った消耗品一覧表示
@@ -48,21 +22,25 @@ class MasterController extends AuthController
      */
     public function master_list_category($consumables_category_code, Request $request)
     {
-        Log::debug(print_r($this->login, true));
-
+        $wheres = [
+            'consumables_category_code' => $consumables_category_code,
+            'operation_type_code' => $this->login->operation_type_code,
+            'unit_code' => 'N',
+        ];
+        
         // カテゴリデータを全て取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        $consumables_category_list = ConsumablesData::getConsumablesCategoryList($wheres);
         // 対象のカテゴリデータを取得
-        $consumables_list = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
+        $consumables_list = ConsumablesData::getConsumablesIdList($wheres);
 
         $data = [
-            'consumables_category_all' => $consumables_category_all,
+            'consumables_category_list' => $consumables_category_list,
             'consumables_list' => $consumables_list,
             'consumables_category_code' => $consumables_category_code,
             'search_name' => '',
         ];
 
-        return self::view($request, 'master_list_category', $data);
+        return self::view($request, 'master_list', $data);
     }
    
     //
@@ -72,15 +50,19 @@ class MasterController extends AuthController
      */
     public function master_list_search($consumables_category_code, Request $request)
     {
-        Log::debug(print_r($this->login, true));
         $search_name = $request->keyword; //検索キーワード
+        $wheres = [
+            'consumables_category_code' => $consumables_category_code,
+            'operation_type_code' => $this->login->operation_type_code,
+        ];
+        
         // カテゴリデータを全て取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        $consumables_category_list = ConsumablesData::getConsumablesCategoryList($wheres);
         // 対象の消耗品を取得
         $consumables_list = ConsumablesData::viewCategoryConsumablesSearchList($consumables_category_code, $search_name);
 
         $data = [
-            'consumables_category_all' => $consumables_category_all,
+            'consumables_category_list' => $consumables_category_list,
             'consumables_list' => $consumables_list,
             'consumables_category_code' => $consumables_category_code,
             'search_name' => $search_name,
@@ -97,13 +79,16 @@ class MasterController extends AuthController
      */
     public function add_master($consumables_category_code, Request $request)
     {
-        Log::debug(print_r($this->login, true));
+        $wheres = [
+            'consumables_category_code' => $consumables_category_code,
+            'operation_type_code' => $this->login->operation_type_code,
+        ];
 
         // カテゴリデータを全て取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        $consumables_category_list = ConsumablesData::getConsumablesCategoryList($wheres);
 
         $data = [
-            'consumables_category_all' => $consumables_category_all,
+            'consumables_category_list' => $consumables_category_list,
             'consumables_category_code' => $consumables_category_code,
             'search_name' => '',
         ];
@@ -119,15 +104,18 @@ class MasterController extends AuthController
     public function update_master($consumables_code, Request $request)
     {
         Log::debug(print_r($this->login, true));
-
+        $wheres = [
+            'consumables_code' => $consumables_code,
+            'operation_type_code' => $this->login->operation_type_code,
+        ];
         // カテゴリデータを全て取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
+        $consumables_category_list = ConsumablesData::getConsumablesCategoryList($wheres);
         // 消耗品データを取得
-        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables = ConsumablesData::getConsumables($consumables_code);
         // 消耗品バーコードデータを取得
-        $consumables_barcode_list = ConsumablesData::viewConsumablesBarcodeList($consumables_code);
+        $consumables_barcode_list = ConsumablesData::getConsumablesBarcodeList($consumables_code);
         $data = [
-            'consumables_category_all' => $consumables_category_all,
+            'consumables_category_list' => $consumables_category_list,
             'consumables' => $consumables,
             'consumables_barcode_list' => $consumables_barcode_list,
             'search_name' => '',
@@ -143,22 +131,23 @@ class MasterController extends AuthController
      */
     public function qr_list(Request $request)
     {
-        Log::debug(print_r($this->login, true));
-
-        // 消耗品識別データを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 消耗品一覧用データを取得＊バーコードが増えた時に対応できていない
-        $consumables_list = ConsumablesData::viewConsumablesIdAll();
-        // dd($consumables_category_all);
+        $wheres = [
+            'operation_type_code' => $this->login->operation_type_code,
+            'unit_code' => 'N',
+        ];
+        // カテゴリデータを全て取得
+        $consumables_category_list = ConsumablesData::getConsumablesCategoryList($wheres);
+        // 消耗品一覧用データを取得
+        $consumables_list = ConsumablesData::getConsumablesIdList($wheres);
         $qr_list = array();
 
-        foreach ($consumables_category_all as $category) {
+        foreach ($consumables_category_list as $category) {
             $qr_list[$category->consumables_category_name] = ConsumablesData::getCategoryConsumablesList($category->consumables_category_code);
         }
 
 
         $data = [
-            'consumables_category_all' => $consumables_category_all,
+            'consumables_category_list' => $consumables_category_list,
             'consumables_list' => $consumables_list,
             'login' => $this->login,
             'qr_list' => $qr_list,
@@ -178,70 +167,33 @@ class MasterController extends AuthController
      */
     public function edit_master($consumables_category_code, Request $request)
     {
-        Log::debug(print_r($this->login, true));
-
         $param = $request->all();
         // dd($param);
         $staff_code = $this->login->staff_code;
-
+        $wheres = [
+            'operation_type_code' => $this->login->operation_type_code,
+        ];
         if ($request->post == '登録する') {
+
             // データ追加
-            Consumables::insert_consumables($param, $staff_code);
-
-            // 消耗品識別データを取得
-            $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-            // 対象のカテゴリデータを取得
-            $consumables_list = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
-
-            $data = [
-                'consumables_category_all' => $consumables_category_all,
-                'consumables_list' => $consumables_list,
-                'login' => $this->login,
-                'consumables_category_code' => $consumables_category_code,
-                'search_name' => '',
-            ];
-
+            Consumables::insert_consumables($param, $staff_code, $this->login->operation_type_code);
             session()->flash('add_message', '消耗品を登録しました');
-            return self::view($request, 'master_list_category', $data);
+            return redirect()->route('master_list_category', ['consumables_category_code' => $consumables_category_code]);
+
         } elseif ($request->post == '更新する') {
-            // データ追加
+
+            // データ更新
             Consumables::update_consumables($param, $staff_code);
-            // 消耗品識別データを取得
-            $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-            // 消耗品データを取得
-            $consumables = ConsumablesData::viewOneConsumables($param['consumables_code']);
-            // 消耗品バーコードデータを取得
-            $consumables_barcode_list = ConsumablesData::viewConsumablesBarcodeList($param['consumables_code']);
-
-            $data = [
-                'consumables_category_all' => $consumables_category_all,
-                'consumables' => $consumables,
-                'consumables_barcode_list' => $consumables_barcode_list,
-            ];
-            // dd($data);
-
             session()->flash('update_message', '消耗品情報を更新しました');
-
-            // return self::view($request, 'master_consumables_update', $data);
             return redirect()->route('update_master', ['consumables_code' => $param['consumables_code']]);
+
         } elseif ($request->post == '削除する') {
-            // データ追加
+
+            // データ削除
             Consumables::delete_consumables($param);
-            // 消耗品識別データを取得
-            $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-            // 対象のカテゴリデータを取得
-            $consumables_list = ConsumablesData::getCategoryConsumablesList($consumables_category_code);
-
-            $data = [
-                'consumables_category_all' => $consumables_category_all,
-                'consumables_list' => $consumables_list,
-                'login' => $this->login,
-                'consumables_category_code' => $consumables_category_code,
-                'search_name' => '',
-            ];
-
             session()->flash('delete_message', '消耗品を削除しました');
-            return self::view($request, 'master_list_category', $data);
+            return redirect()->route('master_list_category', ['consumables_category_code' => $consumables_category_code]);
+
         }
     }
 }

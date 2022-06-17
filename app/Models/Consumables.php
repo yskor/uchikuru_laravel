@@ -25,9 +25,10 @@ class Consumables extends Model
 
 
     // マスタ登録
-    public static function insert_consumables($param, $staff_code)
+    public static function insert_consumables($param, $staff_code, $operation_type_code)
     {
         try {
+            ConsumablesData::beginTransaction();
             // 最後のマスタデータの消耗品コードを取得
             $last_consumables = ConsumablesData::getLastConsumables();
             // 新たに登録する消耗品マスタのコードを作成
@@ -58,7 +59,8 @@ class Consumables extends Model
                 "画像ファイル拡張子" => $image_filename,
                 "最終更新職員コード" => $staff_code,
                 "登録日時" => now(),
-                "更新日時" => now()
+                "更新日時" => now(),
+                "運営種別コード" => $operation_type_code,
             ];
 
             // 消耗品マスタデータに登録
@@ -78,6 +80,7 @@ class Consumables extends Model
                     ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
                 }
             }
+            ConsumablesData::commit();
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -89,6 +92,7 @@ class Consumables extends Model
     {
         // dd($param);
         try {
+            ConsumablesData::beginTransaction();
             // 画像判定
             try {
                 $len = 8; //指定文字列
@@ -99,7 +103,7 @@ class Consumables extends Model
                 $param['image_file']->storeAs('upload/consumables', $image_filename, 'public_uploads'); //ファイル保存
             } catch (Exception $e) {
                 // 画像データ取得
-                $consumables = ConsumablesData::viewOneConsumables($param['consumables_code']);
+                $consumables = ConsumablesData::getConsumables($param['consumables_code']);
                 $image_filename = $consumables->image_file_extension;
             }
 
@@ -117,14 +121,14 @@ class Consumables extends Model
                 "最終価格交渉日" => $param['last_negotiation_date'],
                 "画像ファイル拡張子" => $image_filename,
                 "最終更新職員コード" => $staff_code,
-                "更新日時" => now()
+                "更新日時" => now(),
             ];
 
             // 消耗品マスタを更新
             ConsumablesData::getOneConsumables($param['consumables_code'])->update($master_values);
 
             // 以下は更新したマスタに紐づく識別マスタを更新する処理
-            $consumables = ConsumablesData::viewOneConsumables($param['consumables_code']);
+            $consumables = ConsumablesData::getConsumables($param['consumables_code']);
             $unit_codes = ['B', 'N', 'Q'];
             foreach ($unit_codes as $code) {
                 $id_values = [
@@ -144,11 +148,8 @@ class Consumables extends Model
                         ConsumablesTable::tableConsumablesIdMaster()->insert($id_values);
                     }
                 }
-                // } else {
-                //     // NULL時
-                //     ConsumablesData::getConsumablesBarcodeItem($param['consumables_code'], $code)->update($id_values);
-                // }
             }
+            ConsumablesData::commit();
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -160,8 +161,11 @@ class Consumables extends Model
     public static function delete_consumables($param)
     {
         try {
+            ConsumablesData::beginTransaction();
             ConsumablesData::getOneConsumables($param['consumables_code'])->delete();
             ConsumablesData::getConsumablesIdItem($param['consumables_code'])->delete();
+            ConsumablesData::commit();
+
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -169,20 +173,36 @@ class Consumables extends Model
     }
 
     // 在庫調整
-    public static function stock_consumables_adjustment($office_code, $consumables_code, $stock_number, $stock_quantity)
+    public static function stock_consumables_adjustment($office_code, $consumables_code, $stock_number, $stock_quantity, $staff_code)
     {
-        try {
-            $stock_values = [
-                "個数在庫数" => $stock_number,
-                "入数在庫数" => $stock_quantity,
-                "更新日時" => now()
-            ];
+        // try {
+            ConsumablesData::beginTransaction();
             // 在庫を更新
-            ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
-        } catch (\Exception $e) {
-            ConsumablesData::rollback();
-            throw $e;
-        }
+            $data = ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->first();
+            if($data) {
+                $stock_values = [
+                    "個数在庫数" => $stock_number,
+                    "入数在庫数" => $stock_quantity,
+                    "更新日時" => now()
+                ];
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
+            } else {
+                $stock_values = [
+                    "事業所コード" => $office_code,
+                    "消耗品コード" => $consumables_code,
+                    "個数在庫数" => $stock_number,
+                    "入数在庫数" => $stock_quantity,
+                    "登録職員コード" => $staff_code,
+                    "作成日時" => now(),
+                    "更新日時" => now(),
+                ];
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->insert($stock_values);
+            }
+            ConsumablesData::commit();
+        // } catch (\Exception $e) {
+        //     ConsumablesData::rollback();
+        //     throw $e;
+        // }
     }
 
     // 仕入追加
@@ -211,7 +231,7 @@ class Consumables extends Model
     {
         try {
             // dd($data);
-            
+
             // 消耗品コードから出荷元の在庫を参照
 
             $ship_from_stock = ConsumablesData::viewConsumablesStockData($data['consumables_code'], $data['office_code_from']);
@@ -225,15 +245,15 @@ class Consumables extends Model
                 ShipConsumablesData::update_stock($ship_from_stock, $data);
                 ShipConsumablesData::commit();
 
-                if($ship_from_stock->quantity == 1) {
-                    session()->flash('success_message', $ship_from_stock->consumables_name .'（' . $data['ship_quantity']. '個）'. 'を出荷一覧に追加しました');
+                if ($ship_from_stock->quantity == 1) {
+                    session()->flash('success_message', $ship_from_stock->consumables_name . '（' . $data['ship_quantity'] . '個）' . 'を出荷一覧に追加しました');
                 } else {
-                    session()->flash('success_message', $ship_from_stock->consumables_name .'（' . $data['ship_quantity']. '箱）'. 'を出荷一覧に追加しました');
+                    session()->flash('success_message', $ship_from_stock->consumables_name . '（' . $data['ship_quantity'] . '箱）' . 'を出荷一覧に追加しました');
                 }
             } else {
                 // 本部の在庫が不足している場合
                 $shortage_quantity = $data['ship_quantity'] - $ship_from_stock->stock_number;
-                session()->flash('error_message', $ship_from_stock->consumables_name . 'の本部在庫が'. $shortage_quantity . '箱不足しています。');
+                session()->flash('error_message', $ship_from_stock->consumables_name . 'の本部在庫が' . $shortage_quantity . '箱不足しています。');
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
@@ -270,14 +290,14 @@ class Consumables extends Model
         // 在庫テーブルから現在の在庫を参照
         $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
         // 消耗品コードからマスタデータを参照
-        $consumables_data = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables_data = ConsumablesData::getConsumables($consumables_code);
         // dd($consumables_stock,$consumables_data->use_unit_code);
         // 出荷納品テーブルを参照
         $ship_data = ConsumablesData::viewConsumablesShipData($ship_code);
         try {
 
             // 出荷数と納品数が一致しない場合は本部の在庫数を調整する
-            if($deliver_number != $ship_data->shipped_number) {
+            if ($deliver_number != $ship_data->shipped_number) {
                 $adjustment_number = $ship_data->shipped_number - $deliver_number;
                 // 本部の在庫テーブルから現在の在庫を参照
                 $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, 91);

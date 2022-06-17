@@ -25,7 +25,7 @@ class QrController extends AuthController
     public function facility_qr_list(Request $request)
     {
         Log::debug(print_r($this->login, true));
-        $facility_list = OfficeData::viewFacilityAll();
+        $facility_list = OfficeData::getfacilityAll();
 
         $data = [
             'facility_list' => $facility_list,

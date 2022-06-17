@@ -1,3 +1,10 @@
+<?php
+if($office_code == 90 or $office_code == 91) {
+    $outline = '';
+} else {
+    $outline = 'outline-';
+}
+?>
 <div class="mb-3" id="search-carehome">
     <div class="mb-1" id="facility-area">
         <div class="input-group w-100">
@@ -45,13 +52,11 @@
     </div>
     <div id="facilitys">
         <div class="d-flex mb-2">
-            {{-- 本部 --}}
-            @if($office_code == 91)
-            <a class="btn btn-secondary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-本部">本部</a>
+            @if($login->operation_type_code == 'LABO')
+            <a class="btn btn-{{$outline}}secondary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>90, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-LABO">LABO</a>
             @else
-            <a class="btn btn-outline-secondary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-本部">本部</a>
+            <a class="btn btn-{{$outline}}secondary" style="width: 80px" href="{{route('facility_category_stock_list', ['office_code'=>91, 'consumables_category_code'=>$consumables_category_code])}}" id="search-carehome-facility-code-本部">本部</a>
             @endif
-
             {{-- 富山の施設を選択した場合 --}}
             @if($office_data->prefecture_code == 16 or $office_code == 91)
             <div class="input-group w-100" id="toyama-area">
@@ -103,15 +108,12 @@
                 <label class="input-group-text">カテゴリ</label>
             </div>
             <div class="" id="categories">
-                @foreach($consumables_category_all as $data)
+                @foreach($consumables_category_list as $data)
                 @if ($consumables_category_code == $data->consumables_category_code)
                 <a class="btn btn-success"
                     href="{{ route('stock_list') }}/{{ $office_code }}/{{ $data->consumables_category_code }}"
                     name="category_code_{{$data->consumables_category_code}}"
                     id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
-                @elseif($data->consumables_category_code == 8 or $data->consumables_category_code == 9 or
-                $data->consumables_category_code == 10 or $data->consumables_category_code == 12)
-                {{-- LABOのカテゴリは非表示 --}}
                 @else
                 <a class="btn btn-outline-success"
                     href="{{ route('stock_list') }}/{{ $office_code }}/{{ $data->consumables_category_code }}"

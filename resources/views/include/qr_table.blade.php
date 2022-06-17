@@ -29,11 +29,8 @@
 			全て
 		</button>
 	</li>
-	@foreach($consumables_category_all as $data)
-	@if($data->consumables_category_code == 8 or $data->consumables_category_code == 9 or
-			$data->consumables_category_code == 10 or $data->consumables_category_code == 12)
-        {{-- LABOのカテゴリは非表示 --}}
-		@elseif($data->consumables_category_code == 1)
+	@foreach($consumables_category_list as $data)
+		@if($data->consumables_category_code == 1)
 		<li class="nav-item" role="presentation">
 			<button class="nav-link" id="pills-{{$data->consumables_category_name}}-tab" data-bs-toggle="pill" data-bs-target="#pills-{{$data->consumables_category_name}}"
 				type="button" role="tab" aria-controls="pills-{{$data->consumables_category_name}}" aria-selected="true">

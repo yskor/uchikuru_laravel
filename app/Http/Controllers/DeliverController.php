@@ -118,16 +118,16 @@ class DeliverController extends AuthController
         }
 
         $consumables = ConsumablesData::viewConsumablesShipData($value['ship_code']);
-        if($consumables->quantity == 1) {
-            session()->flash('message', $consumables->consumables_name . 'を' .$value['deliver_number']. '個納品しました');
+        if ($consumables->quantity == 1) {
+            session()->flash('message', $consumables->consumables_name . 'を' . $value['deliver_number'] . '個納品しました');
         } else {
-            session()->flash('message', $consumables->consumables_name . 'を' .$value['deliver_number']. '箱納品しました');
+            session()->flash('message', $consumables->consumables_name . 'を' . $value['deliver_number'] . '箱納品しました');
         }
 
         return redirect()->route('deliver_list', ['office_code' => $request->office_code]);
     }
 
-    
+
     //
     /**
      * 納品状況を確認する消耗品選択画面（消耗品一覧）
@@ -187,13 +187,13 @@ class DeliverController extends AuthController
     public function week_deliver_status($consumables_category_code, $consumables_code, Request $request)
     {
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
+        $facility_all = OfficeData::getfacilityAll();
 
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
 
         // 対象の消耗品を取得
-        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables = ConsumablesData::getConsumables($consumables_code);
 
         // 対象消耗品の全施設出荷データを取得
         $deliver_status = ConsumablesData::viewConsumablesDeliverStatusWeek($facility_all, $consumables_code);
@@ -220,13 +220,13 @@ class DeliverController extends AuthController
     public function month_deliver_status($consumables_category_code, $consumables_code, Request $request)
     {
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::viewfacilityAll();
+        $facility_all = OfficeData::getfacilityAll();
 
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
 
         // 対象の消耗品を取得
-        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables = ConsumablesData::getConsumables($consumables_code);
 
         // 対象消耗品の全施設出荷データを取得
         $deliver_status = ConsumablesData::viewConsumablesDeliverStatusMonth($facility_all, $consumables_code);
@@ -244,5 +244,4 @@ class DeliverController extends AuthController
 
         return self::view($request, 'month_deliver_status', $data);
     }
-
 }

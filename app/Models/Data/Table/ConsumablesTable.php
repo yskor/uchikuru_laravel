@@ -111,7 +111,7 @@ class ConsumablesTable extends BaseTable
     }
 
     // 消耗品在庫テーブル
-    public static function viewOfficeConsumablesStock()
+    public static function viewConsumablesStock()
     {
         return DB::table(self::VIEW_CONSUMABLE_STOCK);
     }
@@ -146,5 +146,4 @@ class ConsumablesTable extends BaseTable
     {
         return DB::table(self::VIEW_CONSUMABLE_STOCK_SHORTAGE);
     }
-
 }

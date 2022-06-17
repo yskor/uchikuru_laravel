@@ -21,8 +21,6 @@ class IndexController extends AuthController
     {
         Log::debug(print_r($this->login, true));
 
-        $data = ['login' => $this->login];
-
-        return self::view($request, 'index', $data);
+        return self::view($request, 'index');
     }
 }

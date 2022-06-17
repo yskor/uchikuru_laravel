@@ -35,9 +35,9 @@
 							箱
 						</div>
 					</div> --}}
-					@if($office_code == 91)
+					@if($office_code == 91 or $login->operation_type_code == 'LABO')
 					<div class="d-flex justify-content-end">
-						@if(!empty($data->f_stock_number) or !empty($data->f_stock_quantity))
+						@if(!empty($data->f_stock_number) or !empty($data->f_stock_quantity) or $login->operation_type_code == 'LABO')
 						@include("modal/stock_adjustment")
 						@endif
 					</div>

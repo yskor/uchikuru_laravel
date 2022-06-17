@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Data\Table\ConsumablesTable;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * 入居者データクラス
@@ -17,11 +18,12 @@ class ConsumablesData extends BaseData
     use HasFactory;
 
     /**
-     *　消耗品の一覧を取得します。
+     *　消耗品コードから消耗品を参照します。
+     * @param string $consumables_code
      */
-    public static function getConsumables()
+    public static function getConsumables($consumables_code)
     {
-        return ConsumablesTable::viewConsumablesMaster()->get();
+        return ConsumablesTable::viewConsumablesMaster()->where('consumables_code', '=', $consumables_code)->first();
     }
 
     /**
@@ -31,6 +33,52 @@ class ConsumablesData extends BaseData
     public static function viewConsumablesAll($consumables_code)
     {
         return ConsumablesTable::viewConsumablesMaster($consumables_code)->get();
+    }
+    /**
+     *　条件に応じた消耗品の一覧を取得します。
+     * @param string $consumables_code
+     */
+    public static function getConsumablesList(array $wheres)
+    {
+        $query = ConsumablesTable::viewConsumablesMaster();
+        $query = array_key_exists('operation_type_code', $wheres) ? $query->where('operation_type_code', '=', $wheres['operation_type_code']) : $query;
+        $query = array_key_exists('consumables_category_code', $wheres) ? $query->where('consumables_category_code', '=', $wheres['consumables_category_code']) : $query;
+        $query = array_key_exists('consumables_code', $wheres) ? $query->where('consumables_code', '=', $wheres['consumables_code']) : $query;
+        $query = array_key_exists('consumables_barcode', $wheres) ? $query->where('consumables_barcode', '=', $wheres['consumables_barcode']) : $query;
+        $query = array_key_exists('use_unit_code', $wheres) ? $query->where('use_unit_code', '=', $wheres['use_unit_code']) : $query;
+        $query = array_key_exists('unit_code', $wheres) ? $query->where('unit_code', '=', $wheres['unit_code']) : $query;
+        $query = array_key_exists('created_at', $wheres) ? $query->where('created_at', '=', $wheres['created_at']) : $query;
+        $query->orderBy('sort_order', 'asc');
+        return $query->get();
+    }
+
+    /**
+     *　条件に応じた消耗品の一覧を取得します。
+     * @param string $consumables_code
+     */
+    public static function getConsumablesIdList(array $wheres)
+    {
+        $query = ConsumablesTable::viewConsumablesIdMaster();
+        $query = array_key_exists('operation_type_code', $wheres) ? $query->where('operation_type_code', '=', $wheres['operation_type_code']) : $query;
+        $query = array_key_exists('consumables_category_code', $wheres) ? $query->where('consumables_category_code', '=', $wheres['consumables_category_code']) : $query;
+        $query = array_key_exists('consumables_code', $wheres) ? $query->where('consumables_code', '=', $wheres['consumables_code']) : $query;
+        $query = array_key_exists('consumables_barcode', $wheres) ? $query->where('consumables_barcode', '=', $wheres['consumables_barcode']) : $query;
+        $query = array_key_exists('use_unit_code', $wheres) ? $query->where('use_unit_code', '=', $wheres['use_unit_code']) : $query;
+        $query = array_key_exists('unit_code', $wheres) ? $query->where('unit_code', '=', $wheres['unit_code']) : $query;
+        $query = array_key_exists('created_at', $wheres) ? $query->where('created_at', '=', $wheres['created_at']) : $query;
+        $query->orderBy('sort_order', 'asc');
+        return $query->get();
+    }
+
+    /**
+     * 消耗品種別マスタからカテゴリデータを取得します。
+     */
+    public static function getConsumablesCategoryList($wheres)
+    {
+        $query = ConsumablesTable::viewConsumablesCategoryMaster();
+        $query = array_key_exists('operation_type_code', $wheres) ? $query->where('operation_type_code', '=', $wheres['operation_type_code']) : $query;
+        $query->OrderBy('sort_order', 'asc');
+        return $query->get();
     }
 
     /**
@@ -118,7 +166,6 @@ class ConsumablesData extends BaseData
                 ->orderBy('consumables_code')
                 ->get();
         }
-        
     }
 
     /**
@@ -160,15 +207,6 @@ class ConsumablesData extends BaseData
     }
 
     /**
-     *　消耗品コードから消耗品を参照します。
-     * @param string $consumables_code
-     */
-    public static function viewOneConsumables($consumables_code)
-    {
-        return ConsumablesTable::viewConsumablesMaster()->where('consumables_code', '=', $consumables_code)->first();
-    }
-
-    /**
      *　消耗品バーコード(個数）から消耗品を参照します。
      * @param string $consumables_code
      */
@@ -196,7 +234,7 @@ class ConsumablesData extends BaseData
      *　消耗品コードからバーコードリストを参照します。
      * @param string $consumables_code
      */
-    public static function viewConsumablesBarcodeList($consumables_code)
+    public static function getConsumablesBarcodeList($consumables_code)
     {
         $barcode_B = ConsumablesTable::viewConsumablesIdMasterOnly()
             ->where('consumables_code', '=', $consumables_code)
@@ -213,7 +251,6 @@ class ConsumablesData extends BaseData
             'barcode_N' => $barcode_N,
             'barcode_Q' => $barcode_Q
         ];
-        // dd($barcodes);
 
         return $barcodes;
     }
@@ -221,9 +258,9 @@ class ConsumablesData extends BaseData
     /**
      *　消耗品在庫テーブルから全てのデータを参照します。
      */
-    public static function viewOfficeConsumablesStockAll()
+    public static function viewConsumablesStockAll()
     {
-        return ConsumablesTable::viewOfficeConsumablesStock()->get();
+        return ConsumablesTable::viewConsumablesStock()->get();
     }
 
     /**
@@ -246,7 +283,7 @@ class ConsumablesData extends BaseData
 								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
                         ON a.consumables_code = m.consumables_code WHERE m.unit_code = 'N'");
     }
-
+    
     /**
      * 指定された消耗品カテゴリコードから消耗品の一覧を取得します。
      * @param int $office_code
@@ -254,11 +291,13 @@ class ConsumablesData extends BaseData
      * @param int $consumables_code
      * @return unknown
      */
-    public static function viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code)
+    public static function viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, $consumables_code, $operation_office_code)
     {
-        if($consumables_code) {
-            return DB::select("SELECT *
-                            FROM dbo.VIEW_消耗品識別マスタ AS m
+        if ($consumables_code) {
+            return DB::select("SELECT m.consumables_code, m.consumables_name, m.number, m.number_unit, m.number_unit_price, m.quantity, m.quantity_unit, m.use_quantity, m.use_unit, m.use_unit_code, 
+                                m.stock_constant_quantity, m.stock_constant_quantity_code, m.stock_replenishment_point, m.can_use_multiple, m.consumables_category_code, m.consumables_category_name, m.last_negotiation_date, 
+                                m.image_file_extension, m.staff_code, m.staff_name, m.created_at, m.operation_type_code, m.sort_order, s.f_stock_number, s.stock_quantity, a.stock_number, a.stock_quantity
+                            FROM dbo.VIEW_消耗品マスタ AS m
                             LEFT JOIN 
                             (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
                                     dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
@@ -267,11 +306,13 @@ class ConsumablesData extends BaseData
                             LEFT JOIN
                             (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
                                     dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
-                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
-                            ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.unit_code = 'N' and m.consumables_code = $consumables_code");
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $operation_office_code) AS a
+                            ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.consumables_code = $consumables_code");
         } else {
-            return DB::select("SELECT *
-                            FROM dbo.VIEW_消耗品識別マスタ AS m
+            return DB::select("SELECT m.consumables_code, m.consumables_name, m.number, m.number_unit, m.number_unit_price, m.quantity, m.quantity_unit, m.use_quantity, m.use_unit, m.use_unit_code, 
+                                m.stock_constant_quantity, m.stock_constant_quantity_code, m.stock_replenishment_point, m.can_use_multiple, m.consumables_category_code, m.consumables_category_name, m.last_negotiation_date, 
+                                m.image_file_extension, m.staff_code, m.staff_name, m.created_at, m.operation_type_code, m.sort_order, s.f_stock_number, s.f_stock_quantity, a.stock_number, a.stock_quantity
+                            FROM dbo.VIEW_消耗品マスタ AS m
                             LEFT JOIN 
                             (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
                                     dbo.VIEW_消耗品在庫テーブルのみ.stock_number as f_stock_number,
@@ -280,8 +321,8 @@ class ConsumablesData extends BaseData
                             LEFT JOIN
                             (SELECT dbo.VIEW_消耗品在庫テーブルのみ.consumables_code,
                                     dbo.VIEW_消耗品在庫テーブルのみ.stock_number as stock_number,
-                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
-                            ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code and m.unit_code = 'N'");
+                                    dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = $operation_office_code) AS a
+                            ON a.consumables_code = m.consumables_code  Where m.consumables_category_code = $consumables_category_code");
         }
     }
 
@@ -293,7 +334,7 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesStockData($consumables_code, $office_code)
     {
-        return ConsumablesTable::viewOfficeConsumablesStock()
+        return ConsumablesTable::viewConsumablesStock()
             ->where('consumables_code', '=', $consumables_code)
             ->where('office_code', '=', $office_code)->first();
     }
@@ -339,10 +380,10 @@ class ConsumablesData extends BaseData
 
     // 消耗品仕入先マスタ参照
     public static function viewConsumablesBuyFacility($office_code)
-    {   
-        if($office_code) {
+    {
+        if ($office_code) {
             return ConsumablesTable::viewConsumablesBuyFacility($office_code)
-                    ->where('office_code', '=', $office_code)->get();
+                ->where('office_code', '=', $office_code)->get();
         } else {
             return ConsumablesTable::viewConsumablesBuyFacility($office_code)->get();
         }
@@ -461,31 +502,31 @@ class ConsumablesData extends BaseData
     public static function viewConsumablesDeliverStatusWeek($facility_all, $consumables_code)
     {
         $status_list = array(); // 施設ごとのデータを格納する変数
-        foreach($facility_all as $facility) {
+        foreach ($facility_all as $facility) {
             $status = array(); // 各週のデータを格納する変数
             $total_deliver = 0; //総合計値
             // 集計する機関の日付を繰り返す
-            for($i = 8; $i > 0; $i--) {
+            for ($i = 8; $i > 0; $i--) {
                 $dt = Carbon::today(); //今日
                 $dt->startOfWeek()->subDay(1); // 週始め
-                $start_at = $dt->subWeeks($i-1); //各週始め
+                $start_at = $dt->subWeeks($i - 1); //各週始め
                 $dt = Carbon::today(); //今日
                 $dt->endOfWeek()->subDay(1); // 週末
-                $end_at = $dt->subWeeks($i-1); //各週末
-                
+                $end_at = $dt->subWeeks($i - 1); //各週末
+
                 //　週ごとの集計値を取得
                 $week_status = ConsumablesTable::viewConsumablesDeliverStatus()
-                            ->where('consumables_code', '=', $consumables_code)
-                            ->where('office_code', '=', $facility->office_code)
-                            ->whereBetween('delivered_at', [$start_at, $end_at])
-                            ->selectRaw('SUM(delivered_number) AS week_delivered')
-                            ->groupBy(
-                                'office_code',
-                                'consumables_code',
-                                'office_code_from',
-                            )->first();
+                    ->where('consumables_code', '=', $consumables_code)
+                    ->where('office_code', '=', $facility->office_code)
+                    ->whereBetween('delivered_at', [$start_at, $end_at])
+                    ->selectRaw('SUM(delivered_number) AS week_delivered')
+                    ->groupBy(
+                        'office_code',
+                        'consumables_code',
+                        'office_code_from',
+                    )->first();
                 //値がない時は0
-                if($week_status) {
+                if ($week_status) {
                     $status[] = $week_status->week_delivered; //配列に各週の合計値
                     $total_deliver += $week_status->week_delivered;
                 } else {
@@ -508,27 +549,27 @@ class ConsumablesData extends BaseData
     public static function viewConsumablesDeliverStatusMonth($facility_all, $consumables_code)
     {
         $status_list = array(); // 施設ごとのデータを格納する変数
-        foreach($facility_all as $facility) {
+        foreach ($facility_all as $facility) {
             $status = array(); // 各月のデータを格納する変数
             $total_deliver = 0; //総合計値
-            for($i = 12; $i > 0; $i--) {
+            for ($i = 12; $i > 0; $i--) {
                 $now = Carbon::now(); //現在時刻
-                $month = $now->subMonths($i-1); //各月
+                $month = $now->subMonths($i - 1); //各月
                 $start_at = $month->startOfMonth()->toDateString(); // 月初
                 $end_at = $month->endOfMonth()->toDateString(); // 月初
                 // 　月ごとの集計値を取得
                 $month_status = ConsumablesTable::viewConsumablesDeliverStatus()
-                            ->where('consumables_code', '=', $consumables_code)
-                            ->where('office_code', '=', $facility->office_code)
-                            ->whereBetween('delivered_at', [$start_at, $end_at])
-                            ->selectRaw('SUM(delivered_number) AS month_delivered')
-                            ->groupBy(
-                                'office_code',
-                                'consumables_code',
-                                'office_code_from',
-                            )->first();
+                    ->where('consumables_code', '=', $consumables_code)
+                    ->where('office_code', '=', $facility->office_code)
+                    ->whereBetween('delivered_at', [$start_at, $end_at])
+                    ->selectRaw('SUM(delivered_number) AS month_delivered')
+                    ->groupBy(
+                        'office_code',
+                        'consumables_code',
+                        'office_code_from',
+                    )->first();
                 // 値がない時は0
-                if($month_status) {
+                if ($month_status) {
                     $status[] = $month_status->month_delivered; //配列に各週の合計値
                     $total_deliver += $month_status->month_delivered;
                 } else {
@@ -558,20 +599,19 @@ class ConsumablesData extends BaseData
      */
     public static function viewConsumablesStockShortageAll()
     {
-        $facility_list = OfficeData::viewFacilityAll();
+        $facility_list = OfficeData::getfacilityAll();
         // dd($facility_list);
         // dd($stock_shortage_all->where('office_code', 2)->get(), $facility_list);
         $stock_shortage_list = [];
-        foreach($facility_list as $facility) {
+        foreach ($facility_list as $facility) {
             $stock_shortage_all = ConsumablesTable::viewConsumablesStockShortage()
-            ->whereNull('replenishment_status_code');
+                ->whereNull('replenishment_status_code');
             $shortage_list = $stock_shortage_all->where('office_code', $facility->office_code)->get();
-            if($shortage_list != '[]') {
+            if ($shortage_list != '[]') {
                 $stock_shortage_list[$facility->facility_name] = $shortage_list;
             }
         };
         // dd($stock_shortage_list);
         return $stock_shortage_list;
     }
-
 }

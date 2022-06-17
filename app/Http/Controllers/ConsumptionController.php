@@ -26,7 +26,7 @@ class ConsumptionController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // バーコードから消耗品を取得
-        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables = ConsumablesData::getConsumables($consumables_code);
         $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
         // dd($consumables_stock);
         if (!$consumables_stock) {
@@ -58,7 +58,7 @@ class ConsumptionController extends AuthController
         Log::debug(print_r($this->login, true));
 
         // バーコードから消耗品を取得
-        $consumables = ConsumablesData::viewOneConsumables($consumables_code);
+        $consumables = ConsumablesData::getConsumables($consumables_code);
         $consumption_quantity = $consumables->use_quantity;
         $consumption_unit_code = $consumables->use_unit_code;
         try {
