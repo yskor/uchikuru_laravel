@@ -41,13 +41,6 @@ class StockConsumablesData extends BaseData
                 "更新日時" => now(),
             ];
         }
-        // 在庫不足一覧からの出荷の場合
-        if ($data['replenishment_status_code'] == 'S') {
-            // 出荷先の在庫テーブルの在庫補充状況コードを更新
-            // ConsumablesData::getConsumablesStockData($data['consumables_code'], $data['office_code_to'])
-            // ->update(["在庫補充状況コード" => $data['replenishment_status_code']]);
-            $dec_values["在庫補充状況コード"] = $data['replenishment_status_code'];
-        }
         ConsumablesData::getConsumablesStockData($data['consumables_code'], $data['office_code_from'])->update($dec_values);
     }
 

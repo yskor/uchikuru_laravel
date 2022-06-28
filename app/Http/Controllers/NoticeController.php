@@ -28,7 +28,6 @@ class NoticeController extends ApiController
 
             // 不足在庫を全て取得
             $stock_shortage_all = ConsumablesTable::viewConsumablesStockShortage()
-            ->whereNull('replenishment_status_code')
             ->whereNotIn('office_code', [91])
             ->get();
             // 施設ごとに在庫不足の消耗品データを取得

@@ -19,12 +19,19 @@
                         <div class="card-body d-flex py-2">
                             <img src="{{ asset('upload/consumables/'.$data->image_file_extension)}}" style="width:100px;height:100px;">
                             <div class="mx-auto fs-5" style="width:250px;">
-                                <div class="mb-1">施設在庫数：{{$data->stock_number}}
-                                    @if($data->quantity == 1) 個 @else 箱 @endif
-                                </div>
                                 <div class="mb-1">在庫定数　：{{$data->stock_constant_quantity}}
                                     @if($data->quantity == 1) 個 @else 箱 @endif
                                 </div>
+                                <div class="mb-1">施設在庫数：{{$data->stock_number}}
+                                    @if($data->quantity == 1) 個 @else 箱 @endif
+                                </div>
+                                @if($data->total_shipped_number)
+								<div class="">
+									出荷済数　：
+									{{ $data->total_shipped_number}}
+									@if($data->quantity == 1)個 @else 箱@endif
+								</div>
+								@endif
                                 <div class="input-group mt-2 fs-5" id="head-stock-form-group">
                                     {{-- 定数に対して不足する数出荷 --}}
                                     <span class="input-group-text"

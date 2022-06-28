@@ -323,7 +323,6 @@ class Consumables extends Model
                     "消耗品コード" => $consumables_code,
                     "個数在庫数" => $stock_number + $deliver_number,
                     "登録職員コード" => $staff_code,
-                    "在庫補充状況コード" => NULL,
                     "更新日時" => now(),
                 ];
                 ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);

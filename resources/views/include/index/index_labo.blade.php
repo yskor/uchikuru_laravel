@@ -15,7 +15,7 @@
 		</a>
 	</div>
 	<div class="col-6 col-md-3 user_menu text-center mb-5">
-		<a href="{{route('master_list_category', ['consumables_category_code' => 8])}}">
+		<a href="{{route('master_list_category', ['consumables_category_code' => 9])}}">
 			<div class="user_menu_icon d-flex align-items-center justify-content-center">
 				<i class="fas fa-database fa-2x text-white"></i>
 			</div>

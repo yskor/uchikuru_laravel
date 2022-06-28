@@ -183,7 +183,6 @@ class ShipController extends AuthController
                 'office_code_from' => $office_code_from, //出荷元事業所コード
                 'ship_quantity' => $data['ship_number'],
                 'staff_code' => $this->login->staff_code,
-                'replenishment_status_code' => NULL,
                 'office_code_to' => $office_code_to, //納品先事業所コード
             ];
             // 出荷納品テーブルに追加
@@ -208,7 +207,6 @@ class ShipController extends AuthController
             'office_code_from' => $office_code_from, //出荷元事業所コード
             'ship_quantity' => $ship_quantity,
             'staff_code' => $this->login->staff_code,
-            'replenishment_status_code' => "S", //在庫補充状況コード
             'office_code_to' => $office_code_to, //納品先事業所コード
         ];
         // 出荷納品テーブルに追加

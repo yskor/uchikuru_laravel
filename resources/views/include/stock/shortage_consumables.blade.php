@@ -3,6 +3,7 @@
 	@foreach($shortage_list as $facility => $datas)
 		<h4>{{$facility}}</h4>
 			@foreach($datas as $data)
+			{{-- 出荷済み数と在庫数の合計が不足定数を上回る場合は非表示 --}}
 			<div class="card p-0 mx-1" style="width:360px;">
 				<div class="card-header">
 					{{-- 消耗品名 --}}
@@ -17,7 +18,7 @@
 					</div>
 					<div class="w-100" style="margin-left: 15px">
 						{{-- 消費数量 --}}
-							<div class="mb-3 fs-5">
+							<div class="mb-3 fs-6">
 								<div class="">
 									現在庫数：
 									{{ $data->stock_number }}
@@ -27,9 +28,16 @@
 										+{{ $data->stock_quantity }}個
 									@endif
 								</div>
+								@if($data->total_shipped_number)
+								<div class="">
+									出荷済数：
+									{{ $data->total_shipped_number}}
+									@if($data->quantity == 1)個 @else 箱@endif
+								</div>
+								@endif
 								<div class="">
 									補充数　：
-									{{ $data->shortage_quantity }}
+									{{ $data->shortage_quantity}}
 									@if($data->quantity == 1)個 @else 箱@endif
 								</div>
 							</div>

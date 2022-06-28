@@ -604,9 +604,9 @@ class ConsumablesData extends BaseData
         // dd($stock_shortage_all->where('office_code', 2)->get(), $facility_list);
         $stock_shortage_list = [];
         foreach ($facility_list as $facility) {
-            $stock_shortage_all = ConsumablesTable::viewConsumablesStockShortage()
-                ->whereNull('replenishment_status_code');
-            $shortage_list = $stock_shortage_all->where('office_code', $facility->office_code)->get();
+            $quantity = ConsumablesTable::viewConsumablesStockShortage();
+            $quantity->where('office_code', $facility->office_code);
+            $shortage_list = $quantity->get();
             if ($shortage_list != '[]') {
                 $stock_shortage_list[$facility->facility_name] = $shortage_list;
             }

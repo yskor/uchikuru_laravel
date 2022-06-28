@@ -59,13 +59,6 @@ class ShipConsumablesData extends BaseData
                 "更新日時" => now(),
             ];
         }
-        // 在庫不足一覧からの出荷の場合
-        if ($data['replenishment_status_code'] == 'S') {
-            // 出荷先の在庫テーブルの在庫補充状況コードを更新
-            ConsumablesData::getConsumablesStockData($data['consumables_code'], $data['office_code_to'])
-            ->update(["在庫補充状況コード" => $data['replenishment_status_code']]);
-        }
-        // dd($dec_values);
         ConsumablesData::getConsumablesStockData($data['consumables_code'], $data['office_code_from'])->update($dec_values);
     }
 
@@ -88,8 +81,6 @@ class ShipConsumablesData extends BaseData
         ];
         // 本部の在庫をキャンセル分増やす
         ConsumablesData::getConsumablesStockData($consumables_code, $head_office_code)->update($cancel_values);
-        // 消耗品コードと事業所コードから施設の在庫補充状況コードをNにする
-        ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update(['在庫補充状況コード' => NUll]);
         // 出荷コードが一致する出荷データを削除
         ConsumablesTable::tableConsumablesShip()->where('出荷納品コード', $ship_code)->delete();
     }
