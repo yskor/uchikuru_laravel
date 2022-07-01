@@ -22,15 +22,7 @@
 
 
 <!-- フラッシュメッセージ -->
-@if (session('error_message'))
-<div class="alert alert-success">
-	{{ session('message') }}
-</div>
-@elseif (session('success_message'))
-<div class="alert alert-success">
-	{{ session('success_message') }}
-</div>
-@endif
+@include('include/flash_message')
 
 {{-- <form action="{{route('buy_consumables')}}" method="post">
 	@csrf

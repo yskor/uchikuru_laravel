@@ -8,12 +8,12 @@
         @foreach($consumables_category_list as $data)
         @if ($consumables_category_code == $data->consumables_category_code)
         <a class="btn btn-success"
-            href="{{route('deliver_status', ['consumables_category_code' => $data->consumables_category_code])}}"
+            href="{{route('facility_deliver_status', ['consumables_category_code' => $data->consumables_category_code, 'office_code'=>$office_data->office_code])}}"
             name="category_code_{{$data->consumables_category_code}}"
             id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
         @else
         <a class="btn btn-outline-success"
-            href="{{ route('deliver_status', ['consumables_category_code' => $data->consumables_category_code])}}"
+            href="{{ route('facility_deliver_status', ['consumables_category_code' => $data->consumables_category_code, 'office_code'=>$office_data->office_code])}}"
             name="category_code_{{$data->consumables_category_code}}"
             id="category_code_{{$data->consumables_category_code}}">{{$data->consumables_category_name}}</a>
         @endif
@@ -24,12 +24,21 @@
     <div class="mb-1" id="facility-area">
         <div class="input-group w-100">
             <label class="input-group-text">施設地域</label>
+            @if($office_data->prefecture_code == 16 or $office_code == 90)
             <input type="radio" class="btn-check" name="search-carehome-facility-area"
                 id="search-carehome-facility-area-富山" value="富山" checked>
             <label class="btn btn-outline-primary" for="search-carehome-facility-area-富山" style="width:80px">富山</label>
             <input type="radio" class="btn-check" name="search-carehome-facility-area"
                 id="search-carehome-facility-area-石川" value="石川">
             <label class="btn btn-outline-danger" for="search-carehome-facility-area-石川" style="width:80px">石川</label>
+            @elseif($office_data->prefecture_code == 17 or $office_code == 90)
+            <input type="radio" class="btn-check" name="search-carehome-facility-area"
+                id="search-carehome-facility-area-富山" value="富山">
+            <label class="btn btn-outline-primary" for="search-carehome-facility-area-富山" style="width:80px">富山</label>
+            <input type="radio" class="btn-check" name="search-carehome-facility-area"
+                id="search-carehome-facility-area-石川" value="石川" checked>
+            <label class="btn btn-outline-danger" for="search-carehome-facility-area-石川" style="width:80px">石川</label>
+            @endif
         </div>
 
     </div>
@@ -70,7 +79,11 @@
                 全て
             </a>
             @endif
+            @if($office_data->prefecture_code == 16 or $office_code == 90)
             <div class="input-group w-100" id="toyama-area">
+            @else
+            <div class="input-group w-100" id="toyama-area" style="display: none">
+            @endif
                 @foreach ($facility_list as $facility)
                     @if ($office_code == $facility->office_code and $facility->prefecture_code == 16)
                     <a class="btn btn-primary" style="width: 80px"
@@ -83,7 +96,11 @@
                     @endif
                 @endforeach
             </div>
+            @if($office_data->prefecture_code == 17 or $office_code == 90)
+            <div class="input-group w-100" id="ishikawa-area">
+            @else
             <div class="input-group w-100" id="ishikawa-area" style="display: none">
+            @endif
                 @foreach ($facility_list as $facility)
                     @if ($office_code == $facility->office_code and $facility->prefecture_code == 17)
                         <a class="btn btn-danger"

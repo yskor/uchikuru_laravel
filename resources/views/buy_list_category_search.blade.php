@@ -22,22 +22,7 @@
 
 
 <!-- フラッシュメッセージ -->
-{{-- @if (session('error_message'))
-<div class="alert alert-success">
-	{{ session('message') }}
-</div>
-@elseif (session('success_message'))
-<div class="alert alert-success">
-	{{ session('success_message') }}
-</div>
-@endif --}}
-
-{{-- <form action="{{route('buy_consumables')}}" method="post">
-	@csrf
-	<input type="number" name="handy_reader_data">
-	<input type="submit" class="btn btn-primary" value="送信">
-</form>
-<h1>{{$consumables_category_code}}ここです</h1> --}}
+@include('include/flash_message')
 
 {{-- 一覧表テーブル --}}
 <div id="buy-add"></div>

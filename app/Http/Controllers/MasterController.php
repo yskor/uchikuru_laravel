@@ -176,22 +176,23 @@ class MasterController extends AuthController
         if ($request->post == '登録する') {
 
             // データ追加
-            Consumables::insert_consumables($param, $staff_code, $this->login->operation_type_code);
-            session()->flash('add_message', '消耗品を登録しました');
-            return redirect()->route('master_list_category', ['consumables_category_code' => $consumables_category_code]);
-
+            $consumables_code = Consumables::insert_consumables($param, $staff_code, $this->login->operation_type_code);
+            session()->flash('success_message', '消耗品を登録しました');
+            return redirect()->route('master_list_category', ['consumables_category_code' => $consumables_category_code, 'consumables_code' => '#'.$consumables_code]);
+            
         } elseif ($request->post == '更新する') {
-
+            
             // データ更新
-            Consumables::update_consumables($param, $staff_code);
-            session()->flash('update_message', '消耗品情報を更新しました');
-            return redirect()->route('update_master', ['consumables_code' => $param['consumables_code']]);
+            $consumables_code = Consumables::update_consumables($param, $staff_code);
+            session()->flash('success_message', '消耗品情報を更新しました');
+            return redirect()->route('master_list_category', ['consumables_category_code' => $consumables_category_code, 'consumables_code' => '#'.$consumables_code]);
+            // return redirect()->route('update_master', ['consumables_code' => $param['consumables_code']]);
 
         } elseif ($request->post == '削除する') {
 
             // データ削除
             Consumables::delete_consumables($param);
-            session()->flash('delete_message', '消耗品を削除しました');
+            session()->flash('success_message', '消耗品を削除しました');
             return redirect()->route('master_list_category', ['consumables_category_code' => $consumables_category_code]);
 
         }

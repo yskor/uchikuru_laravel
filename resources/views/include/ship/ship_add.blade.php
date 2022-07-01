@@ -14,7 +14,7 @@
 					@if ($office_code == 'all')
 					<option value="" selected=""></option>
 					@endif
-					@foreach ($facility_all as $facility)
+					@foreach ($facility_list as $facility)
 					{{-- office_codeが一致する場合は初期値とする --}}
 					@if ($office_code == $facility->office_code)
 					<option value="{{$facility->office_code}}" selected="">{{$facility->facility_name}}

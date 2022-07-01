@@ -33,7 +33,7 @@
 			</thead>
 			<tbody>
 				@foreach($consumables_list as $data)
-				<tr class="col" data-consumables-code="{{ $data->consumables_code }}">
+				<tr class="col" id="{{ $data->consumables_code }}" data-consumables-code="{{ $data->consumables_code }}">
 					<!-- <%* 消耗品コード *%> -->
 					<td class="text-center table-w">
 						<div class="mb-2">{{ $data->consumables_barcode }}</div>

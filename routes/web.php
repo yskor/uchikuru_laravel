@@ -36,7 +36,7 @@ Route::get('/add_master/{consumables_category_code}', [MasterController::class, 
 Route::get('/update_master/{consumables_code}', [MasterController::class, 'update_master'])->name('update_master');
 
 // マスタカテゴリ別一覧
-Route::get('/master_list/{consumables_category_code}', [MasterController::class, 'master_list_category'])->name('master_list_category');
+Route::get('/master_list/{consumables_category_code}{consumables_code?}', [MasterController::class, 'master_list_category'])->name('master_list_category');
 Route::get('/master_list/search/{consumables_category_code}', [MasterController::class, 'master_list_search'])->name('master_list_search');
 
 // マスタカテゴリ別一覧
@@ -77,14 +77,16 @@ Route::post('/ship_list/{office_code}', [ShipController::class, 'facility_edit_s
 Route::get('/deliver', [DeliverController::class, 'deliver'])->name('deliver');
 Route::get('/deliver_list/{office_code}', [DeliverController::class, 'deliver_list'])->name('deliver_list');
 Route::post('/deliver', [DeliverController::class, 'deliver_consumables'])->name('deliver_consumables');
+
+// 納品状況
 Route::get('/deliver_status/{consumables_category_code}', [DeliverController::class, 'deliver_status'])->name('deliver_status');
+Route::get('/facility_deliver_status/{consumables_category_code}/{office_code?}', [DeliverController::class, 'facility_deliver_status'])->name('facility_deliver_status');
 Route::get('/deliver_status_search', [DeliverController::class, 'deliver_status_search'])->name('deliver_status_search');
 Route::get('/deliver_status/{consumables_category_code}/{consumables_code}', [DeliverController::class, 'deliver_status_list'])->name('deliver_status_list');
 Route::get('/deliver_status/week/{consumables_category_code}/{consumables_code}', [DeliverController::class, 'week_deliver_status'])->name('week_deliver_status');
 Route::get('/deliver_status/month/{consumables_category_code}/{consumables_code}', [DeliverController::class, 'month_deliver_status'])->name('month_deliver_status');
 
 // 納品一覧
-Route::post('/qrreader', [DeliverController::class, 'qrreader'])->name('qrreader');
 Route::post('/deliver_table', [DeliverController::class, 'deliver_table'])->name('deliver_table');
 
 // 消費画面

@@ -24,4 +24,16 @@
 			</div>
 		</a>
 	</div>
+	<div class="col-6 col-md-3 user_menu text-center mb-5">
+		<a href="{{route('deliver_status', ['consumables_category_code' => 9])}}">
+			<div class="user_menu_icon d-flex align-items-center justify-content-center text-white menu-icon-size fa-fw">
+				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+					<path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+				</svg>
+			</div>
+			<div class="p-2">
+				納品状況
+			</div>
+		</a>
+	</div>
 </div>

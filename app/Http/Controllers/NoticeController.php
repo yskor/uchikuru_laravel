@@ -24,31 +24,39 @@ class NoticeController extends ApiController
     {
         
         $office_code = $this->login->office_code;
+        // アシスト職員用
         if($office_code == 91 or $office_code == 99) {
 
-            // 不足在庫を全て取得
+            // LABO以外の不足在庫を全て取得
             $stock_shortage_all = ConsumablesTable::viewConsumablesStockShortage()
-            ->whereNotIn('office_code', [91])
+            ->whereNotIn('office_code', [91,90])
+            ->where('operation_type_code', 'CARE')
             ->get();
-            // 施設ごとに在庫不足の消耗品データを取得
-            // $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
     
             $data = [
                 'stock_shortage_all' => $stock_shortage_all,
-                // 'shortage_list' => $shortage_list,
                 'login' => $this->login,
             ];
             // カードの中だけのhtmlを作成
             $html = view('notice.shortage', $data)->render();
+        } elseif($office_code == 90) {
+            // LABO以外の不足在庫を全て取得
+            $stock_shortage_all = ConsumablesTable::viewConsumablesStockShortage()
+            ->whereNotIn('office_code', [91,90])
+            ->where('operation_type_code', 'LABO')
+            ->get();
     
-            return self::jsonHtml($request, $html, $data);
-            // return self::view($request, 'notice.shortage', $data);
+            $data = [
+                'stock_shortage_all' => $stock_shortage_all,
+                'login' => $this->login,
+            ];
+            // カードの中だけのhtmlを作成
+            $html = view('notice.shortage', $data)->render();
         } else {
             // カードの中だけのhtmlを作成
             $html = '';
-    
-            return self::jsonHtml($request, $html);
         }
+        return self::jsonHtml($request, $html);
 
     }
 }

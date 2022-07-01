@@ -30,7 +30,7 @@ class ShipConsumablesData extends BaseData
             "出荷日時" => now(),
             "納品先事業所コード" => $data['office_code_to'],
         ];
-        ConsumablesTable::tableConsumablesShip()->insert($ship_values);
+        return ConsumablesTable::tableConsumablesShip()->insertGetId($ship_values);
     }
 
     /**

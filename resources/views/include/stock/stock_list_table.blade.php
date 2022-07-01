@@ -13,7 +13,7 @@
 					style="width:100px;height:100px;">
 			</div>
 			<div class="w-100" style="margin-left: 20px">
-				{{-- 消費数量 --}}
+				{{-- 在庫数量 --}}
 					<div class="mb-3">
 						<div class="fs-4">
 							@if ($data->f_stock_number)	{{ $data->f_stock_number }} @else 0	@endif
@@ -35,10 +35,18 @@
 							箱
 						</div>
 					</div> --}}
-					@if($office_code == 91 or $login->operation_type_code == 'LABO')
+					@if($login->office_code == 90)
 					<div class="d-flex justify-content-end">
-						@if(!empty($data->f_stock_number) or !empty($data->f_stock_quantity) or $login->operation_type_code == 'LABO')
-						@include("modal/stock_adjustment")
+						@if ($office_code == 90)
+						@include("modal.stock_adjustment")
+						@else
+						@include("modal.labo_deliver_consumables")
+						@endif
+					</div>
+					@else
+					<div class="d-flex justify-content-end">
+						@if(!empty($data->f_stock_number) or !empty($data->f_stock_quantity))
+						@include("modal.stock_adjustment")
 						@endif
 					</div>
 					@endif

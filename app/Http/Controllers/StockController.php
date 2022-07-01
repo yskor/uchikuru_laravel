@@ -29,8 +29,8 @@ class StockController extends AuthController
         $consumables_category_list = ConsumablesData::getConsumablesCategoryList($wheres);
 
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::getfacilityAll();
-        if($this->login->operation_type_code == 'LABO') {
+        $facility_list = OfficeData::getfacilityAll();
+        if ($this->login->operation_type_code == 'LABO') {
             $office_code = 90;
             $consumables_category_code = 9;
         } else {
@@ -39,7 +39,7 @@ class StockController extends AuthController
         }
 
         $data = [
-            'facility_all' => $facility_all,
+            'facility_list' => $facility_list,
             'consumables_category_list' => $consumables_category_list,
             'office_code' => $office_code,
             'consumables_category_code' => $consumables_category_code //消耗品コード
@@ -70,12 +70,12 @@ class StockController extends AuthController
         $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, Null, $this->login->office_code);
         // dd($consumables_stock_list);
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::getfacilityAll();
+        $facility_list = OfficeData::getfacilityAll();
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
 
         $data = [
-            'facility_all' => $facility_all, //全ての事業所データ
+            'facility_list' => $facility_list, //全ての事業所データ
             'consumables_category_list' => $consumables_category_list,
             'consumables_stock_list' => $consumables_stock_list,
             'office_code' => $office_code, //施設コード
@@ -104,12 +104,12 @@ class StockController extends AuthController
         $consumables_stock_list = ConsumablesData::viewConsumablesStockSearchData($consumables_category_code, $office_code, $search_name);
 
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::getfacilityAll();
+        $facility_list = OfficeData::getfacilityAll();
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
 
         $data = [
-            'facility_all' => $facility_all, //全ての事業所データ
+            'facility_list' => $facility_list, //全ての事業所データ
             'consumables_category_all' => $consumables_category_all,
             'consumables_stock_list' => $consumables_stock_list,
             'office_code' => $office_code, //施設コード
@@ -123,45 +123,18 @@ class StockController extends AuthController
 
     //
     /**
-     * 事業所の消耗品一覧を表示します。
-     * @param int $consumables_category_code
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function stock_list_mobile($office_code, $consumables_category_code, Request $request)
-    {
-        Log::debug(print_r($this->login, true));
-
-        // 消耗品カテゴリデータを取得
-        $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
-        // 対象の消耗品データを取得
-        $consumables_stock_list = ConsumablesData::viewFacilityCategoryConsumablesStockList($office_code, $consumables_category_code, Null);
-
-        // 事業所データ
-        $office_data = OfficeData::getOffice($office_code);
-
-        $data = [
-            'consumables_category_all' => $consumables_category_all,
-            'consumables_stock_list' => $consumables_stock_list,
-            'office_code' => $office_code, //施設コード
-            'office_data' => $office_data, //事業所データ
-            'consumables_category_code' => $consumables_category_code //消耗品コード
-        ];
-
-        return self::view($request, 'stock_list_mobile', $data);
-    }
-
-    //
-    /**
      * 在庫不足の消耗品を表示
      * @param int $consumables_category_code
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function shortage_consumables(Request $request)
     {
+        $facility_list = OfficeData::getfacilityAll();
         // 在庫不足の消耗品データを取得
-        $shortage_list = ConsumablesData::viewConsumablesStockShortageAll();
+        $shortage_list = ConsumablesData::viewConsumablesStockShortageAll($this->login->operation_type_code);
         // dd($shortage_list);
         $data = [
+            'facility_list' => $facility_list,
             'shortage_list' => $shortage_list,
             'login' => $this->login,
         ];
@@ -186,7 +159,7 @@ class StockController extends AuthController
         // }
         $stock_number = $request->get('stock_number'); //本部在庫個数
         $stock_quantity = 0; //施設在庫入数は0
-        if($this->login->operation_type_code == 'LABO') {
+        if ($this->login->operation_type_code == 'LABO') {
             $office_code = $office_code;
         } else {
             $office_code = 91; //LABO職員以外はアシストでのみ在庫調整可

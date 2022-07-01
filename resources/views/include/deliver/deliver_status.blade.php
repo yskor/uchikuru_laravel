@@ -1,5 +1,5 @@
 <div class="row">
-	@foreach ($consumables_all as $data)
+	@foreach ($consumables_list as $data)
 	<div class="card m-1 p-0" id="add_ship_{{$data->consumables_code}}" style="width:350px;">
 		<div class="card-header d-flex" style="background-color: rgba(0,0,0,.03)">
 			<h5 class="w-100" id="ship_consumables_name">{{$data->consumables_name}}</h5>

@@ -39,11 +39,11 @@ class ShipController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::getfacilityAll();
+        $facility_list = OfficeData::getfacilityAll();
 
         $data = [
             'param' => $param,
-            'facility_all' => $facility_all, //全ての事業所データ
+            'facility_list' => $facility_list, //全ての事業所データ
             'consumables_category_all' => $consumables_category_all,
             'login' => $this->login,
             'office_code' => 'all', //事業所コードfa
@@ -65,14 +65,14 @@ class ShipController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::getfacilityAll();
+        $facility_list = OfficeData::getfacilityAll();
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
         // 対象事業所の消耗品出荷データを取得
         $consumables_ship_list = ConsumablesData::viewFacilityConsumablesShipList($office_code);
 
         $data = [
-            'facility_all' => $facility_all, //全ての事業所データ
+            'facility_list' => $facility_list, //全ての事業所データ
             'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
             'consumables_ship_list' => $consumables_ship_list, //対象の事業所出荷一覧
             'login' => $this->login,
@@ -99,7 +99,7 @@ class ShipController extends AuthController
         // 消耗品カテゴリデータを取得
         $consumables_category_all = ConsumablesData::viewConsumablesCategoryAll();
         // 事業所マスタから事業所を全て参照
-        $facility_all = OfficeData::getfacilityAll();
+        $facility_list = OfficeData::getfacilityAll();
         // 事業所データ
         $office_data = OfficeData::getOffice($office_code);
         // $handy_reader_dataとバーコードが一致するデータを参照
@@ -117,7 +117,7 @@ class ShipController extends AuthController
                         if ($ship_add == 0) {
                             // データに渡したいデータを格納
                             $data = [
-                                'facility_all' => $facility_all, //全ての事業所データ
+                                'facility_list' => $facility_list, //全ての事業所データ
                                 'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
                                 'handy_reader_data' => $handy_reader_data,
                                 'consumables_ship_data' => $consumables_ship_data,
@@ -133,7 +133,7 @@ class ShipController extends AuthController
                         } elseif ($ship_add == 1) {
                             // データに渡したいデータを格納
                             $data = [
-                                'facility_all' => $facility_all, //全ての事業所データ
+                                'facility_list' => $facility_list, //全ての事業所データ
                                 'consumables_category_all' => $consumables_category_all, //全てのカテゴリデータ
                                 'handy_reader_data' => $handy_reader_data,
                                 'consumables_ship_data' => $consumables_ship_data,

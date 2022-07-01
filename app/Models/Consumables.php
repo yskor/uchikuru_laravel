@@ -10,6 +10,7 @@ use App\Models\Data\ConsumablesData;
 use App\Models\Data\ShipConsumablesData;
 use App\Models\Data\StockConsumablesData;
 use App\Models\Data\Table\ConsumablesTable;
+use Carbon\Carbon;
 use Exception;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use phpDocumentor\Reflection\Types\Null_;
@@ -64,7 +65,7 @@ class Consumables extends Model
             ];
 
             // 消耗品マスタデータに登録
-            ConsumablesTable::tableConsumablesMaster()->insert($master_values);
+            $consumables_code = ConsumablesTable::tableConsumablesMaster()->insertGetId($master_values);
             // 作成日からマスタデータの消耗品コードを取得
             $this_consumables = ConsumablesData::getConsumablesCreateat($master_values['登録日時']);
             $unit_codes = ['B', 'N', 'Q'];
@@ -81,6 +82,7 @@ class Consumables extends Model
                 }
             }
             ConsumablesData::commit();
+            return $consumables_code;
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -150,6 +152,7 @@ class Consumables extends Model
                 }
             }
             ConsumablesData::commit();
+            return $param['consumables_code'];
         } catch (\Exception $e) {
             ConsumablesData::rollback();
             throw $e;
@@ -233,27 +236,33 @@ class Consumables extends Model
             // dd($data);
 
             // 消耗品コードから出荷元の在庫を参照
-
             $ship_from_stock = ConsumablesData::viewConsumablesStockData($data['consumables_code'], $data['office_code_from']);
-            if ($ship_from_stock->stock_number >= $data['ship_quantity']) {
-                // 在庫数が出荷数より多い時
-
-                // 出荷テーブルを追加
-                ShipConsumablesData::beginTransaction();
-                ShipConsumablesData::insert_ship($data);
-                // 在庫テーブルの消耗品を減らす
-                ShipConsumablesData::update_stock($ship_from_stock, $data);
-                ShipConsumablesData::commit();
-
-                if ($ship_from_stock->quantity == 1) {
-                    session()->flash('success_message', $ship_from_stock->consumables_name . '（' . $data['ship_quantity'] . '個）' . 'を出荷一覧に追加しました');
+            // dd($ship_from_stock);
+            if($ship_from_stock) {
+                if ($ship_from_stock->stock_number >= $data['ship_quantity']) {
+                    // 在庫数が出荷数より多い時
+    
+                    // 出荷テーブルを追加
+                    ShipConsumablesData::beginTransaction();
+                    $ship_code = ShipConsumablesData::insert_ship($data);
+                    // 在庫テーブルの消耗品を減らす
+                    ShipConsumablesData::update_stock($ship_from_stock, $data);
+                    ShipConsumablesData::commit();
+    
+                    if ($ship_from_stock->quantity == 1) {
+                        session()->flash('success_message', $ship_from_stock->consumables_name . '（' . $data['ship_quantity'] . '個）' . 'を出荷一覧に追加しました');
+                    } else {
+                        session()->flash('success_message', $ship_from_stock->consumables_name . '（' . $data['ship_quantity'] . '箱）' . 'を出荷一覧に追加しました');
+                    }
+                    return $ship_code;
                 } else {
-                    session()->flash('success_message', $ship_from_stock->consumables_name . '（' . $data['ship_quantity'] . '箱）' . 'を出荷一覧に追加しました');
+                    // 本部の在庫が不足している場合
+                    $shortage_quantity = $data['ship_quantity'] - $ship_from_stock->stock_number;
+                    session()->flash('error_message', $ship_from_stock->consumables_name . 'の本部在庫が' . $shortage_quantity . '箱不足しています。');
                 }
             } else {
-                // 本部の在庫が不足している場合
-                $shortage_quantity = $data['ship_quantity'] - $ship_from_stock->stock_number;
-                session()->flash('error_message', $ship_from_stock->consumables_name . 'の本部在庫が' . $shortage_quantity . '箱不足しています。');
+                $consumables = ConsumablesData::getConsumables($data['consumables_code']);
+                session()->flash('error_message', $consumables->consumables_name . 'の本部在庫がありません。');
             }
         } catch (\Exception $e) {
             ConsumablesData::rollback();
@@ -282,29 +291,29 @@ class Consumables extends Model
         // dd($value);
         $ship_code = $value['ship_code'];
         $consumables_code = $value['consumables_code'];
-        $office_code = $value['office_code'];
+        $office_code_to = $value['office_code_to'];
+        $office_code_from = $value['office_code_from'];
         $deliver_number = $value['deliver_number'];
         $stock_number = $value['stock_number'];
         $staff_code = $value['staff_code'];
         // dd($ship_code,$consumables_code, $office_code, $stock_number, $staff_code);
         // 在庫テーブルから現在の在庫を参照
-        $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+        $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code_to);
         // 消耗品コードからマスタデータを参照
         $consumables_data = ConsumablesData::getConsumables($consumables_code);
         // dd($consumables_stock,$consumables_data->use_unit_code);
         // 出荷納品テーブルを参照
         $ship_data = ConsumablesData::viewConsumablesShipData($ship_code);
         try {
-
             // 出荷数と納品数が一致しない場合は本部の在庫数を調整する
             if ($deliver_number != $ship_data->shipped_number) {
                 $adjustment_number = $ship_data->shipped_number - $deliver_number;
                 // 本部の在庫テーブルから現在の在庫を参照
-                $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, 91);
+                $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code_from);
                 $stock_values = [
                     "個数在庫数" => $consumables_stock->stock_number + $adjustment_number,
                 ];
-                ConsumablesData::getConsumablesStockData($consumables_code, 91)->update($stock_values);
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code_from)->update($stock_values);
             }
 
             // 出荷納品テーブルで更新する内容
@@ -325,12 +334,12 @@ class Consumables extends Model
                     "登録職員コード" => $staff_code,
                     "更新日時" => now(),
                 ];
-                ConsumablesData::getConsumablesStockData($consumables_code, $office_code)->update($stock_values);
-                $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
+                ConsumablesData::getConsumablesStockData($consumables_code, $office_code_to)->update($stock_values);
+                // $consumables_stock = ConsumablesData::viewConsumablesStockData($consumables_code, $office_code);
             } else {
                 // 在庫テーブルに同じ消耗品がない場合
                 $stock_values = [
-                    "事業所コード" => $office_code,
+                    "事業所コード" => $office_code_to,
                     "消耗品コード" => $consumables_code,
                     "個数在庫数" => $stock_number + $deliver_number,
                     "入数在庫数" => 0,
@@ -401,5 +410,58 @@ class Consumables extends Model
             ConsumablesData::rollback();
             throw $e;
         }
+    }
+
+    /**
+     * 集計を取得します。
+     * @param int $consumables_code
+     * @param date $start_at
+     * @param date $end_at
+     * @return unknown
+     */
+    public static function viewFacilityDeliverStatus($wheres, $office_code)
+    {
+        $status_list = []; // 施設ごとのデータを格納する変数
+        $consumables_list = ConsumablesData::getConsumablesList($wheres);
+        $status_period = [
+            '8week' => 8,
+            '1year' => 12,
+        ];
+        foreach ($status_period as $key => $period) {
+            foreach ($consumables_list as $data) {
+                $status = []; // 各週のデータを格納する変数
+                $total_deliver = 0; //総合計値
+                // 集計する機関の日付を繰り返す
+                for ($i = $period; $i > 0; $i--) {
+                    if($key == '8week') {
+                        $dt = Carbon::today(); //今日
+                        $dt->startOfWeek()->subDay(1); // 週始め
+                        $start_at = $dt->subWeeks($i - 1); //各週始め
+                        $dt = Carbon::today(); //今日
+                        $dt->endOfWeek()->subDay(1); // 週末
+                        $end_at = $dt->subWeeks($i - 1); //各週末
+                    } else {
+                        $now = Carbon::now(); //現在時刻
+                        $month = $now->subMonths($i - 1); //各月
+                        $start_at = $month->startOfMonth()->toDateString(); // 月初
+                        $end_at = $month->endOfMonth()->toDateString(); // 月初
+                    } 
+    
+                    //　週ごとの集計値を取得
+                    $deliver_quantity = ConsumablesData::getFacilityDeliverStatus($data->consumables_code, $office_code, $start_at, $end_at)->sum('delivered_number');
+                    //値がない時は0
+                    if ($deliver_quantity) {
+                        $status[] = $deliver_quantity; //配列に各週の合計値
+                        $total_deliver += $deliver_quantity;
+                    } else {
+                        $status[] = 0;
+                    }
+                };
+                $status[] = $total_deliver; //配列の最後に総合計値
+                $status_list[$key][$data->consumables_name] = $status; //消耗品名をキーにデータを格納
+            }
+            // dd($status_list);
+        }
+        return $status_list;
     }
 }

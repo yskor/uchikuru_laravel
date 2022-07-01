@@ -21,7 +21,7 @@
 					</div>
 					<div class="w-100">
 						{{-- データ受け渡し用 --}}
-						<input type="hidden" name="office_code" value="{{$office_code}}">
+						<input type="hidden" name="office_code_to" value="{{$office_code}}">
 						<input type="hidden" name="ship_code" value="{{$data->ship_code}}">
 						<input type="hidden" name="consumables_code" value="{{$data->consumables_code}}">
 						{{-- 現施設在庫数の入力 --}}

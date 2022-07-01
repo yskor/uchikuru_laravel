@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 /**
- * 入居者データクラス
+ * 消耗品データクラス
  * @author Kodo Hori
  *
  */
@@ -79,6 +79,19 @@ class ConsumablesData extends BaseData
         $query = array_key_exists('operation_type_code', $wheres) ? $query->where('operation_type_code', '=', $wheres['operation_type_code']) : $query;
         $query->OrderBy('sort_order', 'asc');
         return $query->get();
+    }
+
+    /**
+     * 事業所の納品状況データを取得します。
+     */
+    public static function getFacilityDeliverStatus($consumables_code, $office_code, $start_at, $end_at)
+    {
+        $query = ConsumablesTable::viewConsumablesDeliverStatus();
+        $query->where('consumables_code', '=', $consumables_code);
+        $query->where('office_code', '=', $office_code);
+        $query->whereBetween('delivered_at', [$start_at, $end_at]);
+        $query->sum('delivered_number');
+        return $query;
     }
 
     /**
@@ -283,7 +296,7 @@ class ConsumablesData extends BaseData
 								dbo.VIEW_消耗品在庫テーブルのみ.stock_quantity as stock_quantity  FROM dbo.VIEW_消耗品在庫テーブルのみ WHERE dbo.VIEW_消耗品在庫テーブルのみ.office_code = 91) AS a
                         ON a.consumables_code = m.consumables_code WHERE m.unit_code = 'N'");
     }
-    
+
     /**
      * 指定された消耗品カテゴリコードから消耗品の一覧を取得します。
      * @param int $office_code
@@ -499,10 +512,10 @@ class ConsumablesData extends BaseData
      * @param date $end_at
      * @return unknown
      */
-    public static function viewConsumablesDeliverStatusWeek($facility_all, $consumables_code)
+    public static function viewConsumablesDeliverStatusWeek($facility_list, $consumables_code)
     {
         $status_list = array(); // 施設ごとのデータを格納する変数
-        foreach ($facility_all as $facility) {
+        foreach ($facility_list as $facility) {
             $status = array(); // 各週のデータを格納する変数
             $total_deliver = 0; //総合計値
             // 集計する機関の日付を繰り返す
@@ -546,10 +559,10 @@ class ConsumablesData extends BaseData
      * @param date $end_at
      * @return unknown
      */
-    public static function viewConsumablesDeliverStatusMonth($facility_all, $consumables_code)
+    public static function viewConsumablesDeliverStatusMonth($facility_list, $consumables_code)
     {
         $status_list = array(); // 施設ごとのデータを格納する変数
-        foreach ($facility_all as $facility) {
+        foreach ($facility_list as $facility) {
             $status = array(); // 各月のデータを格納する変数
             $total_deliver = 0; //総合計値
             for ($i = 12; $i > 0; $i--) {
@@ -597,7 +610,7 @@ class ConsumablesData extends BaseData
      * 補充出荷していない在庫不足のデータを全て参照します。
      * @return unknown
      */
-    public static function viewConsumablesStockShortageAll()
+    public static function viewConsumablesStockShortageAll($operation_type_code)
     {
         $facility_list = OfficeData::getfacilityAll();
         // dd($facility_list);
@@ -606,9 +619,11 @@ class ConsumablesData extends BaseData
         foreach ($facility_list as $facility) {
             $quantity = ConsumablesTable::viewConsumablesStockShortage();
             $quantity->where('office_code', $facility->office_code);
+            $quantity->where('operation_type_code', $operation_type_code);
             $shortage_list = $quantity->get();
             if ($shortage_list != '[]') {
-                $stock_shortage_list[$facility->facility_name] = $shortage_list;
+                $stock_shortage_list[$facility->office_code] = $shortage_list;
+                // $stock_shortage_list[$facility->facility_name] = $shortage_list;
             }
         };
         // dd($stock_shortage_list);

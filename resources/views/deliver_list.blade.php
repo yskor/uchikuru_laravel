@@ -58,11 +58,7 @@
         <div class="container">
 
             <!-- フラッシュメッセージ -->
-            @if (session('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-            @endif
+            @include('include/flash_message')
 
             <div id="form" style="">
                 @include('include/deliver/deliver_table')
